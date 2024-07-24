@@ -1,0 +1,13 @@
+@DentalAPI_HostAddress = https://localhost:7184
+
+GET {{DentalAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+###
+
+POST {{DentalAPI_HostAddress}}/Staff/login
+Accept: application/json
+{
+    "username": "admin",
+    "password": "password"
+}
+###
