@@ -1,5 +1,6 @@
 ﻿using DentalApplication.Errors;
 using DentalApplication.Resources;
+using DentalDomain.Users.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Localization;
 
@@ -21,21 +22,38 @@ namespace DentalInfrastructure.Authentication
             {
                 throw new NotAuthenticatedException(_localizer.Get(Error.NOT_LOGEDIN));
             }
-            HashSet<string> permissions = context
+            var requestMakerRole = context
                 .User
                 .Claims
-                .Where(x => x.Type == CustomClaim.Permission)
-                .Select(x => x.Value)
-                .ToHashSet();
+                .FirstOrDefault(x => x.Type == CustomClaim.Role)?.Value;
 
-            if (permissions.Contains(requirement.Permission) || permissions.Contains("ADMIN"))
+            if (string.IsNullOrEmpty(requestMakerRole))
             {
-                context.Succeed(requirement);
+                throw new NotAuthorizedException(_localizer.Get(Error.NOT_AUTHORIZED));
+            }
+
+            //Try to parse the role claim value to the Role enum
+            if (Enum.TryParse<Role>(requestMakerRole, out var role) && Enum.IsDefined(typeof(Role), role))
+            {
+                // Get permissions for the role
+                var permissions = JwtTokenGenerator.GetPermissionsForRole(role);
+
+                // Check if the required permission is present or if the role is ADMIN
+                if (permissions.Contains(requirement.Permission) || permissions.Contains("ADMIN"))
+                {
+                    context.Succeed(requirement);
+                }
+                else
+                {
+                    throw new NotAuthorizedException(_localizer.Get(Error.NOT_AUTHORIZED));
+
+                }
             }
             else
             {
-                throw new NotAuthorizedException(_localizer.Get(Error.NOT_AUTHORIZED)); 
+                throw new NotAuthorizedException(_localizer.Get(Error.NOT_AUTHORIZED));
             }
+
             return Task.CompletedTask;
         }
     }

@@ -1,8 +1,11 @@
 ﻿using DentalApplication.Common.Interfaces.IAuthentication;
+using DentalApplication.Common.Interfaces.IBlobStorages;
 using DentalApplication.Common.Interfaces.IRepositories;
+using DentalApplication.Common.Interfaces.IServices;
 using DentalInfrastructure.Authentication;
 using DentalInfrastructure.Context;
 using DentalInfrastructure.Repositories;
+using DentalInfrastructure.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -19,7 +22,7 @@ namespace DentalInfrastructure
             var connectionString = configuration.GetConnectionString("DefaultConnection");
 
             services.AddDbContext<DentalContext>(options =>
-                options.UseNpgsql(connectionString));
+                options.UseSqlServer(connectionString));
             services.AddSingleton<IJwtTokenGenerator, JwtTokenGenerator>();
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
@@ -27,9 +30,12 @@ namespace DentalInfrastructure
             services.AddScoped<IStaffRepository, StaffRepository>();
             services.AddScoped<ISuperAdminRepository, SuperAddminRepository>();
             services.AddScoped<IClinicRepository, ClinicRepository>();
+            services.AddScoped<IServiceRepository, ServiceRepository>();
 
             services.AddSingleton<IAuthorizationHandler, PermissionAuthorizationHandler>();
+            services.AddSingleton<IBlobStorage, BlobStorage>();
             services.AddSingleton<IAuthorizationPolicyProvider, PermissionAuthorizationPolicyProvider>();
+            services.AddSingleton<IEmailService, EmailService>();
 
             return services;
         }

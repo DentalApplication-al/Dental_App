@@ -38,9 +38,9 @@ namespace DentalApplication.Behavior
 
     public class ErrorResponse
     {
-        public string Error { get; set; }
-        public int StatusCode { get; set; }
-        public List<string> Errors { get; set; } = new List<string>();
+        public string errorCode { get; set; }
+        public int statusCode { get; set; }
+        public string error { get; set; }
     }
 
 }

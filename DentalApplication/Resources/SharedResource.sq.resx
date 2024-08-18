@@ -117,8 +117,14 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Birthday" xml:space="preserve">
+    <value>Ditelindja</value>
+  </data>
   <data name="Email" xml:space="preserve">
     <value>Emaili </value>
+  </data>
+  <data name="EMAIL_NOT_SENT" xml:space="preserve">
+    <value>Ndodhi nje gabim gjate dergimit te emailit</value>
   </data>
   <data name="FirstName" xml:space="preserve">
     <value>Emri</value>
@@ -132,11 +138,35 @@
   <data name="NOT_AUTHORIZED" xml:space="preserve">
     <value>Nuk jeni i autorizuar per te aksesuar kete sherbim.</value>
   </data>
+  <data name="NOT_DELETED" xml:space="preserve">
+    <value>{0} nuk u fshi</value>
+  </data>
+  <data name="NOT_FOUND" xml:space="preserve">
+    <value>{} nuk u gjet</value>
+  </data>
   <data name="NOT_LOGEDIN" xml:space="preserve">
     <value>Duhet te logoheni per te aksesuar kete sherbim</value>
   </data>
+  <data name="Password" xml:space="preserve">
+    <value>Fjalekalimi</value>
+  </data>
+  <data name="Phone" xml:space="preserve">
+    <value>Numri i telefonit</value>
+  </data>
+  <data name="Service" xml:space="preserve">
+    <value>Sherbimi</value>
+  </data>
+  <data name="SOMETHING_WENT_WRONG" xml:space="preserve">
+    <value>Dicka shkoi keq</value>
+  </data>
+  <data name="Staff" xml:space="preserve">
+    <value>stafi </value>
+  </data>
   <data name="USED_USERNAME" xml:space="preserve">
     <value>Ka nje staf me kete username</value>
+  </data>
+  <data name="UserName" xml:space="preserve">
+    <value>Emri i perdoruesit</value>
   </data>
   <data name="WRONG_EMAIL" xml:space="preserve">
     <value>Email ose fjalekalimi i pasakte.</value>

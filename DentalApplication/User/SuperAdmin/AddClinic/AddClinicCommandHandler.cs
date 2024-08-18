@@ -33,8 +33,6 @@ namespace DentalApplication.User.SuperAdmin.AddClinic
                 request.admin_email,
                 request.admin_phone,
                 request.admin_birthday,
-                request.admin_username,
-                Staff.CreateAdminPassword(),
                 Role.ADMIN,
                 clinic.Id
                 );
@@ -42,6 +40,7 @@ namespace DentalApplication.User.SuperAdmin.AddClinic
             await _staffRepository.AddAsync(staff);
 
             await _staffRepository.SaveChangesAsync();
+            var test = _staffRepository.Table().Where(a => a.Id == staff.Id).FirstOrDefault();
 
             return ClinicResponse.Map(clinic);
         }

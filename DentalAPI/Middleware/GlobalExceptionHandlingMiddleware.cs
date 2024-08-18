@@ -1,5 +1,8 @@
 ﻿using DentalApplication.Behavior;
 using DentalApplication.Errors;
+using DentalApplication.Resources;
+using Microsoft.Extensions.Localization;
+using System.Diagnostics;
 using System.Text.Json;
 
 namespace DentalAPI.Middleware
@@ -7,123 +10,178 @@ namespace DentalAPI.Middleware
     public class GlobalExceptionHandlingMiddleware
     {
         private readonly RequestDelegate _next;
-
-        public GlobalExceptionHandlingMiddleware(RequestDelegate next)
+        private readonly IStringLocalizer<SharedResource> _localizer;
+        public GlobalExceptionHandlingMiddleware(RequestDelegate next, IStringLocalizer<SharedResource> localizer)
         {
             _next = next;
+            _localizer = localizer;
         }
 
         public async Task InvokeAsync(HttpContext context)
         {
+
             try
             {
                 await _next(context);
             }
             catch (ValidationnException ex)
             {
-                await HandleValidationExceptionAsync(context, ex);
+                await ValidationExceptionAsync(context, ex);
             }
 
             catch (NotFoundException ex)
             {
-                await HandleNotFoundExceptionAsync(context, ex);
+                await NotFoundExceptionAsync(context, ex);
             }
             catch (NotAuthenticatedException ex)
             {
-                await HandleNotAuthenticatedException(context, ex);
+                await NotAuthenticatedException(context, ex);
             }
-            catch(NotAuthorizedException ex)
+            catch (NotAuthorizedException ex)
             {
-                await HandleNotAuthorizedException(context, ex);
+                await NotAuthorizedException(context, ex);
             }
             catch (BadRequestException ex)
             {
-                await HandleBadRequestException(context, ex);
+                await BadRequestException(context, ex);
+            }
+            catch (NotDeletedException ex)
+            {
+                await NotDeletedException(context, ex);
+            }
+            catch (EmailNotSentException ex)
+            {
+                await EmailNotSentException(context, ex);
             }
             catch (Exception ex)
             {
-                await HandleExceptionAsync(context, ex);
+                if (Debugger.IsAttached)
+                {
+                    await HandleExceptionAsyncDevelopment(context, ex);
+                }
+                else
+                {
+                    await HandleExceptionAsync(context, ex, _localizer.Get(Error.SOMETHING_WENT_WRONG));
+                }
             }
         }
 
-        private static Task HandleValidationExceptionAsync(HttpContext context, ValidationnException exception)
+        private static Task ValidationExceptionAsync(HttpContext context, ValidationnException exception)
         {
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = StatusCodes.Status400BadRequest;
 
             var response = new ErrorResponse
             {
-                Error = "Validation failed",
-                StatusCode = StatusCodes.Status400BadRequest,
-                Errors = exception.Errors
+                errorCode = "Validation failed",
+                statusCode = StatusCodes.Status400BadRequest,
+                error = exception.Errors[0]
             };
 
             return context.Response.WriteAsync(System.Text.Json.JsonSerializer.Serialize(response));
         }
-        private static Task HandleNotFoundExceptionAsync(HttpContext context, NotFoundException exception)
+        private static Task NotFoundExceptionAsync(HttpContext context, NotFoundException exception)
         {
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = StatusCodes.Status404NotFound;
 
             var response = new ErrorResponse
             {
-                Error = "Not found",
-                StatusCode = StatusCodes.Status404NotFound,
-                Errors = exception.Errors
+                errorCode = "Not found",
+                statusCode = StatusCodes.Status404NotFound,
+                error = exception.Errors[0]
             };
 
             return context.Response.WriteAsync(System.Text.Json.JsonSerializer.Serialize(response));
         }
-        private static Task HandleNotAuthenticatedException(HttpContext context, NotAuthenticatedException exception) 
+        private static Task NotAuthenticatedException(HttpContext context, NotAuthenticatedException exception)
         {
             context.Response.ContentType = "application/json";
-            context.Response.StatusCode= StatusCodes.Status401Unauthorized;
+            context.Response.StatusCode = StatusCodes.Status401Unauthorized;
 
             var response = new ErrorResponse
             {
-                Error = "Unauthenticated",
-                StatusCode= StatusCodes.Status401Unauthorized,
-                Errors = exception.Errors
+                errorCode = "Unauthenticated",
+                statusCode = StatusCodes.Status401Unauthorized,
+                error = exception.Errors[0]
             };
             return context.Response.WriteAsync(JsonSerializer.Serialize(response));
         }
-        private static Task HandleNotAuthorizedException(HttpContext context, NotAuthorizedException exception)
+        private static Task NotAuthorizedException(HttpContext context, NotAuthorizedException exception)
         {
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = StatusCodes.Status403Forbidden;
 
             var response = new ErrorResponse
             {
-                Error = "Forbiden",
-                StatusCode = StatusCodes.Status401Unauthorized,
-                Errors = exception.Errors
+                errorCode = "Forbiden",
+                statusCode = StatusCodes.Status401Unauthorized,
+                error = exception.Errors[0]
             };
             return context.Response.WriteAsync(JsonSerializer.Serialize(response));
         }
-        private static Task HandleBadRequestException(HttpContext context, BadRequestException exception)
+        private static Task BadRequestException(HttpContext context, BadRequestException exception)
         {
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = StatusCodes.Status400BadRequest;
 
             var response = new ErrorResponse
             {
-                Error = "Forbiden",
-                StatusCode = StatusCodes.Status400BadRequest,
-                Errors = exception.Errors
+                errorCode = "Forbiden",
+                statusCode = StatusCodes.Status400BadRequest,
+                error = exception.Errors[0]
             };
             return context.Response.WriteAsync(JsonSerializer.Serialize(response));
         }
-
-        private static Task HandleExceptionAsync(HttpContext context, Exception exception)
+        private static Task NotDeletedException(HttpContext context, NotDeletedException exception)
         {
             context.Response.ContentType = "application/json";
-            context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+            context.Response.StatusCode = StatusCodes.Status409Conflict;
 
             var response = new ErrorResponse
             {
-                Error = "An unexpected error occurred.",
-                StatusCode = StatusCodes.Status500InternalServerError,
-                Errors = ["Somethig went wrong."]
+                errorCode = "Forbiden",
+                statusCode = StatusCodes.Status409Conflict,
+                error = exception.Errors[0]
+            };
+            return context.Response.WriteAsync(JsonSerializer.Serialize(response));
+        }
+        private static Task EmailNotSentException(HttpContext context, EmailNotSentException exception)
+        {
+            context.Response.ContentType = "application/json";
+            context.Response.StatusCode = StatusCodes.Status502BadGateway;
+
+            var response = new ErrorResponse
+            {
+                errorCode = "Email Could not be sent",
+                statusCode = StatusCodes.Status502BadGateway,
+                error = exception.Errors[0]
+            };
+            return context.Response.WriteAsync(JsonSerializer.Serialize(response));
+        }
+        private static Task HandleExceptionAsync(HttpContext context, Exception exception, string message)
+        {
+            context.Response.ContentType = "application/json";
+            context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+            var response = new ErrorResponse
+            {
+                errorCode = "An unexpected error occurred.",
+                statusCode = StatusCodes.Status500InternalServerError,
+                error = message
+            };
+
+            return context.Response.WriteAsync(JsonSerializer.Serialize(response));
+        }
+
+        private static Task HandleExceptionAsyncDevelopment(HttpContext context, Exception exception)
+        {
+            context.Response.ContentType = "application/json";
+            context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+            var response = new ErrorResponse
+            {
+                errorCode = "An unexpected error occurred.",
+                statusCode = StatusCodes.Status500InternalServerError,
+                error = exception.InnerException.ToString()
             };
 
             return context.Response.WriteAsync(JsonSerializer.Serialize(response));

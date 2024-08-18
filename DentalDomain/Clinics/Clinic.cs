@@ -27,12 +27,12 @@ namespace DentalDomain.Clinics
                 Phone = phone,
                 Email = email,
                 CreatedOn = DateTime.UtcNow.ToUniversalTime(),
-                
+
             };
         }
         private Clinic()
         {
-            
+
         }
     }
 }

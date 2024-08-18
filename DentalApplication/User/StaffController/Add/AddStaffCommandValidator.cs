@@ -15,6 +15,8 @@ namespace DentalApplication.User.StaffController.Add
             RuleFor(a => a.email).Must(a => !string.IsNullOrEmpty(a)).WithMessage(_localizer.Get(Error.IS_REQUIRED, _localizer["Email"]));
             RuleFor(a => a.first_name).Must(a => !string.IsNullOrEmpty(a)).WithMessage(_localizer.Get(Error.IS_REQUIRED, _localizer["FirstName"]));
             RuleFor(a => a.last_name).Must(a => !string.IsNullOrEmpty(a)).WithMessage(_localizer.Get(Error.IS_REQUIRED, _localizer["LastName"]));
+            RuleFor(a => a.phone).Must(a => !string.IsNullOrEmpty(a)).WithMessage(_localizer.Get(Error.IS_REQUIRED, _localizer["Phone"]));
+            RuleFor(a => a.birthday).Must(a => a.HasValue).WithMessage(_localizer.Get(Error.IS_REQUIRED, _localizer["Birthday"]));
         }
 
     }
