@@ -10,7 +10,7 @@ namespace DentalApplication.User.StaffController
         public string last_name { get; set; }
         public string email { get; set; }
         public string? phone { get; set; }
-        public Role? role { get; set; }
+        public string? role { get; set; }
         public DateTime birthday { get; set; }
         private StaffResponse(Staff staff)
         {
@@ -19,7 +19,7 @@ namespace DentalApplication.User.StaffController
             last_name = staff.LastName;
             email = staff.Email;
             phone = staff.Phone;
-            role = staff.Role;
+            role = staff.Role.ToString();
             birthday = staff.Birthday;
         }
         public static StaffResponse Map(Staff staff)

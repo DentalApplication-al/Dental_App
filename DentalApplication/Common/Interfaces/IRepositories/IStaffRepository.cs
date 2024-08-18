@@ -9,5 +9,6 @@ namespace DentalApplication.Common.Interfaces.IRepositories
         Task<bool> Exists(string email);
         Task<List<Staff>> GetClinicStaff(Guid staffId, Guid clinicId);
         Task<List<Staff>> GetStaffByIdsAsync(List<Guid>? doctors);
+        Task<Staff> GetstaffByIdAsync(Guid staffId, Guid clinicId);
     }
 }
