@@ -1,13 +1,14 @@
-﻿using System.Text.Json.Serialization;
+﻿using DentalApplication.Swagger;
+using System.Text.Json.Serialization;
 
 namespace DentalApplication.Common
 {
     public abstract class CommandBase
     {
-        [JsonIgnore]
+        [SwaggerIgnore]
         public Guid clinic_id { get; set; }
 
-        [JsonIgnore]
+        [SwaggerIgnore]
         public Guid loged_in_staff_id { get; set; }
     }
 }
