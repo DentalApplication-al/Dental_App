@@ -4,6 +4,7 @@ using DentalApplication.User.StaffController;
 using DentalApplication.User.StaffController.Add;
 using DentalApplication.User.StaffController.ChangePasswordOTP;
 using DentalApplication.User.StaffController.Get;
+using DentalApplication.User.StaffController.GetById;
 using DentalApplication.User.StaffController.SendOTPPassword;
 using DentalApplication.User.StaffController.Update;
 using DentalContracts.AuthenticationContracts;
@@ -71,6 +72,14 @@ namespace DentalAPI.Controllers
         {
             return await _mediator.Send(command, cancellationToken);
         }
+
+        [HasPermission(Permission.GETSTAFFBYID)]
+        [HttpGet("get-by-id")]
+        public async Task<StaffResponse> GetStaffById([FromQuery] GetStaffByIdCommand command, CancellationToken cancellationToken)
+        {
+            return await _mediator.Send(command, cancellationToken);
+        }
+
 
         [HttpPost("send-otp")]
         public async Task<bool> SendOtp(SendOtpPasswordCommand? command, CancellationToken cancellationToken)

@@ -28,6 +28,11 @@ namespace DentalInfrastructure.Repositories
             return await _context.Staffs.FirstOrDefaultAsync(a => a.Email == username);
         }
 
+        public async Task<Staff> GetstaffByIdAsync(Guid staffId, Guid clinicId)
+        {
+            return await _context.Staffs.FirstOrDefaultAsync(a => a.Id == staffId && a.ClinicId == clinicId);
+        }
+
         public async Task<List<Staff>> GetStaffByIdsAsync(List<Guid>? doctors)
         {
             var staff = await _context.Staffs
