@@ -15,7 +15,7 @@ namespace DentalApplication.User.StaffController.GetById
 
         public async Task<StaffResponse> Handle(GetStaffByIdCommand request, CancellationToken cancellationToken)
         {
-            var staff = await _staffRepository.GetstaffByIdAsync(request.staff_id, request.clinic_id) ??
+            var staff = await _staffRepository.GetstaffByIdAsync(request.staff_id.Value, request.clinic_id) ??
                 throw new NotFoundException("Staff could not be found");
 
             return StaffResponse.Map(staff);

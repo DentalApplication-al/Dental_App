@@ -74,7 +74,7 @@ namespace DentalAPI.Controllers
         }
 
         [HasPermission(Permission.GETSTAFFBYID)]
-        [HttpGet("get-by-id")]
+        [HttpGet("get-by-id/{id}")]
         public async Task<StaffResponse> GetStaffById([FromQuery] GetStaffByIdCommand command, CancellationToken cancellationToken)
         {
             return await _mediator.Send(command, cancellationToken);

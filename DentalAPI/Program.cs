@@ -1,6 +1,7 @@
 using DentalAPI.Middleware;
 using DentalApplication;
 using DentalApplication.Common;
+using DentalApplication.Swagger;
 using DentalInfrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -59,6 +60,7 @@ builder.Services.AddSwaggerGen(c =>
             new string[] {}
         }
     });
+    c.OperationFilter<SwaggerIgnoreFilter>();
 });
 
 builder.Services
