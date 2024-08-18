@@ -5,6 +5,9 @@ namespace DentalApplication.Common.Interfaces.IRepositories
     public interface IStaffRepository : IGenericRepository<Staff>
     {
         Task<Staff> GetStaffByUsername(string username);
-        Task<bool> Exists(string username, string email);
+        Task<Staff> GetStaffByEmail(string username);
+        Task<bool> Exists(string email);
+        Task<List<Staff>> GetClinicStaff(Guid staffId, Guid clinicId);
+        Task<List<Staff>> GetStaffByIdsAsync(List<Guid>? doctors);
     }
 }

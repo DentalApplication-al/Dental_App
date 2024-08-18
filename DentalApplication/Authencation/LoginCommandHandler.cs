@@ -22,7 +22,7 @@ namespace DentalApplication.Authencation
 
         public async Task<AuthenticationResponse> Handle(LoginCommand request, CancellationToken cancellationToken)
         {
-            var staff = await _staffRepository.GetStaffByUsername(request.username);
+            var staff = await _staffRepository.GetStaffByEmail(request.email);
 
             if (staff == null || staff.Password != request.password)
             {

@@ -12,13 +12,15 @@ namespace DentalApplication.Common
             if (!string.IsNullOrEmpty(token))
             {
                 var decodedToken = Token.DecodeToken(token);
-                var clinicId = Guid.Parse(decodedToken.clinic);
+                var clinicId = decodedToken.clinic != null ? Guid.Parse(decodedToken.clinic) : Guid.Empty;
+                var staffid = decodedToken.sub != null ? Guid.Parse(decodedToken.sub) : Guid.Empty;
 
                 foreach (var argument in context.ActionArguments.Values)
                 {
                     if (argument is CommandBase command)
                     {
                         command.clinic_id = clinicId;
+                        command.loged_in_staff_id = staffid;
                     }
                 }
             }

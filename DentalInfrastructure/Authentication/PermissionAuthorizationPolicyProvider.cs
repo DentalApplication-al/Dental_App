@@ -16,7 +16,7 @@ namespace DentalInfrastructure.Authentication
             string policyName)
         {
             AuthorizationPolicy? policy = await base.GetPolicyAsync(policyName);
-            if (policy is not null) 
+            if (policy is not null)
             {
                 return policy;
             }

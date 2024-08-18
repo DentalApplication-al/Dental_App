@@ -3,24 +3,32 @@ using DentalDomain.Users.Staffs;
 
 namespace DentalApplication.User.StaffController
 {
-    public class StaffResponse 
+    public class StaffResponse
     {
+        public Guid id { get; set; }
         public string first_name { get; set; }
         public string last_name { get; set; }
         public string email { get; set; }
         public string? phone { get; set; }
-        public string? username { get; set; }
         public Role? role { get; set; }
         public DateTime birthday { get; set; }
-        public StaffResponse(Staff staff)
+        private StaffResponse(Staff staff)
         {
+            id = staff.Id;
             first_name = staff.FirstName;
             last_name = staff.LastName;
             email = staff.Email;
             phone = staff.Phone;
-            username = staff.Username;
             role = staff.Role;
             birthday = staff.Birthday;
+        }
+        public static StaffResponse Map(Staff staff)
+        {
+            return new StaffResponse(staff);
+        }
+        public static List<StaffResponse> Map(List<Staff> staffs)
+        {
+            return staffs.Select(a => new StaffResponse(a)).ToList();
         }
     }
 }

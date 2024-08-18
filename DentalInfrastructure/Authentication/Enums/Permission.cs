@@ -4,29 +4,39 @@
     {
         ADMIN = 2,
 
+        // Staff permissions
         ADDSTAFF = 3,
-        GETSTAFF = 4,
-        DELETESTAF = 5,
-        UPDATESTAFF = 6,
+        GETALLSTAFF = 4,
+        GETSTAFFBYID = 5,
+        DELETESTAF = 6,
+        UPDATESTAFF = 7,
 
-        ADDCLIENT = 7,
-        GETCLIENT = 8,
-        UPDATECLIENT = 9,
-        DELETECLIENT = 10,
+        //ClientPermissions
+        ADDCLIENT = 8,
+        GETALLCLIENTS = 9,
+        GETCLIENTBYID = 10,
+        UPDATECLIENT = 11,
+        DELETECLIENT = 12,
 
-        ADDSERVICE = 11,
-        GETSERVICE = 12,
-        UPDATESRVICE = 13,
-        DELETESERVICE = 14,
+        // Service Permissions
+        ADDSERVICE = 13,
+        GETALLSERVICES = 14,
+        GETSERVICEBYID = 15,
+        UPDATESRVICE = 16,
+        DELETESERVICE = 17,
 
-        ADDAPPOINTMENT = 15,
-        UPDATEAPPOINTMENT = 16,
-        DELETEAPPOINTMENT = 17,
-        GETAPPOINTMENT = 18,
+        // Appointment permissions
+        ADDAPPOINTMENT = 18,
+        UPDATEAPPOINTMENT = 19,
+        DELETEAPPOINTMENT = 20,
+        GETALLAPPOINTMENTS = 21,
+        GETAPPOINTMENTBYID = 22,
 
-        ADDPAYMENT = 19,
-        GETPAYMENT = 20,
-        UPDATEPAYMENT = 21,
-        DELETEPAYMENT = 22,
+        // Payment permissions
+        ADDPAYMENT = 23,
+        GETALLPAYMENTS = 24,
+        GETPAYMENTBYID = 25,
+        UPDATEPAYMENT = 26,
+        DELETEPAYMENT = 27,
     }
 }

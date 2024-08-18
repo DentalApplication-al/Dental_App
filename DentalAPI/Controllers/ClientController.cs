@@ -1,5 +1,10 @@
 ﻿using DentalApplication.Errors;
+using DentalApplication.User.ClientController.DTO;
+using DentalApplication.User.ClientController.GetAll;
+using DentalApplication.User.ClientController.Update;
 using DentalContracts.UserContracts.ClientContracts;
+using DentalInfrastructure.Authentication;
+using DentalInfrastructure.Authentication.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,18 +20,27 @@ namespace DentalAPI.Controllers
         {
             _mediator = mediator;
         }
-        [HttpPost]
-        public async Task<string> AddClient(AddClientCommand command)
+        [HasPermission(Permission.ADDCLIENT)]
+        [HttpPost("add")]
+        public async Task<ClientResponse> AddClient(AddClientCommand command)
         {
-            await _mediator.Send(command);
-            return "sdfsdfdsf";
+            return await _mediator.Send(command);
         }
-        [HttpGet("success")]
-        public IActionResult GetSuccessResponse()
+
+        [HasPermission(Permission.UPDATECLIENT)]
+        [HttpPut("update")]
+        public async Task<ClientResponse> UpdateClient(UpdateClientCommand command)
         {
-            var data = new { Id = 1, Name = "Sample Data" }; // Replace with actual data
-            return RestResponseMapper.Map("success", StatusCodes.Status200OK, data, "Request was successful.");
+            return await _mediator.Send(command);
         }
+
+        [HasPermission(Permission.GETALLCLIENTS)]
+        [HttpGet("get-all")]
+        public async Task<List<ClientListResponse>> AllClients([FromQuery] GetAllClientCommand? command)
+        {
+            return await _mediator.Send(command);
+        }
+
         [HttpGet("error")]
         public IActionResult GetErrorResponse()
         {

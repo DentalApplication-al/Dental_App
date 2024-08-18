@@ -26,7 +26,7 @@ namespace DentalApplication.Common
             }
             throw new Exception("Token not found");
         }
-    
+
 
         public class TokenPayload
         {

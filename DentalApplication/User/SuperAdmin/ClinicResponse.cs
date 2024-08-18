@@ -1,6 +1,4 @@
-﻿
-using DentalDomain;
-using DentalDomain.Clinics;
+﻿using DentalDomain.Clinics;
 
 namespace DentalApplication.User.SuperAdmin
 {
@@ -17,11 +15,11 @@ namespace DentalApplication.User.SuperAdmin
             nipt = clinic.Nipt;
             phone = clinic.Phone;
         }
-        public static ClinicResponse Map(Clinic clinic) 
+        public static ClinicResponse Map(Clinic clinic)
         {
             return new ClinicResponse(clinic);
         }
-        public static List<ClinicResponse> Map (List<Clinic> clinics)
+        public static List<ClinicResponse> Map(List<Clinic> clinics)
         {
             return clinics.Select(a => new ClinicResponse(a)).ToList();
         }

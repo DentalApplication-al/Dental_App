@@ -8,6 +8,9 @@
         NOT_AUTHORIZED,
         WRONG_EMAIL,
         IS_REQUIRED,
-
+        SOMETHING_WENT_WRONG,
+        NOT_FOUND,
+        NOT_DELETED,
+        EMAIL_NOT_SENT,
     }
 }

@@ -18,15 +18,10 @@ namespace DentalInfrastructure.Authentication
 
             var claims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.Sub,userId.ToString()),
+                new Claim(JwtRegisteredClaimNames.Sub, userId.ToString()),
                 new Claim(CustomClaim.Role, role.ToString()),
                 new Claim(CustomClaim.Clinic, clinicId.ToString())
             };
-            var permissions = GetPermissionsForRole(role);
-            foreach (var permssion in permissions)
-            {
-                claims.Add(new(CustomClaim.Permission, permssion));
-            }
 
             var securityToken = new JwtSecurityToken(
 
@@ -40,7 +35,7 @@ namespace DentalInfrastructure.Authentication
             return new JwtSecurityTokenHandler().WriteToken(securityToken);
         }
 
-        public static List<string> GetPermissionsForRole(Role role) 
+        public static List<string> GetPermissionsForRole(Role role)
         {
             List<string> permissions = new();
             if (role.ToString().ToUpper() == "SUPERADMIN")
@@ -57,17 +52,17 @@ namespace DentalInfrastructure.Authentication
             else if (role == Role.RECEPTIONIST)
             {
                 permissions.Add(Permission.ADDCLIENT.ToString().ToUpper());
-                permissions.Add(Permission.GETCLIENT.ToString().ToUpper());
+                permissions.Add(Permission.GETALLCLIENTS.ToString().ToUpper());
                 permissions.Add(Permission.UPDATECLIENT.ToString().ToUpper());
                 permissions.Add(Permission.DELETECLIENT.ToString().ToUpper());
 
                 permissions.Add(Permission.ADDAPPOINTMENT.ToString().ToUpper());
-                permissions.Add(Permission.GETAPPOINTMENT.ToString().ToUpper());
+                permissions.Add(Permission.GETALLAPPOINTMENTS.ToString().ToUpper());
                 permissions.Add(Permission.UPDATEAPPOINTMENT.ToString().ToUpper());
                 permissions.Add(Permission.DELETEAPPOINTMENT.ToString().ToUpper());
 
-                permissions.Add(Permission.GETSERVICE.ToString().ToUpper());
-                permissions.Add(Permission.GETSTAFF.ToString().ToUpper());
+                permissions.Add(Permission.GETALLSERVICES.ToString().ToUpper());
+                permissions.Add(Permission.GETALLSTAFF.ToString().ToUpper());
             }
             return permissions;
         }

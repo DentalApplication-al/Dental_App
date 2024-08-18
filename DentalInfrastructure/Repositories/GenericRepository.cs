@@ -36,18 +36,26 @@ namespace DentalInfrastructure.Repositories
             _context.Entry(entity).State = EntityState.Modified;
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task<bool> DeleteAsync(Guid id)
         {
             var entity = await _dbSet.FindAsync(id);
             if (entity != null)
             {
                 _dbSet.Remove(entity);
+                await _context.SaveChangesAsync();
+                return true;
             }
+            return false;
         }
 
         public async Task SaveChangesAsync()
         {
             await _context.SaveChangesAsync();
         }
+        public IQueryable<T> Table()
+        {
+            return _dbSet.AsQueryable();
+        }
+
     }
 }

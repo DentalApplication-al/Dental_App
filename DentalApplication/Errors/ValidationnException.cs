@@ -1,5 +1,4 @@
-﻿using DentalApplication.Behavior;
-using FluentValidation.Results;
+﻿using FluentValidation.Results;
 
 namespace DentalApplication.Errors
 {

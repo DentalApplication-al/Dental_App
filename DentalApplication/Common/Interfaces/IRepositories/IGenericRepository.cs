@@ -6,8 +6,9 @@
         Task<T> GetByIdAsync(Guid id);
         Task AddAsync(T entity);
         Task UpdateAsync(T entity);
-        Task DeleteAsync(int id);
+        Task<bool> DeleteAsync(Guid id);
         Task SaveChangesAsync();
+        IQueryable<T> Table();
     }
 
 }

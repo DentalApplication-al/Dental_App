@@ -32,7 +32,8 @@ builder.Services.AddControllers(options =>
 });
 builder.Services.AddEndpointsApiExplorer();
 
-builder.Services.AddSwaggerGen(c => {
+builder.Services.AddSwaggerGen(c =>
+{
     c.SwaggerDoc("v1", new OpenApiInfo
     {
         Title = "JWTToken_Auth_API",
@@ -86,7 +87,7 @@ builder.Services.AddMediatR(
 builder.Services
     .AddInfrastructure(builder.Configuration)
     .AddApplication();
-    
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", policy =>
@@ -96,16 +97,21 @@ builder.Services.AddCors(options =>
               .AllowAnyHeader();
     });
 });
+builder.Services.AddRouting(options => options.LowercaseUrls = true);
+
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
+
     app.UseSwagger();
     app.UseSwaggerUI();
-}
+
+//app.UseHttpsRedirection();
+
+app.UseRouting();
 app.UseCors("AllowAll");
+
 app.UseRequestLocalization(localizationOptions);
 app.UseMiddleware<GlobalExceptionHandlingMiddleware>();
 
