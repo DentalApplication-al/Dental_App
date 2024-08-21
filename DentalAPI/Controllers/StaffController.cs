@@ -34,9 +34,19 @@ namespace DentalAPI.Controllers
 
         [HasPermission(Permission.ADDSTAFF)]
         [HttpPost("add")]
-        public async Task AddStaff(AddStaffCommand command, CancellationToken cancellationToken)
+        [Consumes("multipart/form-data")]
+        public async Task<StaffResponse> AddStaff([FromForm] AddStaffCommand command,CancellationToken cancellationToken)
         {
-            await _mediator.Send(command, cancellationToken);
+            return await _mediator.Send(command, cancellationToken);
+            //return new StaffResponse();
+        }
+        [HasPermission(Permission.ADDSTAFF)]
+        [HttpPost("addd")]
+        //[Consumes("multipart/form-data")]
+        public async Task<StaffResponse> AddStafff(FileStream picture, CancellationToken cancellationToken)
+        {
+            //return await _mediator.Send(command, cancellationToken);
+            return new StaffResponse();
         }
 
         [HttpPost("login")]

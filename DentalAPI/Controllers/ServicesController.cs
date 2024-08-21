@@ -1,5 +1,4 @@
-﻿using DentalApplication.Common;
-using DentalApplication.Common.Interfaces.IServices;
+﻿using DentalApplication.Common.Interfaces.IServices;
 using DentalApplication.ServicesController;
 using DentalApplication.ServicesController.Add;
 using DentalApplication.ServicesController.Delete;
@@ -11,7 +10,6 @@ using DentalInfrastructure.Authentication.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Http.Headers;
-using System.Net.Http;
 
 namespace DentalAPI.Controllers
 {

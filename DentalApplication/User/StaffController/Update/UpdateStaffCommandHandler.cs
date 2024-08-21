@@ -1,4 +1,5 @@
-﻿using DentalApplication.Common.Interfaces.IRepositories;
+﻿using DentalApplication.Common.Interfaces.IBlobStorages;
+using DentalApplication.Common.Interfaces.IRepositories;
 using DentalApplication.Errors;
 using DentalApplication.Resources;
 using MediatR;
@@ -10,11 +11,13 @@ namespace DentalApplication.User.StaffController.Update
     {
         private readonly IStaffRepository _staffRepository;
         private readonly IStringLocalizer<SharedResource> _stringLocalizer;
+        private readonly IBlobStorage _blob;
 
-        public UpdateStaffCommandHandler(IStaffRepository staffRepository, IStringLocalizer<SharedResource> stringLocalizer)
+        public UpdateStaffCommandHandler(IStaffRepository staffRepository, IStringLocalizer<SharedResource> stringLocalizer, IBlobStorage blob)
         {
             _staffRepository = staffRepository;
             _stringLocalizer = stringLocalizer;
+            _blob = blob;
         }
 
         public async Task<StaffResponse> Handle(UpdateStaffCommand request, CancellationToken cancellationToken)

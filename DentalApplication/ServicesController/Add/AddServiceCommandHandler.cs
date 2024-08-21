@@ -22,7 +22,7 @@ namespace DentalApplication.ServicesController.Add
                 request.name,
                 request.description,
                 request.duration.Value,
-                request.clinic_id);
+                request.clinic_id.Value);
 
             var doctors = await _staffRepository.GetStaffByIdsAsync(request.doctors);
 

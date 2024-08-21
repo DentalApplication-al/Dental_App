@@ -23,7 +23,7 @@ namespace DentalApplication.User.ClientController.Add
                 request.last_name,
                 request.email,
                 request.phone,
-                request.clinic_id);
+                request.clinic_id.Value);
 
             await _clientRepository.AddAsync(client);
 

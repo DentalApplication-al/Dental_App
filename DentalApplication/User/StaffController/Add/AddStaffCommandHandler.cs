@@ -1,4 +1,5 @@
-﻿using DentalApplication.Common.Interfaces.IRepositories;
+﻿using DentalApplication.Common.Interfaces.IBlobStorages;
+using DentalApplication.Common.Interfaces.IRepositories;
 using DentalApplication.Common.Interfaces.IServices;
 using DentalApplication.Errors;
 using DentalApplication.Resources;
@@ -14,12 +15,14 @@ namespace DentalApplication.User.StaffController.Add
         private readonly IStringLocalizer<SharedResource> _stringLocalizer;
         private readonly IEmailService _emailService;
         private readonly IServiceRepository _serviceRepository;
-        public AddStaffCommandHandler(IStaffRepository staffRepository, IStringLocalizer<SharedResource> stringLocalizer, IEmailService emailService, IServiceRepository serviceRepository)
+        private readonly IBlobStorage _blobStorage;
+        public AddStaffCommandHandler(IStaffRepository staffRepository, IStringLocalizer<SharedResource> stringLocalizer, IEmailService emailService, IServiceRepository serviceRepository, IBlobStorage blobStorage)
         {
             _staffRepository = staffRepository;
             _stringLocalizer = stringLocalizer;
             _emailService = emailService;
             _serviceRepository = serviceRepository;
+            _blobStorage = blobStorage;
         }
 
         public async Task<StaffResponse> Handle(AddStaffCommand request, CancellationToken cancellationToken)
@@ -28,6 +31,11 @@ namespace DentalApplication.User.StaffController.Add
             {
                 throw new BadRequestException(_stringLocalizer.Get(Error.USED_USERNAME));
             }
+            string profilePicture = "";
+            if (request.picture != null)
+            {
+                profilePicture = await _blobStorage.Upload(request.picture);
+            }
             var staff = Staff.Create(
                 request.first_name,
                 request.last_name,
@@ -35,10 +43,13 @@ namespace DentalApplication.User.StaffController.Add
                 request.phone,
                 request.birthday.Value,
                 request.role.Value,
-                request.clinic_id
+                request.clinic_id.Value,
+                request.start_time,
+                request.end_time,
+                profilePicture
                 );
 
-            if (request.services.Count > 0)
+            if (request.services != null && request.services.Count > 0)
             {
                 var services = await _serviceRepository.GetServiceByIds(request.services);
                 staff.StaffServices = services;
@@ -50,7 +61,9 @@ namespace DentalApplication.User.StaffController.Add
             {
                 await _staffRepository.AddAsync(staff);
                 await _staffRepository.SaveChangesAsync();
-                return StaffResponse.Map(staff);
+                var result = StaffResponse.Map(staff);
+                result.picture = _blobStorage.GetLink(profilePicture);
+                return result;
             }
             throw new BadRequestException("The email adress does not exist");
         }

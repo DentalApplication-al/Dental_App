@@ -6,9 +6,9 @@ namespace DentalApplication.Common
     public abstract class CommandBase
     {
         [SwaggerIgnore]
-        public Guid clinic_id { get; set; }
+        public Guid? clinic_id { get; set; }
 
         [SwaggerIgnore]
-        public Guid loged_in_staff_id { get; set; }
+        public Guid? loged_in_staff_id { get; set; }
     }
 }

@@ -18,7 +18,7 @@ namespace DentalApplication.ServicesController.GetById
 
         public async Task<ServiceResponse> Handle(GetServiceByIdCommand request, CancellationToken cancellationToken)
         {
-            var service = await _serviceRepository.GetServiceById(request.clinic_id, request.service_id.Value) ??
+            var service = await _serviceRepository.GetServiceById(request.clinic_id.Value, request.service_id.Value) ??
                 throw new NotFoundException(_stringLocalizer.Get(Error.NOT_FOUND, _stringLocalizer["Service"]));
 
             return ServiceResponse.Map(service);

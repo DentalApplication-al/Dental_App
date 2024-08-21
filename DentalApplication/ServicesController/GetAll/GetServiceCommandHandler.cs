@@ -14,7 +14,7 @@ namespace DentalApplication.ServicesController.Get
 
         public async Task<List<ServiceResponse>> Handle(GetAllServicesCommand request, CancellationToken cancellationToken)
         {
-            var result = await _serviceRepository.GetClinicServices(request.clinic_id);
+            var result = await _serviceRepository.GetClinicServices(request.clinic_id.Value);
             return ServiceResponse.Map(result);
         }
     }

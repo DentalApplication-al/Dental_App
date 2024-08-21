@@ -1,7 +1,10 @@
-﻿namespace DentalContracts.AuthenticationContracts
+﻿using DentalApplication.User.StaffController;
+
+namespace DentalContracts.AuthenticationContracts
 {
     public class AuthenticationResponse
     {
-        public string Token { get; set; }
+        public string token { get; set; }
+        public StaffResponse staff { get; set; }
     }
 }

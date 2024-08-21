@@ -1,6 +1,7 @@
 ﻿using DentalApplication.Common;
 using DentalDomain.Users.Enums;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 
 namespace DentalApplication.User.StaffController.Add
 {
@@ -12,6 +13,10 @@ namespace DentalApplication.User.StaffController.Add
         public string? phone { get; set; }
         public Role? role { get; set; }
         public DateTime? birthday { get; set; }
+        public string? job_type { get; set; }
+        public IFormFile? picture { get; set; }
+        public string? start_time { get; set; }
+        public string? end_time { get; set; }
         public List<Guid>? services { get; set; }
     }
 }

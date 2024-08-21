@@ -60,7 +60,8 @@ builder.Services.AddSwaggerGen(c =>
             new string[] {}
         }
     });
-    c.OperationFilter<SwaggerIgnoreFilter>();
+    c.OperationFilter<SwaggerIgnoreOperationFilter>();
+    c.SchemaFilter<SwaggerIgnoreSchemaFilter>();
 });
 
 builder.Services

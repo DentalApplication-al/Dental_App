@@ -31,7 +31,7 @@ namespace DentalApplication.User.SuperAdmin.Login
             var token = _jwtTokenGenerator.GenerateSuperAdminToken();
             return new AuthenticationResponse()
             {
-                Token = token,
+                token = token,
             };
         }
     }

@@ -18,31 +18,31 @@ namespace DentalApplication.User.SuperAdmin.AddClinic
 
         public async Task<ClinicResponse> Handle(AddClinicCommand request, CancellationToken cancellationToken)
         {
-            var clinic = Clinic.Create(
-                request.clinic_name,
-                request.clinic_address,
-                request.clinic_nipt,
-                request.admin_phone,
-                request.admin_email);
+            //var clinic = Clinic.Create(
+            //    request.clinic_name,
+            //    request.clinic_address,
+            //    request.clinic_nipt,
+            //    request.admin_phone,
+            //    request.admin_email);
 
-            await _clinicRepository.AddAsync(clinic);
+            //await _clinicRepository.AddAsync(clinic);
 
-            var staff = Staff.Create(
-                request.admin_first_name,
-                request.admin_last_name,
-                request.admin_email,
-                request.admin_phone,
-                request.admin_birthday,
-                Role.ADMIN,
-                clinic.Id
-                );
+            //var staff = Staff.Create(
+            //    request.admin_first_name,
+            //    request.admin_last_name,
+            //    request.admin_email,
+            //    request.admin_phone,
+            //    request.admin_birthday,
+            //    Role.ADMIN,
+            //    clinic.Id
+            //    );
 
-            await _staffRepository.AddAsync(staff);
+            //await _staffRepository.AddAsync(staff);
 
-            await _staffRepository.SaveChangesAsync();
-            var test = _staffRepository.Table().Where(a => a.Id == staff.Id).FirstOrDefault();
-
-            return ClinicResponse.Map(clinic);
+            //await _staffRepository.SaveChangesAsync();
+            //var test = _staffRepository.Table().Where(a => a.Id == staff.Id).FirstOrDefault();
+            return new ClinicResponse();
+            //return ClinicResponse.Map(clinic);
         }
     }
 }

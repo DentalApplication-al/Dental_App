@@ -9,6 +9,10 @@ namespace DentalDomain.Users.Staffs
         public string Password { get; private set; }
         public Role Role { get; private set; }
         public string? OTP { get; private set; }
+        public string? JobType { get; set; }
+        public string? StartTime { get; set; }
+        public string? EndTime { get; set; }
+        public string? ProfilePic { get; set; }
         public List<Service> StaffServices { get; set; } = new();
         public static Staff Create(
             string first_name,
@@ -17,7 +21,10 @@ namespace DentalDomain.Users.Staffs
             string phone,
             DateTime birthday,
             Role role,
-            Guid clinicId
+            Guid clinicId,
+            string? start_time,
+            string? end_time,
+            string? profile
             )
         {
             return new Staff()
@@ -31,6 +38,9 @@ namespace DentalDomain.Users.Staffs
                 Password = GeneratePassword(),
                 Role = role,
                 ClinicId = clinicId,
+                StartTime = start_time,
+                EndTime = end_time,
+                ProfilePic = profile,
                 CreatedOn = DateTime.Now.ToUniversalTime(),
             };
         }

@@ -15,7 +15,7 @@ namespace DentalApplication.User.ClientController.Update
 
         public async Task<ClientResponse> Handle(UpdateClientCommand request, CancellationToken cancellationToken)
         {
-            var client = await _clientRepository.GetByIdAsync(request.client_id.Value, request.clinic_id);
+            var client = await _clientRepository.GetByIdAsync(request.client_id.Value, request.clinic_id.Value);
 
             client.Update(
                 request.new_first_name,

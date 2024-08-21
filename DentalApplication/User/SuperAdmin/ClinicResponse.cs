@@ -23,5 +23,9 @@ namespace DentalApplication.User.SuperAdmin
         {
             return clinics.Select(a => new ClinicResponse(a)).ToList();
         }
+        public ClinicResponse()
+        {
+            
+        }
     }
 }

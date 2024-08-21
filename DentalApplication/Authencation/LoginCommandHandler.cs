@@ -1,7 +1,9 @@
 ﻿using DentalApplication.Common.Interfaces.IAuthentication;
+using DentalApplication.Common.Interfaces.IBlobStorages;
 using DentalApplication.Common.Interfaces.IRepositories;
 using DentalApplication.Errors;
 using DentalApplication.Resources;
+using DentalApplication.User.StaffController;
 using DentalContracts.AuthenticationContracts;
 using MediatR;
 using Microsoft.Extensions.Localization;
@@ -13,11 +15,13 @@ namespace DentalApplication.Authencation
         private readonly IStaffRepository _staffRepository;
         private readonly IJwtTokenGenerator _jwtTokenGenerator;
         private readonly IStringLocalizer<SharedResource> _localizer;
-        public LoginCommandHandler(IStaffRepository staffRepository, IJwtTokenGenerator jwtTokenGenerator, IStringLocalizer<SharedResource> localizer)
+        private readonly IBlobStorage _blob;
+        public LoginCommandHandler(IStaffRepository staffRepository, IJwtTokenGenerator jwtTokenGenerator, IStringLocalizer<SharedResource> localizer, IBlobStorage blob)
         {
             _staffRepository = staffRepository;
             _jwtTokenGenerator = jwtTokenGenerator;
             _localizer = localizer;
+            _blob = blob;
         }
 
         public async Task<AuthenticationResponse> Handle(LoginCommand request, CancellationToken cancellationToken)
@@ -31,7 +35,9 @@ namespace DentalApplication.Authencation
             else
             {
                 var token = _jwtTokenGenerator.GenerateToken(staff.Id, staff.Role, staff.ClinicId);
-                var authResponse = new AuthenticationResponse { Token = token };
+                var authResponse = new AuthenticationResponse { token = token };
+                authResponse.staff = StaffResponse.Map(staff);
+                authResponse.staff.picture = _blob.GetLink(staff.ProfilePic);
                 return authResponse;
             }
         }

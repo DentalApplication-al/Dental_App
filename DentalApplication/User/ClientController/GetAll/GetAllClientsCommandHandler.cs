@@ -15,7 +15,7 @@ namespace DentalApplication.User.ClientController.GetAll
 
         public async Task<List<ClientListResponse>> Handle(GetAllClientCommand request, CancellationToken cancellationToken)
         {
-            var clients = await _clientRepository.GetAllClinicCLients(request.clinic_id);
+            var clients = await _clientRepository.GetAllClinicCLients(request.clinic_id.Value);
 
             return clients;
         }

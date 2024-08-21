@@ -14,7 +14,7 @@ namespace DentalApplication.User.StaffController.Get
 
         public async Task<List<StaffResponse>> Handle(GetClinicStaffCommand request, CancellationToken cancellationToken)
         {
-            var staff = await _staffRepository.GetClinicStaff(request.loged_in_staff_id, request.clinic_id);
+            var staff = await _staffRepository.GetClinicStaff(request.loged_in_staff_id.Value, request.clinic_id.Value);
 
             return StaffResponse.Map(staff);
         }
