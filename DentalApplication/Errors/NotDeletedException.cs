@@ -2,7 +2,7 @@
 {
     public class NotDeletedException : Exception
     {
-        public List<string> Errors { get; }
+        public List<string> Errors { get; } = new();
 
         public NotDeletedException(string error)
         {

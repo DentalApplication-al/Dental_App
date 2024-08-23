@@ -24,6 +24,7 @@ namespace DentalApplication.User.StaffController.Update
         {
             var staff = await _staffRepository.GetByIdAsync(request.staff_id.Value) ??
                 throw new NotFoundException(_stringLocalizer.Get(Error.NOT_FOUND, _stringLocalizer["Staff"]));
+            var profile = "";
 
             staff.Update(
                 request.new_first_name,
@@ -31,9 +32,11 @@ namespace DentalApplication.User.StaffController.Update
                 request.new_email,
                 request.new_phone,
                 request.new_birthday.Value,
-                request.new_username,
-                request.new_password,
-                request.new_role.Value
+                request.new_role.Value,
+                request.new_job_type,
+                profile,
+                request.new_start_time,
+                request.new_end_time
                 );
             await _staffRepository.UpdateAsync(staff);
 

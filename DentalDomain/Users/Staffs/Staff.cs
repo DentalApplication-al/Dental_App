@@ -19,12 +19,13 @@ namespace DentalDomain.Users.Staffs
             string last_name,
             string email,
             string phone,
-            DateTime birthday,
+            DateOnly? birthday,
             Role role,
             Guid clinicId,
             string? start_time,
             string? end_time,
-            string? profile
+            string? profile,
+            string? job_type
             )
         {
             return new Staff()
@@ -42,6 +43,7 @@ namespace DentalDomain.Users.Staffs
                 EndTime = end_time,
                 ProfilePic = profile,
                 CreatedOn = DateTime.Now.ToUniversalTime(),
+                JobType = job_type
             };
         }
 
@@ -55,18 +57,25 @@ namespace DentalDomain.Users.Staffs
             string last_name,
             string email,
             string phone,
-            DateTime birthday,
-            string username,
-            string password,
-            Role role)
+            DateOnly birthday,
+            Role role,
+            string? job_type,
+            string? picture,
+            string? start_time,
+            string? end_time
+            )
+
         {
             FirstName = first_name;
             LastName = last_name;
             Email = email;
             Phone = phone;
             Birthday = birthday;
-            Password = password;
             Role = role;
+            JobType = job_type;
+            StartTime = start_time;
+            EndTime = end_time;
+            ProfilePic = picture ?? ProfilePic;
         }
 
         public void SetOTP()

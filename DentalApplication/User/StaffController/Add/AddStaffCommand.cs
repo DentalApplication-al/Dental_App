@@ -12,7 +12,7 @@ namespace DentalApplication.User.StaffController.Add
         public string? last_name { get; set; }
         public string? phone { get; set; }
         public Role? role { get; set; }
-        public DateTime? birthday { get; set; }
+        public DateOnly? birthday { get; set; }
         public string? job_type { get; set; }
         public IFormFile? picture { get; set; }
         public string? start_time { get; set; }

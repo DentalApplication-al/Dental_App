@@ -4,6 +4,7 @@ using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
 using Azure.Storage.Blobs.Specialized;
 using Azure.Storage.Sas;
+using DentalApplication.Common;
 using DentalApplication.Common.Interfaces.IBlobStorages;
 using Microsoft.AspNetCore.Http;
 
@@ -43,7 +44,7 @@ namespace DentalInfrastructure.Services
                 BlobContainerName = blobClient.GetParentBlobContainerClient().Name,
                 BlobName = blobClient.Name,
                 Resource = "b",
-                ExpiresOn = DateTimeOffset.UtcNow.AddMinutes(50)
+                ExpiresOn = DateTimeOffset.UtcNow.AddDays(1)
             };
 
             sasBuilder.SetPermissions(BlobSasPermissions.Read | BlobSasPermissions.Write);
@@ -62,17 +63,24 @@ namespace DentalInfrastructure.Services
             }
         }
 
-        public async Task<string> Upload(IFormFile file)
+        public async Task<BlobResponse> Upload(IFormFile file)
         {
-            var blobContainer = _client.GetBlobContainerClient(containerName);
+            try
+            {
+                var blobContainer = _client.GetBlobContainerClient(containerName);
 
-            var extension = Path.GetExtension(file.FileName);
+                var extension = Path.GetExtension(file.FileName);
 
-            var blob = blobContainer.GetBlobClient($"{Guid.NewGuid()}{extension}");
+                var blob = blobContainer.GetBlobClient($"{Guid.NewGuid()}{extension}");
 
-            await blob.UploadAsync(await ConvertToStream(file));
+                await blob.UploadAsync(await ConvertToStream(file));
 
-            return blob.Uri.AbsolutePath;
+                return BlobResponse.Success(blob.Uri.AbsolutePath);
+            }
+            catch (Exception)
+            {
+                return BlobResponse.Fail();
+            }
         }
 
         public async Task<List<string>> Upload(List<IFormFile> files)
@@ -80,7 +88,8 @@ namespace DentalInfrastructure.Services
             var result = new List<string>();
             foreach (var file in files)
             {
-                result.Add(await Upload(file));
+                var response = await Upload(file);
+                result.Add(response.data);
             }
 
             return result;

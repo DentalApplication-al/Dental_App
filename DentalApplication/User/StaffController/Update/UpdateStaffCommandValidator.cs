@@ -15,8 +15,6 @@ namespace DentalApplication.User.StaffController.Update
             RuleFor(a => a.new_email).Must(a => !string.IsNullOrEmpty(a)).WithMessage(_localizer.Get(Error.IS_REQUIRED, _localizer["Email"]));
             RuleFor(a => a.new_first_name).Must(a => !string.IsNullOrEmpty(a)).WithMessage(_localizer.Get(Error.IS_REQUIRED, _localizer["FirstName"]));
             RuleFor(a => a.new_last_name).Must(a => !string.IsNullOrEmpty(a)).WithMessage(_localizer.Get(Error.IS_REQUIRED, _localizer["LastName"]));
-            RuleFor(a => a.new_username).Must(a => !string.IsNullOrEmpty(a)).WithMessage(_localizer.Get(Error.IS_REQUIRED, _localizer["UserName"]));
-            RuleFor(a => a.new_password).Must(a => !string.IsNullOrEmpty(a)).WithMessage(_localizer.Get(Error.IS_REQUIRED, _localizer["Password"]));
             RuleFor(a => a.new_phone).Must(a => !string.IsNullOrEmpty(a)).WithMessage(_localizer.Get(Error.IS_REQUIRED, _localizer["Phone"]));
             RuleFor(a => a.new_birthday).Must(a => a.HasValue).WithMessage(_localizer.Get(Error.IS_REQUIRED, _localizer["Birthday"]));
             _localizer = localizer;

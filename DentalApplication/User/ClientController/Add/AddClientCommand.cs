@@ -10,7 +10,7 @@ namespace DentalContracts.UserContracts.ClientContracts
         public string? last_name { get; set; }
         public string? email { get; set; }
         public string? phone { get; set; }
-        public DateTime? birthday { get; set; }
+        public DateOnly? birthday { get; set; }
 
     }
 }

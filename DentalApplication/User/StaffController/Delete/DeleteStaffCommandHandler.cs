@@ -22,7 +22,7 @@ namespace DentalApplication.User.StaffController.Delete
 
             if (!isDeleted)
             {
-                throw new NotDeletedException(_stringLocalizer.Get(Error.NOT_DELETED, _stringLocalizer["Staff"]));
+                throw new NotDeletedException("Staff could not be deleted.");
             }
         }
     }

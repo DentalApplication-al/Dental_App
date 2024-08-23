@@ -7,7 +7,7 @@ namespace DentalDomain.Users.Clients
         //public List<Appointment> Appointments { get; set; } = [];
 
         public static Client Create(
-            DateTime birthday,
+            DateOnly birthday,
             string first_name,
             string last_name,
             string email,
@@ -32,7 +32,7 @@ namespace DentalDomain.Users.Clients
             string new_last_name, 
             string new_phone, 
             string new_email, 
-            DateTime new_birthday)
+            DateOnly new_birthday)
         {
             FirstName = new_first_name;
             LastName = new_last_name;

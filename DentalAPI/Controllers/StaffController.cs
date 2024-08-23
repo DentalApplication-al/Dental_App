@@ -1,8 +1,10 @@
-﻿using DentalApplication.Common.Interfaces.IBlobStorages;
+﻿using DentalApplication.Common;
+using DentalApplication.Common.Interfaces.IBlobStorages;
 using DentalApplication.Resources;
 using DentalApplication.User.StaffController;
 using DentalApplication.User.StaffController.Add;
 using DentalApplication.User.StaffController.ChangePasswordOTP;
+using DentalApplication.User.StaffController.Delete;
 using DentalApplication.User.StaffController.Get;
 using DentalApplication.User.StaffController.GetById;
 using DentalApplication.User.StaffController.SendOTPPassword;
@@ -14,6 +16,7 @@ using DentalInfrastructure.Authentication.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
+using Newtonsoft.Json;
 
 
 namespace DentalAPI.Controllers
@@ -39,14 +42,6 @@ namespace DentalAPI.Controllers
         {
             return await _mediator.Send(command, cancellationToken);
             //return new StaffResponse();
-        }
-        [HasPermission(Permission.ADDSTAFF)]
-        [HttpPost("addd")]
-        //[Consumes("multipart/form-data")]
-        public async Task<StaffResponse> AddStafff(FileStream picture, CancellationToken cancellationToken)
-        {
-            //return await _mediator.Send(command, cancellationToken);
-            return new StaffResponse();
         }
 
         [HttpPost("login")]
@@ -78,9 +73,9 @@ namespace DentalAPI.Controllers
 
         [HasPermission(Permission.GETALLSTAFF)]
         [HttpGet("getall")]
-        public async Task<List<StaffResponse>> GetClinicStaff([FromQuery] GetClinicStaffCommand? command, CancellationToken cancellationToken)
+        public async Task<PaginatedResponse<ListStaff>> GetClinicStaff([FromQuery] GetClinicStaffCommand? command, CancellationToken cancellationToken)
         {
-            return await _mediator.Send(command, cancellationToken);
+            return await _mediator.Send(command, cancellationToken); 
         }
 
         [HasPermission(Permission.GETSTAFFBYID)]
@@ -88,6 +83,13 @@ namespace DentalAPI.Controllers
         public async Task<StaffResponse> GetStaffById([FromQuery] GetStaffByIdCommand command, CancellationToken cancellationToken)
         {
             return await _mediator.Send(command, cancellationToken);
+        }
+
+        [HasPermission(Permission.DELETESTAF)]
+        [HttpDelete("delete/{id}")]
+        public async Task DeleteStaff([FromQuery] DeleteStaffCommand command, CancellationToken cancellationToken)
+        {
+            await _mediator.Send(command, cancellationToken);
         }
 
 

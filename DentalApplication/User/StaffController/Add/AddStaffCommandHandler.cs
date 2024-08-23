@@ -34,19 +34,24 @@ namespace DentalApplication.User.StaffController.Add
             string profilePicture = "";
             if (request.picture != null)
             {
-                profilePicture = await _blobStorage.Upload(request.picture);
+                var uploadRequest = await _blobStorage.Upload(request.picture);
+                if (uploadRequest.hasSucceded)
+                {
+                    profilePicture = uploadRequest.data;
+                }
             }
             var staff = Staff.Create(
                 request.first_name,
                 request.last_name,
                 request.email,
                 request.phone,
-                request.birthday.Value,
+                request.birthday,
                 request.role.Value,
                 request.clinic_id.Value,
                 request.start_time,
                 request.end_time,
-                profilePicture
+                profilePicture,
+                request.job_type
                 );
 
             if (request.services != null && request.services.Count > 0)
@@ -65,6 +70,8 @@ namespace DentalApplication.User.StaffController.Add
                 result.picture = _blobStorage.GetLink(profilePicture);
                 return result;
             }
+            await _blobStorage.DeleteBlobAsync(profilePicture);
+
             throw new BadRequestException("The email adress does not exist");
         }
     }

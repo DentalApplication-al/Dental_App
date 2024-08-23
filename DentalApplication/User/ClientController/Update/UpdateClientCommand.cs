@@ -11,6 +11,6 @@ namespace DentalApplication.User.ClientController.Update
         public string? new_last_name { get; set; }
         public string? new_email { get; set; }
         public string? new_phone { get; set; }
-        public DateTime? new_birthday { get; set; }
+        public DateOnly? new_birthday { get; set; }
     }
 }

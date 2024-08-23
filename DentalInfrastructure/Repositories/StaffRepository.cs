@@ -1,4 +1,6 @@
-﻿using DentalApplication.Common.Interfaces.IRepositories;
+﻿using DentalApplication.Common;
+using DentalApplication.Common.Interfaces.IRepositories;
+using DentalApplication.User.StaffController;
 using DentalDomain.Users.Staffs;
 using DentalInfrastructure.Context;
 using Microsoft.EntityFrameworkCore;
@@ -17,10 +19,41 @@ namespace DentalInfrastructure.Repositories
             return exists;
         }
 
-        public async Task<List<Staff>> GetClinicStaff(Guid staffId, Guid clinicId)
+        public async Task<PaginatedResponse<ListStaff>> GetPaginatedClinicStaff(Guid staffId, Guid clinicId, int page, int take)
         {
-            var staff = await _context.Staffs.Where(a => a.ClinicId == clinicId && a.Id != staffId).ToListAsync();
-            return staff;
+            // Calculate the total number of elements
+            var totalElements = await _context.Staffs.CountAsync(a => a.ClinicId == clinicId && a.Id != staffId);
+
+            // Calculate the total number of pages
+            var totalPages = (int)Math.Ceiling(totalElements / (double)take);
+
+            // Fetch the paginated staff list
+            var staff = await _context.Staffs
+                .Where(a => a.ClinicId == clinicId && a.Id != staffId)
+                .Skip((page - 1) * take)
+                .Take(take)
+                .Select(a => new ListStaff
+                {
+                    id = a.Id,
+                    first_name = a.FirstName,
+                    last_name = a.LastName,
+                    job_type = a.JobType,
+                    phone = a.Phone,
+                    role = a.Role,
+                    working_hours = $"{a.StartTime} - {a.EndTime}"
+                }).ToListAsync();
+
+            // Populate the PaginatedResponse object
+            var result = new PaginatedResponse<ListStaff>
+            {
+                data = staff,
+                pageNumber = page,
+                pageSize = take,
+                totalElements = totalElements,
+                totalPages = totalPages
+            };
+
+            return result;
         }
 
         public async Task<Staff> GetStaffByEmail(string username)

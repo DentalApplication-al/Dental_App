@@ -1,9 +1,10 @@
-﻿using DentalApplication.Common.Interfaces.IRepositories;
+﻿using DentalApplication.Common;
+using DentalApplication.Common.Interfaces.IRepositories;
 using MediatR;
 
 namespace DentalApplication.User.StaffController.Get
 {
-    public class GetClinicStaffCommandHandler : IRequestHandler<GetClinicStaffCommand, List<StaffResponse>>
+    public class GetClinicStaffCommandHandler : IRequestHandler<GetClinicStaffCommand, PaginatedResponse<ListStaff>>
     {
         private readonly IStaffRepository _staffRepository;
 
@@ -12,11 +13,11 @@ namespace DentalApplication.User.StaffController.Get
             _staffRepository = staffRepository;
         }
 
-        public async Task<List<StaffResponse>> Handle(GetClinicStaffCommand request, CancellationToken cancellationToken)
+        public async Task<PaginatedResponse<ListStaff>> Handle(GetClinicStaffCommand request, CancellationToken cancellationToken)
         {
-            var staff = await _staffRepository.GetClinicStaff(request.loged_in_staff_id.Value, request.clinic_id.Value);
+            var staff = await _staffRepository.GetPaginatedClinicStaff(request.loged_in_staff_id.Value, request.clinic_id.Value, request.page, request.take);
 
-            return StaffResponse.Map(staff);
+            return staff;
         }
     }
 }
