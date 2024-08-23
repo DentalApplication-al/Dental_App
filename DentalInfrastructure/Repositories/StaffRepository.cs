@@ -19,17 +19,17 @@ namespace DentalInfrastructure.Repositories
             return exists;
         }
 
-        public async Task<PaginatedResponse<ListStaff>> GetPaginatedClinicStaff(Guid staffId, Guid clinicId, int page, int take)
+        public async Task<PaginatedResponse<ListStaff>> GetPaginatedClinicStaff(Guid staffId, Guid clinicId, int page, int take, string? search)
         {
             // Calculate the total number of elements
-            var totalElements = await _context.Staffs.CountAsync(a => a.ClinicId == clinicId && a.Id != staffId);
+            var totalElements = await _context.Staffs.CountAsync(a => a.ClinicId == clinicId && a.Id != staffId && a.FirstName.Contains(search?? ""));
 
             // Calculate the total number of pages
             var totalPages = (int)Math.Ceiling(totalElements / (double)take);
 
             // Fetch the paginated staff list
             var staff = await _context.Staffs
-                .Where(a => a.ClinicId == clinicId && a.Id != staffId)
+                .Where(a => a.ClinicId == clinicId && a.Id != staffId && a.FirstName.Contains(search ?? ""))
                 .Skip((page - 1) * take)
                 .Take(take)
                 .Select(a => new ListStaff

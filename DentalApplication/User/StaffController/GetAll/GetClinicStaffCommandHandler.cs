@@ -2,7 +2,7 @@
 using DentalApplication.Common.Interfaces.IRepositories;
 using MediatR;
 
-namespace DentalApplication.User.StaffController.Get
+namespace DentalApplication.User.StaffController.GetAll
 {
     public class GetClinicStaffCommandHandler : IRequestHandler<GetClinicStaffCommand, PaginatedResponse<ListStaff>>
     {
@@ -15,7 +15,13 @@ namespace DentalApplication.User.StaffController.Get
 
         public async Task<PaginatedResponse<ListStaff>> Handle(GetClinicStaffCommand request, CancellationToken cancellationToken)
         {
-            var staff = await _staffRepository.GetPaginatedClinicStaff(request.loged_in_staff_id.Value, request.clinic_id.Value, request.page, request.take);
+            var staff = await _staffRepository
+                .GetPaginatedClinicStaff(
+                request.loged_in_staff_id.Value, 
+                request.clinic_id.Value, 
+                request.page, 
+                request.take,
+                request.search);
 
             return staff;
         }

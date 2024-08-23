@@ -5,7 +5,7 @@ using DentalApplication.User.StaffController;
 using DentalApplication.User.StaffController.Add;
 using DentalApplication.User.StaffController.ChangePasswordOTP;
 using DentalApplication.User.StaffController.Delete;
-using DentalApplication.User.StaffController.Get;
+using DentalApplication.User.StaffController.GetAll;
 using DentalApplication.User.StaffController.GetById;
 using DentalApplication.User.StaffController.SendOTPPassword;
 using DentalApplication.User.StaffController.Update;
@@ -16,7 +16,6 @@ using DentalInfrastructure.Authentication.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
-using Newtonsoft.Json;
 
 
 namespace DentalAPI.Controllers

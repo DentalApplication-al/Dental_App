@@ -8,7 +8,7 @@ namespace DentalApplication.Common.Interfaces.IRepositories
         Task<Staff> GetStaffByUsername(string username);
         Task<Staff> GetStaffByEmail(string username);
         Task<bool> Exists(string email);
-        Task<PaginatedResponse<ListStaff>> GetPaginatedClinicStaff(Guid staffId, Guid clinicId, int page, int take);
+        Task<PaginatedResponse<ListStaff>> GetPaginatedClinicStaff(Guid staffId, Guid clinicId, int page, int take, string? search);
         Task<List<Staff>> GetStaffByIdsAsync(List<Guid>? doctors);
         Task<Staff> GetstaffByIdAsync(Guid staffId, Guid clinicId);
     }
