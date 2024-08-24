@@ -4,7 +4,7 @@ using DentalDomain.Users.Enums;
 using DentalDomain.Users.Staffs;
 using Microsoft.AspNetCore.Http;
 
-namespace DentalApplication.User.StaffController
+namespace DentalApplication.User.StaffController.DTO
 {
     public class StaffResponse
     {
@@ -45,7 +45,7 @@ namespace DentalApplication.User.StaffController
         }
         public StaffResponse()
         {
-            
+
         }
     }
 }

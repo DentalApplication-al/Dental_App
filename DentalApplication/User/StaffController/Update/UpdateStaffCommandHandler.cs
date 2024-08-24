@@ -2,6 +2,7 @@
 using DentalApplication.Common.Interfaces.IRepositories;
 using DentalApplication.Errors;
 using DentalApplication.Resources;
+using DentalApplication.User.StaffController.DTO;
 using MediatR;
 using Microsoft.Extensions.Localization;
 

@@ -1,6 +1,6 @@
 ﻿using DentalApplication.ServicesController;
 using DentalApplication.User.ClientController.DTO;
-using DentalApplication.User.StaffController;
+using DentalApplication.User.StaffController.DTO;
 using DentalDomain.Users.Staffs;
 
 namespace DentalApplication.AppointmentController

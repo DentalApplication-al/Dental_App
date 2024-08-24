@@ -1,5 +1,6 @@
 ﻿using DentalApplication.Common;
 using DentalApplication.Common.Interfaces.IRepositories;
+using DentalApplication.User.StaffController.DTO;
 using MediatR;
 
 namespace DentalApplication.User.StaffController.GetAll

@@ -1,12 +1,13 @@
 ﻿using DentalApplication.Common;
 using DentalApplication.Common.Interfaces.IBlobStorages;
 using DentalApplication.Resources;
-using DentalApplication.User.StaffController;
 using DentalApplication.User.StaffController.Add;
 using DentalApplication.User.StaffController.ChangePasswordOTP;
 using DentalApplication.User.StaffController.Delete;
+using DentalApplication.User.StaffController.DTO;
 using DentalApplication.User.StaffController.GetAll;
 using DentalApplication.User.StaffController.GetById;
+using DentalApplication.User.StaffController.GetClinicDoctors;
 using DentalApplication.User.StaffController.SendOTPPassword;
 using DentalApplication.User.StaffController.Update;
 using DentalContracts.AuthenticationContracts;
@@ -34,38 +35,28 @@ namespace DentalAPI.Controllers
             this.blobStorage = blobStorage;
         }
 
-        [HasPermission(Permission.ADDSTAFF)]
-        [HttpPost("add")]
-        [Consumes("multipart/form-data")]
-        public async Task<StaffResponse> AddStaff([FromForm] AddStaffCommand command,CancellationToken cancellationToken)
-        {
-            return await _mediator.Send(command, cancellationToken);
-            //return new StaffResponse();
-        }
-
         [HttpPost("login")]
         public async Task<AuthenticationResponse> Login(LoginCommand command, CancellationToken cancellationToken)
         {
             return await _mediator.Send(command, cancellationToken);
         }
 
-        [HttpGet("roles")]
-        public Dictionary<int, string> GetRoles()
+        [HasPermission(Permission.ADDSTAFF)]
+        [HttpPost("add")]
+        [Consumes("multipart/form-data")]
+        public async Task<StaffResponse> AddStaff([FromForm] AddStaffCommand command,CancellationToken cancellationToken)
         {
-            Dictionary<int, string> roles = new();
-            var rolesEnum = Enum.GetValues(typeof(Role));
-            foreach (var role in rolesEnum)
-            {
-                roles.Add((int)role, role.ToString().ToUpper());
-            }
-
-            roles.Remove(roles.FirstOrDefault(a => a.Value == "ADMIN").Key);
-            return roles;
+            return await _mediator.Send(command, cancellationToken);
         }
 
-        [HasPermission(Permission.UPDATESTAFF)]
-        [HttpPut("update")]
-        public async Task<StaffResponse> UpdateStaff(UpdateStaffCommand command, CancellationToken cancellationToken)
+        [HttpPost("send-otp")]
+        public async Task<bool> SendOtp(SendOtpPasswordCommand? command, CancellationToken cancellationToken)
+        {
+            return await _mediator.Send(command, cancellationToken);
+        }
+
+        [HttpPost("change-otp-password")]
+        public async Task<bool> ChangeOTPPassword(ChangePasswordOTPCommand? command, CancellationToken cancellationToken)
         {
             return await _mediator.Send(command, cancellationToken);
         }
@@ -84,6 +75,20 @@ namespace DentalAPI.Controllers
             return await _mediator.Send(command, cancellationToken);
         }
 
+        [HasPermission(Permission.GETDOCTORS)]
+        [HttpGet("doctors")]
+        public async Task<List<ListStaff>> GetClinicDoctors([FromQuery] GetClinicDoctorsCommand? command, CancellationToken cancellationToken)
+        {
+            return await _mediator.Send(command, cancellationToken);
+        }
+
+        [HasPermission(Permission.UPDATESTAFF)]
+        [HttpPut("update/{id}")]
+        public async Task<StaffResponse> UpdateStaff([FromForm] UpdateStaffCommand command, CancellationToken cancellationToken)
+        {
+            return await _mediator.Send(command, cancellationToken);
+        }
+
         [HasPermission(Permission.DELETESTAF)]
         [HttpDelete("delete/{id}")]
         public async Task DeleteStaff([FromQuery] DeleteStaffCommand command, CancellationToken cancellationToken)
@@ -91,17 +96,18 @@ namespace DentalAPI.Controllers
             await _mediator.Send(command, cancellationToken);
         }
 
+        //[HttpGet("roles")]
+        //public Dictionary<int, string> GetRoles()
+        //{
+        //    Dictionary<int, string> roles = new();
+        //    var rolesEnum = Enum.GetValues(typeof(Role));
+        //    foreach (var role in rolesEnum)
+        //    {
+        //        roles.Add((int)role, role.ToString().ToUpper());
+        //    }
 
-        [HttpPost("send-otp")]
-        public async Task<bool> SendOtp(SendOtpPasswordCommand? command, CancellationToken cancellationToken)
-        {
-            return await _mediator.Send(command, cancellationToken);
-        }
-
-        [HttpPost("change-otp-password")]
-        public async Task<bool> ChangeOTPPassword(ChangePasswordOTPCommand? command, CancellationToken cancellationToken)
-        {
-            return await _mediator.Send(command, cancellationToken);
-        }
+        //    roles.Remove(roles.FirstOrDefault(a => a.Value == "ADMIN").Key);
+        //    return roles;
+        //}
     }
 }

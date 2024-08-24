@@ -1,4 +1,5 @@
 ﻿using DentalApplication.Common;
+using DentalApplication.User.StaffController.DTO;
 using MediatR;
 
 namespace DentalApplication.User.StaffController.GetAll

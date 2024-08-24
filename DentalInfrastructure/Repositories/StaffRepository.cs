@@ -1,7 +1,8 @@
 ﻿using DentalApplication.Common;
 using DentalApplication.Common.Interfaces.IRepositories;
 using DentalApplication.Errors;
-using DentalApplication.User.StaffController;
+using DentalApplication.User.StaffController.DTO;
+using DentalDomain.Users.Enums;
 using DentalDomain.Users.Staffs;
 using DentalInfrastructure.Context;
 using Microsoft.EntityFrameworkCore;
@@ -36,6 +37,19 @@ namespace DentalInfrastructure.Repositories
         {
             var exists = await _context.Staffs.AnyAsync(a => a.Email.ToLower() == email.ToLower());
             return exists;
+        }
+
+        public async Task<List<ListStaff>> GetClinicDoctors(Guid staffId, Guid clinicId)
+        {
+            var doctors = await _context.Staffs
+                .Where(a => a.ClinicId == clinicId && a.Role == Role.DOCTOR)
+                .Select(a => new ListStaff
+                {
+                    id = a.Id,
+                    first_name = a.FirstName,
+                    last_name = a.LastName,
+                }).ToListAsync();
+            return doctors;
         }
 
         public async Task<PaginatedResponse<ListStaff>> GetPaginatedClinicStaff(Guid staffId, Guid clinicId, int page, int take, string? search)

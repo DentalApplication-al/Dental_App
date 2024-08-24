@@ -1,5 +1,6 @@
 ﻿using DentalApplication.Common.Interfaces.IRepositories;
 using DentalApplication.Errors;
+using DentalApplication.User.StaffController.DTO;
 using MediatR;
 
 namespace DentalApplication.User.StaffController.GetById

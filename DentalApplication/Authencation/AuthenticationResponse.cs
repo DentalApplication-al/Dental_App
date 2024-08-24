@@ -1,4 +1,4 @@
-﻿using DentalApplication.User.StaffController;
+﻿using DentalApplication.User.StaffController.DTO;
 
 namespace DentalContracts.AuthenticationContracts
 {

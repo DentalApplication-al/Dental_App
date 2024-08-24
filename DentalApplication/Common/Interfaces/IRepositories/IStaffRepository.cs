@@ -1,4 +1,4 @@
-﻿using DentalApplication.User.StaffController;
+﻿using DentalApplication.User.StaffController.DTO;
 using DentalDomain.Users.Staffs;
 
 namespace DentalApplication.Common.Interfaces.IRepositories
@@ -9,8 +9,10 @@ namespace DentalApplication.Common.Interfaces.IRepositories
         Task<Staff> GetStaffByEmail(string email);
         Task<bool> Exists(string email);
         Task<PaginatedResponse<ListStaff>> GetPaginatedClinicStaff(Guid staffId, Guid clinicId, int page, int take, string? search);
+        Task<List<ListStaff>> GetClinicDoctors(Guid staffId, Guid clinicId);
         Task<List<Staff>> GetStaffByIdsAsync(List<Guid>? doctors);
         Task<Staff> GetstaffByIdAsync(Guid staffId, Guid clinicId);
         Task<bool> Delete (Guid staffId, Guid clinicId);
+
     }
 }

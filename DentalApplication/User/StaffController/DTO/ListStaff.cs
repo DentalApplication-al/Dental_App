@@ -1,6 +1,6 @@
 ﻿using DentalDomain.Users.Enums;
 
-namespace DentalApplication.User.StaffController
+namespace DentalApplication.User.StaffController.DTO
 {
     public class ListStaff
     {

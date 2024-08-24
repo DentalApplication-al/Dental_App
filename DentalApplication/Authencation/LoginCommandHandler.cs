@@ -3,7 +3,7 @@ using DentalApplication.Common.Interfaces.IBlobStorages;
 using DentalApplication.Common.Interfaces.IRepositories;
 using DentalApplication.Errors;
 using DentalApplication.Resources;
-using DentalApplication.User.StaffController;
+using DentalApplication.User.StaffController.DTO;
 using DentalContracts.AuthenticationContracts;
 using MediatR;
 using Microsoft.Extensions.Localization;

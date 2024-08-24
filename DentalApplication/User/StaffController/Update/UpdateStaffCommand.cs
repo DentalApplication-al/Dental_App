@@ -1,12 +1,15 @@
 ﻿using DentalApplication.Common;
+using DentalApplication.User.StaffController.DTO;
 using DentalDomain.Users.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DentalApplication.User.StaffController.Update
 {
     public class UpdateStaffCommand : CommandBase, IRequest<StaffResponse>
     {
+        [FromRoute(Name = "id")]
         public Guid? staff_id { get; set; }
         public string? new_email { get; set; }
         public string? new_first_name { get; set; }
