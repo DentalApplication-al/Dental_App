@@ -1,9 +1,11 @@
 ﻿using DentalApplication.Common;
 using DentalApplication.Common.Interfaces.IRepositories;
+using DentalApplication.Errors;
 using DentalApplication.User.StaffController;
 using DentalDomain.Users.Staffs;
 using DentalInfrastructure.Context;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace DentalInfrastructure.Repositories
 {
@@ -11,6 +13,23 @@ namespace DentalInfrastructure.Repositories
     {
         public StaffRepository(DentalContext context) : base(context)
         {
+        }
+
+        public async Task<bool> Delete(Guid staffId, Guid clinicId)
+        {
+            var staff = await _context.Staffs.Where(a => a.Id == staffId && a.ClinicId == clinicId).FirstOrDefaultAsync() ?? 
+                throw new NotFoundException("Staff could not be found.");
+            try
+            {
+                _context.Staffs.Remove(staff);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+                throw;
+            }
         }
 
         public async Task<bool> Exists(string email)
@@ -56,9 +75,9 @@ namespace DentalInfrastructure.Repositories
             return result;
         }
 
-        public async Task<Staff> GetStaffByEmail(string username)
+        public async Task<Staff> GetStaffByEmail(string email)
         {
-            return await _context.Staffs.FirstOrDefaultAsync(a => a.Email == username);
+            return await _context.Staffs.FirstOrDefaultAsync(a => a.Email == email);
         }
 
         public async Task<Staff> GetstaffByIdAsync(Guid staffId, Guid clinicId)

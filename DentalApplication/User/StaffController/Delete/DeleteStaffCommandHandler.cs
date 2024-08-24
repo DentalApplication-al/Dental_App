@@ -18,7 +18,7 @@ namespace DentalApplication.User.StaffController.Delete
 
         public async Task Handle(DeleteStaffCommand request, CancellationToken cancellationToken)
         {
-            var isDeleted = await _staffRepository.DeleteAsync(request.staff_id);
+            var isDeleted = await _staffRepository.Delete(request.staff_id, request.clinic_id.Value);
 
             if (!isDeleted)
             {
