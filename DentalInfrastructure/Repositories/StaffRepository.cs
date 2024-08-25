@@ -102,6 +102,7 @@ namespace DentalInfrastructure.Repositories
         public async Task<List<Staff>> GetStaffByIdsAsync(List<Guid>? doctors)
         {
             var staff = await _context.Staffs
+                .Include(a => a.StaffServices)
                 .Where(a => doctors.Contains(a.Id))
                 .ToListAsync();
             return staff;

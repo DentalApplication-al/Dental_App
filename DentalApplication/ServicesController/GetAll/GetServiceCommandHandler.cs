@@ -1,9 +1,11 @@
-﻿using DentalApplication.Common.Interfaces.IRepositories;
+﻿using DentalApplication.Common;
+using DentalApplication.Common.Interfaces.IRepositories;
+using DentalApplication.ServicesController.DTO;
 using MediatR;
 
 namespace DentalApplication.ServicesController.Get
 {
-    public class GetServiceCommandHandler : IRequestHandler<GetAllServicesCommand, List<ServiceResponse>>
+    public class GetServiceCommandHandler : IRequestHandler<GetAllServicesCommand, PaginatedResponse<ListService>>
     {
         private readonly IServiceRepository _serviceRepository;
 
@@ -12,10 +14,11 @@ namespace DentalApplication.ServicesController.Get
             _serviceRepository = serviceRepository;
         }
 
-        public async Task<List<ServiceResponse>> Handle(GetAllServicesCommand request, CancellationToken cancellationToken)
+        public async Task<PaginatedResponse<ListService>> Handle(GetAllServicesCommand request, CancellationToken cancellationToken)
         {
-            var result = await _serviceRepository.GetClinicServices(request.clinic_id.Value);
-            return ServiceResponse.Map(result);
+            var result = await _serviceRepository
+                .GetPaginatedClinicServices(request.clinic_id.Value, request.take, request.page, request.search);
+            return result;
         }
     }
 }

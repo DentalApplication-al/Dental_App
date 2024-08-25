@@ -1,7 +1,8 @@
-﻿using DentalApplication.Common.Interfaces.IServices;
-using DentalApplication.ServicesController;
+﻿using DentalApplication.Common;
+using DentalApplication.Common.Interfaces.IServices;
 using DentalApplication.ServicesController.Add;
 using DentalApplication.ServicesController.Delete;
+using DentalApplication.ServicesController.DTO;
 using DentalApplication.ServicesController.Get;
 using DentalApplication.ServicesController.GetById;
 using DentalApplication.ServicesController.Update;
@@ -32,59 +33,32 @@ namespace DentalAPI.Controllers
             return await _mediator.Send(command, cancellationToken);
         }
 
-        [HasPermission(Permission.UPDATESRVICE)]
-        [HttpPut("update")]
-        public async Task<ServiceResponse> UpdateService(UpdateServiceCommand command, CancellationToken cancellationToken)
-        {
-            return await _mediator.Send(command, cancellationToken);
-        }
-
-        [HasPermission(Permission.DELETESERVICE)]
-        [HttpDelete("delete")]
-        public async Task<bool> DeleteService(DeleteServiceCommand command, CancellationToken cancellationToken)
-        {
-            return await _mediator.Send(command, cancellationToken);
-        }
-
         [HasPermission(Permission.GETALLSERVICES)]
         [HttpGet("getall")]
-        public async Task<List<ServiceResponse>> GetAllServices([FromQuery] GetAllServicesCommand command, CancellationToken cancellationToken)
+        public async Task<PaginatedResponse<ListService>> GetAllServices([FromQuery] GetAllServicesCommand command, CancellationToken cancellationToken)
         {
             return await _mediator.Send(command, cancellationToken);
         }
 
         [HasPermission(Permission.GETSERVICEBYID)]
-        [HttpGet("getbyid")]
-        public async Task<ServiceResponse> GetServiceById(GetServiceByIdCommand command, CancellationToken cancellationToken)
+        [HttpGet("getbyid/{id}")]
+        public async Task<ServiceById> GetServiceById([FromQuery] GetServiceByIdCommand command, CancellationToken cancellationToken)
         {
             return await _mediator.Send(command, cancellationToken);
         }
 
-        [HttpPost("test")]
-        public async Task<string> SendEmail()
+        [HasPermission(Permission.UPDATESRVICE)]
+        [HttpPut("update")]
+        public async Task<ServiceResponse> UpdateService([FromBody]UpdateServiceCommand command, CancellationToken cancellationToken)
         {
-            var token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkYmQ1YjM3OS1iMmI5LTRhMGYtYTI0Mi1lNjI2MzYxYTRmMmQiLCJyb2xpIjoiQURNSU4iLCJjbGluaWMiOiJkMzBiODNlOC05YjI5LTQ5OWYtZmViNy0wOGRjYmZhYTljNjMiLCJleHAiOjE3MjQwODgzNjEsImlzcyI6IkRlbnRhbEFwcGxpY2F0aW9uIiwiYXVkIjoiRGVudGFsQXBwbGljYXRpb24ifQ.lPO_NzbVgENS5xzMxCumkqZ_e-3IBtFGWacpU9zrbLA";
-            HttpClient _httpClient = new();
-            try
-            {
-                // Set the Authorization header with the Bearer token
-                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-
-                // Make the GET request
-                var response = await _httpClient.GetAsync("https://amalka-001-site1.etempurl.com/client/get-all");
-
-                // Ensure the request was successful
-                response.EnsureSuccessStatusCode();
-
-                // Read and return the response content
-                return await response.Content.ReadAsStringAsync();
-            }
-            catch (HttpRequestException ex)
-            {
-                // Handle HTTP request errors
-                throw new Exception("An error occurred while calling the API.", ex);
-            }
+            return await _mediator.Send(command, cancellationToken);
         }
 
+        [HasPermission(Permission.DELETESERVICE)]
+        [HttpDelete("delete/{id}")]
+        public async Task<bool> DeleteService([FromQuery] DeleteServiceCommand command, CancellationToken cancellationToken)
+        {
+            return await _mediator.Send(command, cancellationToken);
+        }
     }
 }

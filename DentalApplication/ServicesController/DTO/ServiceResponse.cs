@@ -1,7 +1,7 @@
 ﻿using DentalApplication.User.StaffController.DTO;
 using DentalDomain.Services;
 
-namespace DentalApplication.ServicesController
+namespace DentalApplication.ServicesController.DTO
 {
     public class ServiceResponse
     {
@@ -12,7 +12,7 @@ namespace DentalApplication.ServicesController
         public int? duration { get; set; }
         public DateTime? created_on { get; set; }
         public DateTime? updated_on { get; set; }
-        public Guid? clinic_id { get; set; }
+        //public Guid? clinic_id { get; set; }
         public List<StaffResponse> services_staff { get; set; } = new();
         private ServiceResponse(Service service)
         {
@@ -23,8 +23,8 @@ namespace DentalApplication.ServicesController
             duration = service.Duration;
             created_on = service.CreatedOn;
             updated_on = service.UpdatedOn;
-            clinic_id = service.ClinicId;
-            services_staff = StaffResponse.Map(service.ServiceStaff);
+            //clinic_id = service.ClinicId;
+            //services_staff = StaffResponse.Map(service.ServiceStaff);
         }
 
         public static ServiceResponse Map(Service service)

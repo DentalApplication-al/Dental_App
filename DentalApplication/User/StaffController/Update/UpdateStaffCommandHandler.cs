@@ -23,21 +23,21 @@ namespace DentalApplication.User.StaffController.Update
 
         public async Task<StaffResponse> Handle(UpdateStaffCommand request, CancellationToken cancellationToken)
         {
-            var staff = await _staffRepository.GetByIdAsync(request.staff_id.Value) ??
+            var staff = await _staffRepository.GetByIdAsync(request.id.Value) ??
                 throw new NotFoundException(_stringLocalizer.Get(Error.NOT_FOUND, _stringLocalizer["Staff"]));
             var profile = "";
 
             staff.Update(
-                request.new_first_name,
-                request.new_last_name,
-                request.new_email,
-                request.new_phone,
-                request.new_birthday.Value,
-                request.new_role.Value,
-                request.new_job_type,
+                request.first_name,
+                request.last_name,
+                request.email,
+                request.phone,
+                request.birthday.Value,
+                request.role.Value,
+                request.job_type,
                 profile,
-                request.new_start_time,
-                request.new_end_time
+                request.start_time,
+                request.end_time
                 );
             await _staffRepository.UpdateAsync(staff);
 

@@ -1,4 +1,5 @@
 ﻿using DentalApplication.Common.Interfaces.IRepositories;
+using DentalApplication.Errors;
 using DentalApplication.Resources;
 using MediatR;
 using Microsoft.Extensions.Localization;
@@ -17,7 +18,12 @@ namespace DentalApplication.ServicesController.Delete
 
         public async Task<bool> Handle(DeleteServiceCommand request, CancellationToken cancellationToken)
         {
-            return await _serviceRepository.DeleteAsync(request.service_id.Value);
+            var result = await _serviceRepository.DeleteService(request.clinic_id.Value, request.service_id.Value);
+            if (result)
+            {
+                return true;
+            }
+            throw new NotDeletedException("The service could not be deleted.");
         }
     }
 }

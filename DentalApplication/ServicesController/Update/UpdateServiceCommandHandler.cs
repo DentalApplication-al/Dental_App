@@ -1,6 +1,7 @@
 ﻿using DentalApplication.Common.Interfaces.IRepositories;
 using DentalApplication.Errors;
 using DentalApplication.Resources;
+using DentalApplication.ServicesController.DTO;
 using MediatR;
 using Microsoft.Extensions.Localization;
 
@@ -20,14 +21,14 @@ namespace DentalApplication.ServicesController.Update
 
         public async Task<ServiceResponse> Handle(UpdateServiceCommand request, CancellationToken cancellationToken)
         {
-            var service = await _serviceRepository.GetByIdAsync(request.service_id.Value) ??
+            var service = await _serviceRepository.GetFullServiceById(request.clinic_id.Value, request.id.Value) ??
                 throw new NotFoundException(_stringLocalizer.Get(Error.NOT_FOUND, _stringLocalizer["Service"]));
             var serviceDoctors = await _staffRepository.GetStaffByIdsAsync(request.doctors);
             service.Update(
-                request.new_price.Value,
-                request.new_name,
-                request.new_description,
-                request.new_duration.Value
+                request.price.Value,
+                request.name,
+                request.description,
+                request.duration.Value
             );
             service.ServiceStaff = serviceDoctors;
 

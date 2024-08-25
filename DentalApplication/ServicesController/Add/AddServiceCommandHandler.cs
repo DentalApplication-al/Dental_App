@@ -1,4 +1,5 @@
 ﻿using DentalApplication.Common.Interfaces.IRepositories;
+using DentalApplication.ServicesController.DTO;
 using DentalDomain.Services;
 using MediatR;
 

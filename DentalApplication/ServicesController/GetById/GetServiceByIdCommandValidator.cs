@@ -7,8 +7,8 @@ namespace DentalApplication.ServicesController.GetById
         public GetServiceByIdCommandValidator()
         {
             RuleFor(a => a.service_id)
-                .NotEmpty().WithMessage("Perzgjidh sherbimin")
-                .NotNull().WithMessage("Perzgjidh sherbimin");
+                .NotEmpty().WithMessage("Select a service.")
+                .NotNull().WithMessage("Select a service.");
         }
     }
 }

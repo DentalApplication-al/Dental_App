@@ -1,14 +1,17 @@
-﻿using MediatR;
+﻿using DentalApplication.Common;
+using DentalApplication.ServicesController.DTO;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DentalApplication.ServicesController.Update
 {
-    public class UpdateServiceCommand : IRequest<ServiceResponse>
+    public class UpdateServiceCommand : CommandBase, IRequest<ServiceResponse>
     {
-        public Guid? service_id { get; set; }
-        public decimal? new_price { get; set; }
-        public string? new_name { get; set; }
-        public string? new_description { get; set; }
-        public int? new_duration { get; set; }
+        public Guid? id { get; set; }
+        public decimal? price { get; set; }
+        public string? name { get; set; }
+        public string? description { get; set; }
+        public int? duration { get; set; }
         public List<Guid>? doctors { get; set; }
     }
 }

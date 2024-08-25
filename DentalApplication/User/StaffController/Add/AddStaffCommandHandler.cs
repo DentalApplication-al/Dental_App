@@ -30,7 +30,7 @@ namespace DentalApplication.User.StaffController.Add
         {
             if (await _staffRepository.Exists(request.email))
             {
-                throw new BadRequestException(_stringLocalizer.Get(Error.USED_USERNAME));
+                throw new BadRequestException("This email already exists.");
             }
             string profilePicture = "";
             if (request.picture != null)
@@ -57,7 +57,7 @@ namespace DentalApplication.User.StaffController.Add
 
             if (request.services != null && request.services.Count > 0)
             {
-                var services = await _serviceRepository.GetServiceByIds(request.services);
+                var services = await _serviceRepository.GetServiceByIds(request.clinic_id.Value, request.services);
                 staff.StaffServices = services;
             }
 
@@ -73,7 +73,7 @@ namespace DentalApplication.User.StaffController.Add
             }
             await _blobStorage.DeleteBlobAsync(profilePicture);
 
-            throw new BadRequestException("The email adress does not exist");
+            throw new BadRequestException("Confirmation email could not be sent.");
         }
     }
 }
