@@ -6,7 +6,7 @@ using MediatR;
 
 namespace DentalApplication.User.ClientController.Add
 {
-    public class AddClientCommmandHandler : IRequestHandler<AddClientCommand, ClientResponse>
+    public class AddClientCommmandHandler : IRequestHandler<AddClientCommand, Guid>
     {
         private readonly IClientRepository _clientRepository;
 
@@ -15,7 +15,7 @@ namespace DentalApplication.User.ClientController.Add
             _clientRepository = clientRepository;
         }
 
-        public async Task<ClientResponse> Handle(AddClientCommand request, CancellationToken cancellationToken)
+        public async Task<Guid> Handle(AddClientCommand request, CancellationToken cancellationToken)
         {
             var client = Client.Create(
                 request.birthday.Value,
@@ -23,13 +23,14 @@ namespace DentalApplication.User.ClientController.Add
                 request.last_name,
                 request.email,
                 request.phone,
-                request.clinic_id.Value);
+                request.clinic_id.Value,
+                request.description
+            );
 
             await _clientRepository.AddAsync(client);
 
             await _clientRepository.SaveChangesAsync();
-            return ClientResponse.Map(client);  
-
+            return client.Id;
         }
     }
 }

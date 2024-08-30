@@ -1,10 +1,11 @@
-﻿using DentalApplication.Common.Interfaces.IRepositories;
+﻿using DentalApplication.Common;
+using DentalApplication.Common.Interfaces.IRepositories;
 using DentalApplication.User.ClientController.DTO;
 using MediatR;
 
 namespace DentalApplication.User.ClientController.GetAll
 {
-    public class GetAllClientsCommandHandler : IRequestHandler<GetAllClientCommand, List<ClientListResponse>>
+    public class GetAllClientsCommandHandler : IRequestHandler<GetAllClientCommand, PaginatedResponse<ListClient>>
     {
         private readonly IClientRepository _clientRepository;
 
@@ -13,9 +14,9 @@ namespace DentalApplication.User.ClientController.GetAll
             _clientRepository = clientRepository;
         }
 
-        public async Task<List<ClientListResponse>> Handle(GetAllClientCommand request, CancellationToken cancellationToken)
+        public async Task<PaginatedResponse<ListClient>> Handle(GetAllClientCommand request, CancellationToken cancellationToken)
         {
-            var clients = await _clientRepository.GetAllClinicCLients(request.clinic_id.Value);
+            var clients = await _clientRepository.GetPaginatedClients(request.clinic_id.Value, request.take, request.page, request.search);
 
             return clients;
         }

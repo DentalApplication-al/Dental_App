@@ -1,4 +1,5 @@
-﻿using DentalDomain.Clinics;
+﻿using DentalDomain.Appointments;
+using DentalDomain.Clinics;
 using DentalDomain.Services;
 using DentalDomain.Users.Clients;
 using DentalDomain.Users.Staffs;
@@ -16,6 +17,7 @@ namespace DentalInfrastructure.Context
         public DbSet<SuperAdmin> SuperAdmin { get; set; }
         public DbSet<Clinic> Clinics { get; set; }
         public DbSet<Service> Services { get; set; }
+        public DbSet<Appointment> Appointments { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

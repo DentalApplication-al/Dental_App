@@ -1,6 +1,9 @@
-﻿using DentalApplication.Errors;
+﻿using DentalApplication.Common;
+using DentalApplication.Errors;
+using DentalApplication.User.ClientController.Delete;
 using DentalApplication.User.ClientController.DTO;
 using DentalApplication.User.ClientController.GetAll;
+using DentalApplication.User.ClientController.GetById;
 using DentalApplication.User.ClientController.Update;
 using DentalContracts.UserContracts.ClientContracts;
 using DentalInfrastructure.Authentication;
@@ -22,30 +25,38 @@ namespace DentalAPI.Controllers
         }
         [HasPermission(Permission.ADDCLIENT)]
         [HttpPost("add")]
-        public async Task<ClientResponse> AddClient(AddClientCommand command)
+        public async Task<Guid> AddClient(AddClientCommand command)
         {
             return await _mediator.Send(command);
         }
 
         [HasPermission(Permission.UPDATECLIENT)]
-        [HttpPut("update")]
-        public async Task<ClientResponse> UpdateClient(UpdateClientCommand command)
+        [HttpPut("update/{id}")]
+        public async Task<Guid> UpdateClient(UpdateClientCommand command, Guid id)
         {
+            command.id = id;
             return await _mediator.Send(command);
         }
 
         [HasPermission(Permission.GETALLCLIENTS)]
         [HttpGet("get-all")]
-        public async Task<List<ClientListResponse>> AllClients([FromQuery] GetAllClientCommand? command)
+        public async Task<PaginatedResponse<ListClient>> AllClients([FromQuery] GetAllClientCommand? command)
         {
             return await _mediator.Send(command);
         }
 
-        [HttpGet("error")]
-        public IActionResult GetErrorResponse()
+        [HasPermission(Permission.GETCLIENTBYID)]
+        [HttpGet("get-by-id/{id}")]
+        public async Task<ClientResponse> GetClientById([FromQuery] GetClientByIdCommand? command)
         {
-            var errorDetails = new { ErrorCode = "123", ErrorDescription = "An error occurred" }; // Replace with actual error details
-            return RestResponseMapper.Map("error", StatusCodes.Status400BadRequest, errorDetails, "An error occurred while processing your request.");
+            return await _mediator.Send(command);
+        }
+
+        [HasPermission(Permission.DELETECLIENT)]
+        [HttpDelete("delete/{id}")]
+        public async Task DeleteClient([FromQuery] DeleteClientCommand command)
+        {
+            await _mediator.Send(command);
         }
 
     }

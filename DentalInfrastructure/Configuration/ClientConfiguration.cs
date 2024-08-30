@@ -8,9 +8,9 @@ namespace DentalInfrastructure.Configuration
     {
         public void Configure(EntityTypeBuilder<Client> builder)
         {
-            //    builder.HasMany(a => a.Appointments)
-            //        .WithOne(a => a.Client)
-            //        .HasForeignKey(a => a.ClientId);
+            builder.HasMany(a => a.Appointments)
+                .WithOne(a => a.Client)
+                .HasForeignKey(a => a.ClientId);
         }
     }
 }

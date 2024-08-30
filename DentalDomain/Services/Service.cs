@@ -1,4 +1,5 @@
-﻿using DentalDomain.Users.Staffs;
+﻿using DentalDomain.Appointments;
+using DentalDomain.Users.Staffs;
 
 namespace DentalDomain.Services
 {
@@ -9,6 +10,7 @@ namespace DentalDomain.Services
         public string? Description { get; private set; }
         public int Duration { get; private set; }
         public List<Staff> ServiceStaff { get; set; } = new();
+        public List<Appointment> Appointments { get; set; } 
 
 
         public static Service Create(

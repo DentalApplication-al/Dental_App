@@ -5,7 +5,8 @@ namespace DentalApplication.Common.Interfaces.IRepositories
 {
     public interface IClientRepository : IGenericRepository<Client>
     {
-        Task<Client> GetByIdAsync(Guid clientId, Guid clinicId);
-        Task<List<ClientListResponse>> GetAllClinicCLients(Guid clinicId);
+        Task<Client> GetByIdAsync(Guid clinicId, Guid clientId);
+        Task<PaginatedResponse<ListClient>> GetPaginatedClients(Guid clinicId, int take, int page, string? search);
+        Task<bool> DeleteAsync(Client client);
     }
 }

@@ -1,12 +1,11 @@
 ﻿using DentalApplication.Common;
 using DentalApplication.Swagger;
-using DentalApplication.User.ClientController.DTO;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DentalApplication.User.ClientController.GetById
+namespace DentalApplication.User.ClientController.Delete
 {
-    public class GetClientByIdCommand : CommandBase, IRequest<ClientResponse>
+    public class DeleteClientCommand : CommandBase, IRequest
     {
         [SwaggerIgnore]
         [FromRoute(Name = "id")]

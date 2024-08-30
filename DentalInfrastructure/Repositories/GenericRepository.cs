@@ -9,6 +9,8 @@ namespace DentalInfrastructure.Repositories
         protected readonly DentalContext _context;
         private readonly DbSet<T> _dbSet;
 
+        IQueryable<T> IGenericRepository<T>.Table => _dbSet;
+
         public GenericRepository(DentalContext context)
         {
             _context = context;

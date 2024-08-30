@@ -19,8 +19,4 @@
     <ProjectReference Include="..\DentalDomain\DentalDomain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="User\ClientController\Delete\" />
-  </ItemGroup>
-
 </Project>

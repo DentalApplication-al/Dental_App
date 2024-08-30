@@ -6,7 +6,7 @@ namespace DentalApplication.User.ClientController.GetById
     {
         public GetCLientByIdCommandValidator()
         {
-            RuleFor(a => a.client_id)
+            RuleFor(a => a.id)
                 .NotEmpty().WithMessage("Client id is required.");
         }
     }

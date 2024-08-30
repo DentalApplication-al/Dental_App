@@ -4,7 +4,8 @@ namespace DentalDomain.Users.Clients
 {
     public class Client : User
     {
-        //public List<Appointment> Appointments { get; set; } = [];
+        public string? Description { get; set; }
+        public List<Appointment> Appointments { get; set; } = new();
 
         public static Client Create(
             DateOnly birthday,
@@ -12,7 +13,8 @@ namespace DentalDomain.Users.Clients
             string last_name,
             string email,
             string phone,
-            Guid clinic_id)
+            Guid clinic_id,
+            string? description)
         {
             return new Client()
             {
@@ -21,8 +23,9 @@ namespace DentalDomain.Users.Clients
                 LastName = last_name,
                 Email = email,
                 Phone = phone,
-                CreatedOn = DateTime.Now.ToUniversalTime(),
+                CreatedOn = DateTime.Now,
                 ClinicId = clinic_id,
+                Description = description,
             };
         }
         public static Client Create() => new();
@@ -32,13 +35,15 @@ namespace DentalDomain.Users.Clients
             string new_last_name, 
             string new_phone, 
             string new_email, 
-            DateOnly new_birthday)
+            DateOnly new_birthday,
+            string? description)
         {
             FirstName = new_first_name;
             LastName = new_last_name;
             Email = new_email;
             Phone = new_phone;
             Birthday = new_birthday;
+            Description = description;
         }
     }
 }

@@ -1,10 +1,11 @@
 ﻿using DentalApplication.Common.Interfaces.IRepositories;
+using DentalApplication.Errors;
 using DentalApplication.User.ClientController.DTO;
 using MediatR;
 
 namespace DentalApplication.User.ClientController.Update
 {
-    public class UpdateClientCommandHandler : IRequestHandler<UpdateClientCommand, ClientResponse>
+    public class UpdateClientCommandHandler : IRequestHandler<UpdateClientCommand, Guid>
     {
         private readonly IClientRepository _clientRepository;
 
@@ -13,21 +14,24 @@ namespace DentalApplication.User.ClientController.Update
             _clientRepository = clientRepository;
         }
 
-        public async Task<ClientResponse> Handle(UpdateClientCommand request, CancellationToken cancellationToken)
+        public async Task<Guid> Handle(UpdateClientCommand request, CancellationToken cancellationToken)
         {
-            var client = await _clientRepository.GetByIdAsync(request.client_id.Value, request.clinic_id.Value);
+            var client = await _clientRepository.GetByIdAsync(request.id.Value, request.clinic_id.Value) ??
+                throw new NotFoundException("The client could not be found.");
 
             client.Update(
-                request.new_first_name,
-                request.new_last_name,
-                request.new_phone,
-                request.new_email,
-                request.new_birthday.Value
+                request.first_name,
+                request.last_name,
+                request.phone,
+                request.email,
+                request.birthday.Value,
+                request.description
             );
 
             await _clientRepository.UpdateAsync(client);
+            await _clientRepository.SaveChangesAsync();
 
-            return ClientResponse.Map(client);
+            return client.Id;
         }
     }
 }

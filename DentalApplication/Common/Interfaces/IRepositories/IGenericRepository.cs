@@ -8,7 +8,7 @@
         Task UpdateAsync(T entity);
         Task<bool> DeleteAsync(Guid id);
         Task SaveChangesAsync();
-        IQueryable<T> Table();
+        IQueryable<T> Table { get; }
     }
 
 }
