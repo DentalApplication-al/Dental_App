@@ -25,11 +25,13 @@ namespace DentalApplication.User.StaffController.Update
 
         public async Task<StaffResponse> Handle(UpdateStaffCommand request, CancellationToken cancellationToken)
         {
-            var staff = await _staffRepository.GetByIdAsync(request.id.Value) ??
+            var staff = await _staffRepository.GetById(request.id.Value, request.clinic_id.Value) ??
                 throw new NotFoundException(_stringLocalizer.Get(Error.NOT_FOUND, _stringLocalizer["Staff"]));
+            
             var profile = staff.ProfilePic;
 
             var services = await _serviceRepository.GetServiceByIds(request.clinic_id.Value, request.services);
+            
             if (request.picture !=null)
             {
                 var upload = await _blob.Upload(request.picture);
@@ -56,6 +58,7 @@ namespace DentalApplication.User.StaffController.Update
                 );
 
             staff.StaffServices = services;
+
             await _staffRepository.UpdateAsync(staff);
 
             await _staffRepository.SaveChangesAsync();

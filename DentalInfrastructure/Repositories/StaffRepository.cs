@@ -40,6 +40,14 @@ namespace DentalInfrastructure.Repositories
             return exists;
         }
 
+        public async Task<Staff> GetById(Guid staffId, Guid clinicId)
+        {
+            var staff = await _context.Staffs
+                .Include(a => a.StaffServices)
+                .FirstOrDefaultAsync(a => a.ClinicId == clinicId && a.Id == staffId);
+            return staff;
+        }
+
         public async Task<List<ListStaff>> GetClinicDoctors(Guid staffId, Guid clinicId)
         {
             var doctors = await _context.Staffs

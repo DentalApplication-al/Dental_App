@@ -13,6 +13,7 @@ namespace DentalApplication.Common.Interfaces.IRepositories
         Task<List<Staff>> GetStaffByIdsAsync(List<Guid>? doctors);
         Task<StaffResponse> GetstaffByIdAsync(Guid staffId, Guid clinicId);
         Task<bool> Delete (Guid staffId, Guid clinicId);
+        Task<Staff> GetById(Guid staffId, Guid clinicId);
 
     }
 }
