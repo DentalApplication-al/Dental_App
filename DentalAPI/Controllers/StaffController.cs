@@ -84,7 +84,7 @@ namespace DentalAPI.Controllers
 
         [HasPermission(Permission.UPDATESTAFF)]
         [HttpPut("update/{id}")]
-        public async Task<StaffResponse> UpdateStaff([FromForm] UpdateStaffCommand command, CancellationToken cancellationToken)
+        public async Task<StaffResponse> UpdateStaff([FromForm]UpdateStaffCommand command, CancellationToken cancellationToken)
         {
             return await _mediator.Send(command, cancellationToken);
         }
