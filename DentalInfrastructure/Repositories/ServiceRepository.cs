@@ -111,5 +111,17 @@ namespace DentalInfrastructure.Repositories
                 .ToListAsync();
             return result;
         }
+
+        public async Task<List<ListService>> GetServicesForDoctors(Guid clinic_id)
+        {
+            var services = await _context.Services
+                .Where(a => a.ClinicId == clinic_id)
+                .Select(a => new ListService
+                {
+                    id = a.Id,
+                    name = a.Name,
+                }).ToListAsync();
+            return services;
+        }
     }
 }

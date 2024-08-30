@@ -4,6 +4,7 @@ using DentalApplication.ServicesController.Add;
 using DentalApplication.ServicesController.Delete;
 using DentalApplication.ServicesController.DTO;
 using DentalApplication.ServicesController.Get;
+using DentalApplication.ServicesController.GetAllForDoctors;
 using DentalApplication.ServicesController.GetById;
 using DentalApplication.ServicesController.Update;
 using DentalInfrastructure.Authentication;
@@ -36,6 +37,13 @@ namespace DentalAPI.Controllers
         [HasPermission(Permission.GETALLSERVICES)]
         [HttpGet("getall")]
         public async Task<PaginatedResponse<ListService>> GetAllServices([FromQuery] GetAllServicesCommand command, CancellationToken cancellationToken)
+        {
+            return await _mediator.Send(command, cancellationToken);
+        }
+
+        [HasPermission(Permission.GETALLSERVICES)]
+        [HttpGet("getallfordoctors")]
+        public async Task<List<ListService>> GetAllServicesForDoctors([FromQuery] GetAllForDoctorsCommand command, CancellationToken cancellationToken)
         {
             return await _mediator.Send(command, cancellationToken);
         }

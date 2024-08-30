@@ -10,5 +10,6 @@ namespace DentalApplication.Common.Interfaces.IRepositories
         Task<Service> GetFullServiceById(Guid clinic_id, Guid service_id);
         Task<List<Service>> GetServiceByIds(Guid clinic_id, List<Guid>? service_id);
         Task<bool> DeleteService(Guid clinic_id, Guid service_id);
+        Task<List<ListService>> GetServicesForDoctors(Guid clinic_id);
     }
 }
