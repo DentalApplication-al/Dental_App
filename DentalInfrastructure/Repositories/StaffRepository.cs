@@ -1,6 +1,7 @@
 ﻿using DentalApplication.Common;
 using DentalApplication.Common.Interfaces.IRepositories;
 using DentalApplication.Errors;
+using DentalApplication.ServicesController.DTO;
 using DentalApplication.User.StaffController.DTO;
 using DentalDomain.Users.Enums;
 using DentalDomain.Users.Staffs;
@@ -94,9 +95,30 @@ namespace DentalInfrastructure.Repositories
             return await _context.Staffs.FirstOrDefaultAsync(a => a.Email == email);
         }
 
-        public async Task<Staff> GetstaffByIdAsync(Guid staffId, Guid clinicId)
+        public async Task<StaffResponse> GetstaffByIdAsync(Guid staffId, Guid clinicId)
         {
-            return await _context.Staffs.FirstOrDefaultAsync(a => a.Id == staffId && a.ClinicId == clinicId);
+            var staff = await _context.Staffs
+                .Where(a => a.Id == staffId && a.ClinicId == clinicId)
+                .Select(a => new StaffResponse
+                {
+                    birthday = a.Birthday,
+                    email = a.Email,
+                    end_time = a.EndTime,
+                    first_name = a.FirstName,
+                    last_name = a.LastName,
+                    job_type = a.JobType,
+                    phone = a.Phone,
+                    role = a.Role,
+                    id = a.Id,
+                    picture = a.ProfilePic,
+                    start_time = a.StartTime,
+                   services = a.StaffServices.Select(b => new ListService
+                   {
+                       id = b.Id,
+                       name = b.Name,
+                   }).ToList()
+                }).FirstOrDefaultAsync();
+            return staff;
         }
 
         public async Task<List<Staff>> GetStaffByIdsAsync(List<Guid>? doctors)

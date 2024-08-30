@@ -11,7 +11,7 @@ namespace DentalApplication.Common.Interfaces.IRepositories
         Task<PaginatedResponse<ListStaff>> GetPaginatedClinicStaff(Guid staffId, Guid clinicId, int page, int take, string? search);
         Task<List<ListStaff>> GetClinicDoctors(Guid staffId, Guid clinicId);
         Task<List<Staff>> GetStaffByIdsAsync(List<Guid>? doctors);
-        Task<Staff> GetstaffByIdAsync(Guid staffId, Guid clinicId);
+        Task<StaffResponse> GetstaffByIdAsync(Guid staffId, Guid clinicId);
         Task<bool> Delete (Guid staffId, Guid clinicId);
 
     }
