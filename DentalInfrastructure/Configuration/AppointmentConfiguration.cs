@@ -20,7 +20,7 @@ namespace DentalInfrastructure.Configuration
 
             builder
                 .HasOne(a => a.Doctor)
-                .WithMany()
+                .WithMany(a => a.Appointments)
                 .HasForeignKey(a => a.DoctorId);
         }
     }

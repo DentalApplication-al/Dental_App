@@ -1,4 +1,5 @@
-﻿using DentalDomain.Services;
+﻿using DentalDomain.Appointments;
+using DentalDomain.Services;
 using DentalDomain.Users.Enums;
 using System.Text;
 
@@ -13,6 +14,7 @@ namespace DentalDomain.Users.Staffs
         public string? StartTime { get; set; }
         public string? EndTime { get; set; }
         public string? ProfilePic { get; set; }
+        public List<Appointment> Appointments { get; set; }
         public List<Service> StaffServices { get; set; } = new();
         public static Staff Create(
             string first_name,

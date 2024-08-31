@@ -1,4 +1,5 @@
-﻿using DentalApplication.User.StaffController.DTO;
+﻿using DentalApplication.AppointmentController.DTO;
+using DentalApplication.User.StaffController.DTO;
 using DentalDomain.Users.Staffs;
 
 namespace DentalApplication.Common.Interfaces.IRepositories
@@ -14,6 +15,8 @@ namespace DentalApplication.Common.Interfaces.IRepositories
         Task<StaffResponse> GetstaffByIdAsync(Guid staffId, Guid clinicId);
         Task<bool> Delete (Guid staffId, Guid clinicId);
         Task<Staff> GetById(Guid staffId, Guid clinicId);
+        Task<PaginatedResponse<ListAppointment>> GetDoctorAppointments(Guid doctor_id, Guid clinicId, int page, int take, string? search);
+
 
     }
 }
