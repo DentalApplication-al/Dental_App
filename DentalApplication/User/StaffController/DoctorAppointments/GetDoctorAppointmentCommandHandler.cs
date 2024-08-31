@@ -22,7 +22,8 @@ namespace DentalApplication.User.StaffController.DoctorAppointments
                 request.clinic_id.Value,
                 request.page,
                 request.take,
-                request.search);
+                request.search,
+                request.isHistory);
 
             return result;
         }

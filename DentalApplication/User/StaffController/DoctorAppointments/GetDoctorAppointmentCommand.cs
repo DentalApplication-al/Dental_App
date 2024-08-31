@@ -12,5 +12,6 @@ namespace DentalApplication.User.StaffController.DoctorAppointments
         public int page { get; set; }
         public int take { get; set; }
         public string? search { get; set; }
+        public bool isHistory { get; set; }
     }
 }

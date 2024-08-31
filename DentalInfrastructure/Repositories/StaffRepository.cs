@@ -61,43 +61,16 @@ namespace DentalInfrastructure.Repositories
             return doctors;
         }
 
-        public async Task<PaginatedResponse<ListAppointment>> GetDoctorAppointments(Guid doctor_id, Guid clinicId, int page, int take, string? search)
+        public async Task<PaginatedResponse<ListAppointment>> GetDoctorAppointments(Guid doctor_id, Guid clinicId, int page, int take, string? search, bool history)
         {
-            var totalElements = await _context.Staffs
-                .Where(a => a.ClinicId == clinicId && a.Id == doctor_id)
-                .Include(a => a.Appointments)
-                .SelectMany(a => a.Appointments)
-                .CountAsync();
-
-            var totalPages = (int)Math.Ceiling(totalElements / (double)take);
-
-            var appointments = await _context.Staffs
-                .Where(a => a.Id == doctor_id && a.ClinicId == clinicId)
-                .Include(a => a.Appointments).ThenInclude(a => a.Client)
-                .SelectMany (a => a.Appointments)
-                .Skip((page - 1) * take)
-                .Take(take)
-                .Select(b => new ListAppointment
-                {
-                    client = $"{b.Client.FirstName} {b.Client.LastName}",
-                    id = b.Id,
-                    doctor = b.Doctor.FirstName,
-                    treatment = b.Service.Name,
-                    date = $"{b.StartDate.Day}-{b.StartDate.Month}-{b.StartDate.Year}",
-                    time = $"{b.StartDate:HH:mm} - {b.EndDate:HH:mm}",
-                }).ToListAsync();
-           
-            var result = new PaginatedResponse<ListAppointment>
+            if (history) 
             {
-                data = appointments,
-                totalPages = totalPages,
-                pageNumber = page,
-                totalElements = totalElements,
-                pageSize = take,
-            };
-
-            return result;
-
+                return await GetDoctorPastAppointments(doctor_id, clinicId, page, take, search);
+            }
+            else
+            {
+                return await GetDoctorUpcomingAppointments(doctor_id, clinicId, page, take, search);
+            }
         }
 
         public async Task<PaginatedResponse<ListStaff>> GetPaginatedClinicStaff(Guid staffId, Guid clinicId, int page, int take, string? search)
@@ -182,5 +155,81 @@ namespace DentalInfrastructure.Repositories
             return await _context.Staffs.FirstOrDefaultAsync(a => a.Email == username);
         }
 
+        private async Task<PaginatedResponse<ListAppointment>> GetDoctorUpcomingAppointments(Guid doctor_id, Guid clinicId, int page, int take, string? search)
+        {
+            var date = DateTime.Now;
+
+            var totalElements = await _context.Staffs
+                .Where(a => a.ClinicId == clinicId && a.Id == doctor_id)
+                .Include(a => a.Appointments.Where(a => a.StartDate > date))
+                .SelectMany(a => a.Appointments.Where(a => a.StartDate > date))
+                .CountAsync();
+
+            var totalPages = (int)Math.Ceiling(totalElements / (double)take);
+
+            var appointments = await _context.Staffs
+                .Where(a => a.Id == doctor_id && a.ClinicId == clinicId)
+                .Include(a => a.Appointments.Where(a => a.StartDate > date)).ThenInclude(a => a.Client)
+                .SelectMany(a => a.Appointments.Where(a => a.StartDate > date))
+                .Skip((page - 1) * take)
+                .Take(take)
+                .Select(b => new ListAppointment
+                {
+                    client = $"{b.Client.FirstName} {b.Client.LastName}",
+                    id = b.Id,
+                    doctor = b.Doctor.FirstName,
+                    treatment = b.Service.Name,
+                    date = $"{b.StartDate.Day}-{b.StartDate.Month}-{b.StartDate.Year}",
+                    time = $"{b.StartDate:HH:mm} - {b.EndDate:HH:mm}",
+                }).ToListAsync();
+
+            var result = new PaginatedResponse<ListAppointment>
+            {
+                data = appointments,
+                totalPages = totalPages,
+                pageNumber = page,
+                totalElements = totalElements,
+                pageSize = take,
+            };
+            return result;
+        }
+        private async Task<PaginatedResponse<ListAppointment>> GetDoctorPastAppointments(Guid doctor_id, Guid clinicId, int page, int take, string? search)
+        {
+            var date = DateTime.Now;
+
+            var totalElements = await _context.Staffs
+                .Where(a => a.ClinicId == clinicId && a.Id == doctor_id)
+                .Include(a => a.Appointments.Where(a => a.StartDate < date))
+                .SelectMany(a => a.Appointments.Where(a => a.StartDate < date))
+                .CountAsync();
+
+            var totalPages = (int)Math.Ceiling(totalElements / (double)take);
+
+            var appointments = await _context.Staffs
+                .Where(a => a.Id == doctor_id && a.ClinicId == clinicId)
+                .Include(a => a.Appointments.Where(a => a.StartDate < date)).ThenInclude(a => a.Client)
+                .SelectMany(a => a.Appointments.Where(a => a.StartDate < date))
+                .Skip((page - 1) * take)
+                .Take(take)
+                .Select(b => new ListAppointment
+                {
+                    client = $"{b.Client.FirstName} {b.Client.LastName}",
+                    id = b.Id,
+                    doctor = b.Doctor.FirstName,
+                    treatment = b.Service.Name,
+                    date = $"{b.StartDate.Day}-{b.StartDate.Month}-{b.StartDate.Year}",
+                    time = $"{b.StartDate:HH:mm} - {b.EndDate:HH:mm}",
+                }).ToListAsync();
+
+            var result = new PaginatedResponse<ListAppointment>
+            {
+                data = appointments,
+                totalPages = totalPages,
+                pageNumber = page,
+                totalElements = totalElements,
+                pageSize = take,
+            };
+            return result;
+        }
     }
 }
