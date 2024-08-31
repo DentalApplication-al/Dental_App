@@ -1,9 +1,12 @@
-﻿using DentalApplication.Common;
+﻿using DentalApplication.AppointmentController.DTO;
+using DentalApplication.Common;
 using DentalApplication.Common.Interfaces.IBlobStorages;
 using DentalApplication.Resources;
+using DentalApplication.ServicesController.GetAllForDoctors;
 using DentalApplication.User.StaffController.Add;
 using DentalApplication.User.StaffController.ChangePasswordOTP;
 using DentalApplication.User.StaffController.Delete;
+using DentalApplication.User.StaffController.DoctorAppointments;
 using DentalApplication.User.StaffController.DTO;
 using DentalApplication.User.StaffController.GetAll;
 using DentalApplication.User.StaffController.GetById;
@@ -78,6 +81,13 @@ namespace DentalAPI.Controllers
         [HasPermission(Permission.GETDOCTORS)]
         [HttpGet("doctors")]
         public async Task<List<ListStaff>> GetClinicDoctors([FromQuery] GetClinicDoctorsCommand? command, CancellationToken cancellationToken)
+        {
+            return await _mediator.Send(command, cancellationToken);
+        }
+
+        [HasPermission(Permission.GETALLSTAFF)]
+        [HttpGet("doctorappointments/{id}")]
+        public async Task<PaginatedResponse<ListAppointment>> GetDoctorAppointments([FromQuery] GetDoctorAppointmentCommand? command, CancellationToken cancellationToken)
         {
             return await _mediator.Send(command, cancellationToken);
         }

@@ -1,4 +1,5 @@
-﻿using DentalApplication.Common;
+﻿using DentalApplication.AppointmentController.DTO;
+using DentalApplication.Common;
 using DentalApplication.Common.Interfaces.IRepositories;
 using DentalApplication.Errors;
 using DentalApplication.ServicesController.DTO;
@@ -7,7 +8,6 @@ using DentalDomain.Users.Enums;
 using DentalDomain.Users.Staffs;
 using DentalInfrastructure.Context;
 using Microsoft.EntityFrameworkCore;
-using System.Linq.Expressions;
 
 namespace DentalInfrastructure.Repositories
 {
@@ -59,6 +59,45 @@ namespace DentalInfrastructure.Repositories
                     last_name = a.LastName,
                 }).ToListAsync();
             return doctors;
+        }
+
+        public async Task<PaginatedResponse<ListAppointment>> GetDoctorAppointments(Guid doctor_id, Guid clinicId, int page, int take, string? search)
+        {
+            var totalElements = await _context.Staffs
+                .Where(a => a.ClinicId == clinicId && a.Id == doctor_id)
+                .Include(a => a.Appointments)
+                .SelectMany(a => a.Appointments)
+                .CountAsync();
+
+            var totalPages = (int)Math.Ceiling(totalElements / (double)take);
+
+            var appointments = await _context.Staffs
+                .Where(a => a.Id == doctor_id && a.ClinicId == clinicId)
+                .Include(a => a.Appointments).ThenInclude(a => a.Client)
+                .SelectMany (a => a.Appointments)
+                .Skip((page - 1) * take)
+                .Take(take)
+                .Select(b => new ListAppointment
+                {
+                    client = $"{b.Client.FirstName} {b.Client.LastName}",
+                    id = b.Id,
+                    doctor = b.Doctor.FirstName,
+                    treatment = b.Service.Name,
+                    date = $"{b.StartDate.Day}-{b.StartDate.Month}-{b.StartDate.Year}",
+                    time = $"{b.StartDate:HH:mm} - {b.EndDate:HH:mm}",
+                }).ToListAsync();
+           
+            var result = new PaginatedResponse<ListAppointment>
+            {
+                data = appointments,
+                totalPages = totalPages,
+                pageNumber = page,
+                totalElements = totalElements,
+                pageSize = take,
+            };
+
+            return result;
+
         }
 
         public async Task<PaginatedResponse<ListStaff>> GetPaginatedClinicStaff(Guid staffId, Guid clinicId, int page, int take, string? search)
@@ -133,7 +172,7 @@ namespace DentalInfrastructure.Repositories
         {
             var staff = await _context.Staffs
                 .Include(a => a.StaffServices)
-                .Where(a => doctors.Contains(a.Id))
+                .Where(a => doctors.Contains(a.Id) && a.Role == Role.DOCTOR)
                 .ToListAsync();
             return staff;
         }
