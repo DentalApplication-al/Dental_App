@@ -19,6 +19,7 @@ namespace DentalApplication.User.StaffController.DTO
         public string? picture { get; set; }
         public string? start_time { get; set; }
         public string? end_time { get; set; }
+        public string created_at { get; set; }  
         public List<ListService> services { get; set; }
         private StaffResponse(Staff staff)
         {
