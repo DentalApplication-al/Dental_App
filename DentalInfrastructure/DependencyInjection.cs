@@ -36,6 +36,7 @@ namespace DentalInfrastructure
             services.AddSingleton<IBlobStorage, BlobStorage>();
             services.AddSingleton<IAuthorizationPolicyProvider, PermissionAuthorizationPolicyProvider>();
             services.AddSingleton<IEmailService, EmailService>();
+            services.AddSingleton<IUserTokenService, UserTokenService>();
 
             return services;
         }

@@ -2,6 +2,7 @@ using DentalAPI.Middleware;
 using DentalApplication;
 using DentalApplication.Common;
 using DentalApplication.Swagger;
+using DentalDomain.Services;
 using DentalInfrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -102,6 +103,7 @@ builder.Services.AddCors(options =>
 });
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
 
+builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
 

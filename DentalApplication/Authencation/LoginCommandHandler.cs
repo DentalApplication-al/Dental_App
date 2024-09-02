@@ -1,6 +1,7 @@
 ﻿using DentalApplication.Common.Interfaces.IAuthentication;
 using DentalApplication.Common.Interfaces.IBlobStorages;
 using DentalApplication.Common.Interfaces.IRepositories;
+using DentalApplication.Common.Interfaces.IServices;
 using DentalApplication.Errors;
 using DentalApplication.Resources;
 using DentalApplication.User.StaffController.DTO;
@@ -16,12 +17,19 @@ namespace DentalApplication.Authencation
         private readonly IJwtTokenGenerator _jwtTokenGenerator;
         private readonly IStringLocalizer<SharedResource> _localizer;
         private readonly IBlobStorage _blob;
-        public LoginCommandHandler(IStaffRepository staffRepository, IJwtTokenGenerator jwtTokenGenerator, IStringLocalizer<SharedResource> localizer, IBlobStorage blob)
+        private readonly IUserTokenService _userTokenService;
+        public LoginCommandHandler(
+            IStaffRepository staffRepository, 
+            IJwtTokenGenerator jwtTokenGenerator, 
+            IStringLocalizer<SharedResource> localizer, 
+            IBlobStorage blob,
+            IUserTokenService userTokenService)
         {
             _staffRepository = staffRepository;
             _jwtTokenGenerator = jwtTokenGenerator;
             _localizer = localizer;
             _blob = blob;
+            _userTokenService = userTokenService;
         }
 
         public async Task<AuthenticationResponse> Handle(LoginCommand request, CancellationToken cancellationToken)
@@ -37,7 +45,8 @@ namespace DentalApplication.Authencation
                 var token = _jwtTokenGenerator.GenerateToken(staff.Id, staff.Role, staff.ClinicId);
                 var authResponse = new AuthenticationResponse { token = token };
                 authResponse.staff = StaffResponse.Map(staff);
-                authResponse.staff.picture = _blob.GetLink(staff.ProfilePic);
+                authResponse.staff.picture = _blob.GetLink(staff.ProfilePic?? "");
+                await _userTokenService.AddTokenAsync(staff.Id, token);
                 return authResponse;
             }
         }

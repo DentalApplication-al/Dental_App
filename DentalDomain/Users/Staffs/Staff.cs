@@ -14,6 +14,7 @@ namespace DentalDomain.Users.Staffs
         public string? StartTime { get; set; }
         public string? EndTime { get; set; }
         public string? ProfilePic { get; set; }
+        public StaffStatus Status { get; set; }
         public List<Appointment> Appointments { get; set; }
         public List<Service> StaffServices { get; set; } = new();
         public static Staff Create(

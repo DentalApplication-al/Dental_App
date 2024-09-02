@@ -1,5 +1,4 @@
 ﻿using DentalApplication.Common;
-using DentalApplication.User.ClientController.DTO;
 using MediatR;
 
 namespace DentalContracts.UserContracts.ClientContracts

@@ -5,6 +5,7 @@ using DentalApplication.Resources;
 using DentalApplication.ServicesController.GetAllForDoctors;
 using DentalApplication.User.StaffController.Add;
 using DentalApplication.User.StaffController.ChangePasswordOTP;
+using DentalApplication.User.StaffController.ChangeStatus;
 using DentalApplication.User.StaffController.Delete;
 using DentalApplication.User.StaffController.DoctorAppointments;
 using DentalApplication.User.StaffController.DTO;
@@ -99,12 +100,19 @@ namespace DentalAPI.Controllers
             return await _mediator.Send(command, cancellationToken);
         }
 
+        [HttpPatch("change-status/{id}")]
+        public async Task ChangeStaffStatus([FromQuery] ChangeStatusCommand command, CancellationToken cancellationToken)
+        {
+            await _mediator.Send(command, cancellationToken);
+        }
+
         [HasPermission(Permission.DELETESTAF)]
         [HttpDelete("delete/{id}")]
         public async Task DeleteStaff([FromQuery] DeleteStaffCommand command, CancellationToken cancellationToken)
         {
             await _mediator.Send(command, cancellationToken);
         }
+
 
         //[HttpGet("roles")]
         //public Dictionary<int, string> GetRoles()

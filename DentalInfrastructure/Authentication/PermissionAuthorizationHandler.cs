@@ -1,7 +1,9 @@
-﻿using DentalApplication.Errors;
+﻿using DentalApplication.Common.Interfaces.IServices;
+using DentalApplication.Errors;
 using DentalApplication.Resources;
 using DentalDomain.Users.Enums;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Localization;
 
 namespace DentalInfrastructure.Authentication
@@ -10,9 +12,17 @@ namespace DentalInfrastructure.Authentication
         : AuthorizationHandler<PermissionRequirement>
     {
         private readonly IStringLocalizer<SharedResource> _localizer;
-        public PermissionAuthorizationHandler(IStringLocalizer<SharedResource> localizer)
+        private readonly IUserTokenService _userTokenService;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+
+        public PermissionAuthorizationHandler(
+            IStringLocalizer<SharedResource> localizer, 
+            IUserTokenService userTokenService, 
+            IHttpContextAccessor httpContextAccessor)
         {
             _localizer = localizer;
+            _userTokenService = userTokenService;
+            _httpContextAccessor = httpContextAccessor;
         }
         protected override Task HandleRequirementAsync(
             AuthorizationHandlerContext context,
@@ -22,6 +32,24 @@ namespace DentalInfrastructure.Authentication
             {
                 throw new NotAuthenticatedException(_localizer.Get(Error.NOT_LOGEDIN));
             }
+
+            var httpContext = _httpContextAccessor.HttpContext;
+            var token = httpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+
+            // Assuming you have a user ID from somewhere, like from claims or a service
+            var userId = context
+                .User
+                .Claims
+                .FirstOrDefault(x => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value;
+
+            // Validate the token
+            var isValidToken = _userTokenService.ValidateTokenAsync(Guid.Parse(userId), token);
+
+            if (!isValidToken)
+            {
+                throw new NotAuthorizedException("Your account is in passive mode.");
+            }
+
             var requestMakerRole = context
                 .User
                 .Claims
