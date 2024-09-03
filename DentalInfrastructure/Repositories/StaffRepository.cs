@@ -133,6 +133,7 @@ namespace DentalInfrastructure.Repositories
                     picture = a.ProfilePic,
                     start_time = a.StartTime,
                     created_at = $"{a.CreatedOn.Day}-{a.CreatedOn.Month}-{a.CreatedOn.Year}",
+                    status = a.Status,
                    services = a.StaffServices.Select(b => new ListService
                    {
                        id = b.Id,
