@@ -94,7 +94,8 @@ namespace DentalInfrastructure.Repositories
                     job_type = a.JobType,
                     phone = a.Phone,
                     role = a.Role,
-                    working_hours = $"{a.StartTime} - {a.EndTime}"
+                    working_hours = $"{a.StartTime} - {a.EndTime}",
+                    status = a.Status,
                 }).ToListAsync();
 
             // Populate the PaginatedResponse object

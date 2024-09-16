@@ -35,6 +35,7 @@ namespace DentalApplication.User.StaffController.DTO
             picture = "Link";
             start_time = staff.StartTime;
             end_time = staff.EndTime;
+            status = staff.Status;
             //services = ServiceResponse.Map(staff.StaffServices);
         }
         public static StaffResponse Map(Staff staff)

@@ -11,5 +11,6 @@ namespace DentalApplication.User.StaffController.DTO
         public Role? role { get; set; }
         public string? job_type { get; set; }
         public string? working_hours { get; set; }
+        public StaffStatus status { get; set; }
     }
 }

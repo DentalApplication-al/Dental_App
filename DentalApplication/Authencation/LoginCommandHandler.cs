@@ -6,6 +6,7 @@ using DentalApplication.Errors;
 using DentalApplication.Resources;
 using DentalApplication.User.StaffController.DTO;
 using DentalContracts.AuthenticationContracts;
+using DentalDomain.Users.Enums;
 using MediatR;
 using Microsoft.Extensions.Localization;
 
@@ -40,12 +41,16 @@ namespace DentalApplication.Authencation
             {
                 throw new NotAuthorizedException(_localizer.Get(Error.WRONG_EMAIL));
             }
+            else if (staff.Status == StaffStatus.PASSIVE)
+            {
+                throw new NotAuthorizedException("Your account has been deactivated");
+            }
             else
             {
                 var token = _jwtTokenGenerator.GenerateToken(staff.Id, staff.Role, staff.ClinicId);
                 var authResponse = new AuthenticationResponse { token = token };
                 authResponse.staff = StaffResponse.Map(staff);
-                authResponse.staff.picture = _blob.GetLink(staff.ProfilePic?? "");
+                authResponse.staff.picture = _blob.GetLink(staff.ProfilePic ?? "");
                 await _userTokenService.AddTokenAsync(staff.Id, token);
                 return authResponse;
             }
