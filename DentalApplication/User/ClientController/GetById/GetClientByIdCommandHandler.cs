@@ -16,10 +16,10 @@ namespace DentalApplication.User.ClientController.GetById
 
         public async Task<ClientResponse> Handle(GetClientByIdCommand request, CancellationToken cancellationToken)
         {
-            var client = _clientRepository.Table.Where(a => a.Id == request.id.Value && a.ClinicId == request.clinic_id.Value).FirstOrDefault() ??
+            var client = await _clientRepository.GetClientDetails(request.clinic_id.Value, request.id.Value) ??
                 throw new NotFoundException("The client could not be found");
-            
-            return ClientResponse.Map(client);
+
+            return client;
         }
     }
 }

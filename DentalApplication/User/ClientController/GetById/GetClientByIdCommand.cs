@@ -8,7 +8,6 @@ namespace DentalApplication.User.ClientController.GetById
 {
     public class GetClientByIdCommand : CommandBase, IRequest<ClientResponse>
     {
-        [SwaggerIgnore]
         [FromRoute(Name = "id")]
         public Guid? id { get; set; }
     }

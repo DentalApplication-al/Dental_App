@@ -11,6 +11,5 @@ namespace DentalContracts.UserContracts.ClientContracts
         public string? phone { get; set; }
         public DateOnly? birthday { get; set; }
         public string? description { get; set; }
-
     }
 }
