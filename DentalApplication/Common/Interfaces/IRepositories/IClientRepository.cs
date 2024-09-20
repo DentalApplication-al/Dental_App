@@ -1,4 +1,5 @@
-﻿using DentalApplication.User.ClientController.DTO;
+﻿using DentalApplication.AppointmentController.DTO;
+using DentalApplication.User.ClientController.DTO;
 using DentalDomain.Users.Clients;
 
 namespace DentalApplication.Common.Interfaces.IRepositories
@@ -8,5 +9,9 @@ namespace DentalApplication.Common.Interfaces.IRepositories
         Task<Client> GetByIdAsync(Guid clinicId, Guid clientId);
         Task<PaginatedResponse<ListClient>> GetPaginatedClients(Guid clinicId, int take, int page, string? search);
         Task<bool> DeleteAsync(Client client);
+        Task<ClientResponse> GetClientDetails(Guid clinicId, Guid clientId);
+
+        Task<PaginatedResponse<ListAppointment>> GetClientAppointments(Guid clientId, Guid clinicId, int page, int take, string? search, bool history);
+
     }
 }

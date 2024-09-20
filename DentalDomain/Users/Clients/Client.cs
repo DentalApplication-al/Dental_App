@@ -1,4 +1,5 @@
 ﻿using DentalDomain.Appointments;
+using DentalDomain.Files;
 
 namespace DentalDomain.Users.Clients
 {
@@ -6,6 +7,7 @@ namespace DentalDomain.Users.Clients
     {
         public string? Description { get; set; }
         public List<Appointment> Appointments { get; set; } = new();
+        public List<Documents> CLientFiles { get; set; } = new();
 
         public static Client Create(
             DateOnly birthday,

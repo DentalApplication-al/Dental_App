@@ -43,12 +43,12 @@ namespace DentalInfrastructure.Authentication
                 .FirstOrDefault(x => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value;
 
             // Validate the token
-            var isValidToken = _userTokenService.ValidateTokenAsync(Guid.Parse(userId), token);
+            //var isValidToken = _userTokenService.ValidateTokenAsync(Guid.Parse(userId), token);
 
-            if (!isValidToken)
-            {
-                throw new NotAuthorizedException("Your account is in passive mode.");
-            }
+            //if (!isValidToken)
+            //{
+            //    throw new NotAuthorizedException("Your account is in passive mode.");
+            //}
 
             var requestMakerRole = context
                 .User

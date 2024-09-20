@@ -55,6 +55,7 @@ namespace DentalInfrastructure.Authentication
                 permissions.Add(Permission.GETALLCLIENTS.ToString().ToUpper());
                 permissions.Add(Permission.UPDATECLIENT.ToString().ToUpper());
                 permissions.Add(Permission.DELETECLIENT.ToString().ToUpper());
+                permissions.Add(Permission.GETCLIENTAPPOINTMENTS.ToString().ToUpper());
 
                 permissions.Add(Permission.ADDAPPOINTMENT.ToString().ToUpper());
                 permissions.Add(Permission.GETALLAPPOINTMENTS.ToString().ToUpper());

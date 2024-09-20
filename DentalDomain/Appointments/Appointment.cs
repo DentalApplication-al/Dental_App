@@ -1,4 +1,5 @@
-﻿using DentalDomain.Services;
+﻿using DentalDomain.Files;
+using DentalDomain.Services;
 using DentalDomain.Users.Clients;
 using DentalDomain.Users.Staffs;
 
@@ -15,5 +16,6 @@ namespace DentalDomain.Appointments
         public Staff Doctor { get; set; }
         public Client Client { get; set; }
         public Service Service { get; set; }
+        public List<Documents> Files { get; set; } = [];
     }
 }

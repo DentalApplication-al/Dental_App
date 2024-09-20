@@ -1,5 +1,7 @@
-﻿using DentalApplication.Common;
+﻿using DentalApplication.AppointmentController.DTO;
+using DentalApplication.Common;
 using DentalApplication.Errors;
+using DentalApplication.User.ClientController.ClientAppointments;
 using DentalApplication.User.ClientController.Delete;
 using DentalApplication.User.ClientController.DTO;
 using DentalApplication.User.ClientController.GetAll;
@@ -50,6 +52,13 @@ namespace DentalAPI.Controllers
         public async Task<ClientResponse> GetClientById([FromQuery] GetClientByIdCommand? command)
         {
             return await _mediator.Send(command);
+        }
+
+        [HasPermission(Permission.GETCLIENTAPPOINTMENTS)]
+        [HttpGet("getClientAppointments/{id}")]
+        public async Task<PaginatedResponse<ListAppointment>> GetClientAppointments([FromQuery] GetClientAppointmentsCommand? command, CancellationToken cancellationToken)
+        {
+            return await _mediator.Send(command, cancellationToken);
         }
 
         [HasPermission(Permission.DELETECLIENT)]
