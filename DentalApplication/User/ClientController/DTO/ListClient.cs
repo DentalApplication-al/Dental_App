@@ -7,7 +7,7 @@
         public string last_name { get; set; }
         public string? phone { get; set; }
         public string? email { get; set; }
-        public DateTime? last_appointment { get; set; }
-        public DateOnly registered_date { get; set; }
+        public string? last_appointment { get; set; }
+        public string registered_date { get; set; }
     }
 }

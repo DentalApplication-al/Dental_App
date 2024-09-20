@@ -31,8 +31,8 @@ namespace DentalInfrastructure.Repositories
                     last_name = a.LastName,
                     id = a.Id,
                     phone = a.Phone,
-                    registered_date = DateOnly.FromDateTime(a.CreatedOn),
-                    last_appointment = a.Appointments.Count > 0 ? a.Appointments.Max(a => a.StartDate) : null,
+                    registered_date = a.CreatedOn.ToString("dd:MM:yyyy"),
+                    last_appointment = a.Appointments.Count > 0 ? a.Appointments.Max(a => a.StartDate).ToString("dd:MM:yyyy:HH:mm") : null,
                 }).ToListAsync();
 
             var response = new PaginatedResponse<ListClient>()
