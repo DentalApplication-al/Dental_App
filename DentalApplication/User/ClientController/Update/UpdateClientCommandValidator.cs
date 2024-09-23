@@ -7,7 +7,7 @@ namespace DentalApplication.User.ClientController.Update
         public UpdateClientCommandValidator()
         {
             RuleFor(x => x.id)
-            .NotEmpty().WithMessage("Client ID is required.");
+            .NotEmpty().WithMessage("Client Id is required.");
 
             RuleFor(x => x.first_name)
                 .NotEmpty().WithMessage("First name is required.");

@@ -1,5 +1,6 @@
 ﻿using DentalApplication.AppointmentController.DTO;
 using DentalApplication.Common;
+using DentalApplication.Common.Interfaces.IBlobStorages;
 using DentalApplication.Common.Interfaces.IRepositories;
 using DentalApplication.User.ClientController.DTO;
 using DentalDomain.Users.Clients;
@@ -11,8 +12,10 @@ namespace DentalInfrastructure.Repositories
 {
     public class ClientRepository : GenericRepository<Client>, IClientRepository
     {
-        public ClientRepository(DentalContext context) : base(context)
+        private readonly IBlobStorage _blobStorage;
+        public ClientRepository(DentalContext context, IBlobStorage blobStorage) : base(context)
         {
+            _blobStorage = blobStorage;
         }
 
         public async Task<PaginatedResponse<ListClient>> GetPaginatedClients(Guid clinicId, int take, int page, string? search)
@@ -31,8 +34,8 @@ namespace DentalInfrastructure.Repositories
                     last_name = a.LastName,
                     id = a.Id,
                     phone = a.Phone,
-                    registered_date = a.CreatedOn.ToString("dd:MM:yyyy"),
-                    last_appointment = a.Appointments.Count > 0 ? a.Appointments.Max(a => a.StartDate).ToString("dd:MM:yyyy:HH:mm") : null,
+                    registered_date = a.CreatedOn.ToString("MMM dd, yyyy"),
+                    last_appointment = a.Appointments.Count > 0 ? a.Appointments.Max(a => a.StartDate).ToString("MMM dd, yyyy h:mm tt") : null,
                 }).ToListAsync();
 
             var response = new PaginatedResponse<ListClient>()
@@ -49,6 +52,7 @@ namespace DentalInfrastructure.Repositories
         public async Task<Client> GetByIdAsync(Guid clinicId, Guid clientId)
         {
             var client = await _context.Clients
+                .Include(a => a.CLientFiles)
                 .FirstOrDefaultAsync(a => a.Id == clientId && a.ClinicId == clinicId);
             return client;
         }
@@ -75,12 +79,21 @@ namespace DentalInfrastructure.Repositories
                 {
                      first_name = a.FirstName,
                      last_name = a.LastName,
-                     birthday = a.Birthday.Value.ToString("dd/MM/yyyy"),
+                     birthday = a.Birthday.Value.ToString("MMM dd, yyyy"),
                      email = a.Email,
                      phone = a.Phone,
-                     registered_date = a.CreatedOn.ToString("dd/MM/yyyy"),
+                     registered_date = a.CreatedOn.ToString("MMM dd, yyyy"),
                      upcoming = a.Appointments.Count(b => b.StartDate > DateTime.UtcNow),
-                     past = a.Appointments.Count(b => b.StartDate < DateTime.UtcNow)
+                     past = a.Appointments.Count(b => b.StartDate < DateTime.UtcNow),
+                     documents = a.CLientFiles.Where(a => a.AppointmentId == null).Select(f => new FileResponse
+                     {
+                         id = f.Id,
+                         name = f.Name,
+                         size = f.Size,
+                         unit = f.Unit,
+                         link = _blobStorage.GetLink(f.AbsolutePath, null)
+                     }).ToList()
+                     
                 }).FirstOrDefaultAsync();
 
 

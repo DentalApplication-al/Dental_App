@@ -31,6 +31,7 @@ namespace DentalInfrastructure
             services.AddScoped<ISuperAdminRepository, SuperAddminRepository>();
             services.AddScoped<IClinicRepository, ClinicRepository>();
             services.AddScoped<IServiceRepository, ServiceRepository>();
+            services.AddScoped<IFilesRepository, FilesRepository>();
 
             services.AddSingleton<IAuthorizationHandler, PermissionAuthorizationHandler>();
             services.AddSingleton<IBlobStorage, BlobStorage>();

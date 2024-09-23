@@ -100,11 +100,14 @@ namespace DentalAPI.Controllers
             return await _mediator.Send(command, cancellationToken);
         }
 
+        [HasPermission(Permission.STAFF_CHANGE_STATUS)]
         [HttpPatch("change-status/{id}")]
-        public async Task ChangeStaffStatus([FromQuery] ChangeStatusCommand command, CancellationToken cancellationToken)
+        public async Task ChangeStaffStatus([FromRoute] Guid id, [FromBody] ChangeStatusCommand command, CancellationToken cancellationToken)
         {
+            command.staff_id = id; // Assign the id from the route to the command
             await _mediator.Send(command, cancellationToken);
         }
+
 
         [HasPermission(Permission.DELETESTAF)]
         [HttpDelete("delete/{id}")]
