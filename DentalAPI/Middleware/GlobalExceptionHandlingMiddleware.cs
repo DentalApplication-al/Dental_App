@@ -53,6 +53,10 @@ namespace DentalAPI.Middleware
             {
                 await EmailNotSentException(context, ex);
             }
+            catch (ServerError ex)
+            {
+                await HandleServerError(context, ex);
+            }
             catch (Exception ex)
             {
                 if (Debugger.IsAttached)
@@ -173,6 +177,19 @@ namespace DentalAPI.Middleware
             return context.Response.WriteAsync(JsonSerializer.Serialize(response));
         }
 
+        private static Task HandleServerError(HttpContext context, ServerError exception)
+        {
+            context.Response.ContentType = "application/json";
+            context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+            var response = new ErrorResponse
+            {
+                errorCode = "Server Error",
+                statusCode = StatusCodes.Status500InternalServerError,
+                error = exception.Errors.First()
+            };
+
+            return context.Response.WriteAsync(JsonSerializer.Serialize(response));
+        }
         private static Task HandleExceptionAsyncDevelopment(HttpContext context, Exception exception)
         {
             context.Response.ContentType = "application/json";

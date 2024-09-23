@@ -11,14 +11,17 @@
         GETDOCTORS,
         UPDATESTAFF,
         DELETESTAF,
+        STAFF_CHANGE_STATUS,
 
         //ClientPermissions
-        ADDCLIENT,
-        GETALLCLIENTS,
-        GETCLIENTBYID,
-        GETCLIENTAPPOINTMENTS,
-        UPDATECLIENT,
-        DELETECLIENT,
+        CLIENT_ADD,
+        CLIENT_GET_ALL,
+        CLIENT_GET_BY_ID,
+        CLIENT_GET_APPOINTMENTS,
+        CLIENT_UPDATE,
+        CLIENT_DELETE,
+        CLIENT_UPLOAD_FILE,
+        CLIENT_DELETE_FILE,
 
         // Service Permissions
         ADDSERVICE,

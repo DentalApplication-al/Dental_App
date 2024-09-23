@@ -51,11 +51,12 @@ namespace DentalInfrastructure.Authentication
             }
             else if (role == Role.RECEPTIONIST)
             {
-                permissions.Add(Permission.ADDCLIENT.ToString().ToUpper());
-                permissions.Add(Permission.GETALLCLIENTS.ToString().ToUpper());
-                permissions.Add(Permission.UPDATECLIENT.ToString().ToUpper());
-                permissions.Add(Permission.DELETECLIENT.ToString().ToUpper());
-                permissions.Add(Permission.GETCLIENTAPPOINTMENTS.ToString().ToUpper());
+                permissions.Add(Permission.CLIENT_ADD.ToString().ToUpper());
+                permissions.Add(Permission.CLIENT_GET_ALL.ToString().ToUpper());
+                permissions.Add(Permission.CLIENT_UPDATE.ToString().ToUpper());
+                permissions.Add(Permission.CLIENT_DELETE.ToString().ToUpper());
+                permissions.Add(Permission.CLIENT_GET_APPOINTMENTS.ToString().ToUpper());
+                permissions.Add(Permission.CLIENT_UPLOAD_FILE.ToString().ToUpper());
 
                 permissions.Add(Permission.ADDAPPOINTMENT.ToString().ToUpper());
                 permissions.Add(Permission.GETALLAPPOINTMENTS.ToString().ToUpper());

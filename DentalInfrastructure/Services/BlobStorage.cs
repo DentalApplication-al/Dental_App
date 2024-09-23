@@ -148,5 +148,14 @@ namespace DentalInfrastructure.Services
             }
             return result;
         }
+
+        public async Task<bool> DeleteBlobAsync(List<string> paths)
+        {
+            foreach (var item in paths)
+            {
+                await DeleteBlobAsync(item);
+            }
+            return true;
+        }
     }
 }

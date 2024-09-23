@@ -9,5 +9,6 @@ namespace DentalApplication.Common.Interfaces.IBlobStorages
         Task<List<string>> Upload(List<IFormFile> files);
         string GetLink(string path, string storedPolicyName = null);
         Task<bool> DeleteBlobAsync(string path);
+        Task<bool> DeleteBlobAsync(List<string> paths);
     }
 }

@@ -19,7 +19,7 @@ namespace DentalApplication.User.StaffController.ChangeStatus
         public async Task Handle(ChangeStatusCommand request, CancellationToken cancellationToken)
         {
             var staff = await _staffRepository
-                .GetById(request.id, request.clinic_id.Value) ??
+                .GetById(request.staff_id, request.clinic_id.Value) ??
                 throw new NotFoundException("The staff could not be found.");
 
             staff.Status = request.status;
