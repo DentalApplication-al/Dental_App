@@ -82,7 +82,7 @@ namespace DentalAPI.Controllers
         }
 
         [HasPermission(Permission.CLIENT_UPLOAD_FILE)]
-        [HttpPost("deleteFile{id}")]
+        [HttpDelete("deleteFile{id}")]
         public async Task DeleteClientFile([FromRoute] Guid id, [FromBody]List<Guid> files, CancellationToken cancellationToken)
         {
             var command = Token.GetToken<DeleteClientFileCommand>(HttpContext);
