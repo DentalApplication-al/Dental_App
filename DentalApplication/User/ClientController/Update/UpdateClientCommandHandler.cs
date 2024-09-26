@@ -25,7 +25,18 @@ namespace DentalApplication.User.ClientController.Update
                 request.phone,
                 request.email,
                 request.birthday.Value,
-                request.description
+                request.description,
+                request.gender.Value,
+                request.heart_condition,
+                request.diabetes,
+                request.hypertension,
+                request.bleeding_disorders,
+                request.immunocompromised,
+                request.allergies,
+                request.other_conditions,
+                request.current_medications,
+                request.special_notes
+
             );
 
             await _clientRepository.UpdateAsync(client);
