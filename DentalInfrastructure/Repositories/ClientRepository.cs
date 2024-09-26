@@ -85,13 +85,24 @@ namespace DentalInfrastructure.Repositories
                      registered_date = a.CreatedOn.ToString("MMM dd, yyyy"),
                      upcoming = a.Appointments.Count(b => b.StartDate > DateTime.UtcNow),
                      past = a.Appointments.Count(b => b.StartDate < DateTime.UtcNow),
+                     special_notes = a.SpecialNotes,
+                     allergies = a.Allergies,
+                     bleeding_disorders = a.BleedingDisorders,
+                     current_medications = a.CurrentMedications,
+                     description = a.Description,
+                     diabetes = a.Diabetes,
+                     heart_condition = a.HeartCondition,
+                     hypertension = a.Hypertension,
+                     immunocompromised = a.Immunocompromised,
+                     other_conditions = a.OtherConditions,
                      documents = a.CLientFiles.Where(a => a.AppointmentId == null).Select(f => new FileResponse
                      {
                          id = f.Id,
                          name = f.Name,
                          size = f.Size,
                          unit = f.Unit,
-                         link = _blobStorage.GetLink(f.AbsolutePath, null)
+                         link = _blobStorage.GetLink(f.AbsolutePath, null),
+                         uploaded_date = f.CreatedOn.ToString("dd-mm-yyyy HH:mm")
                      }).ToList()
                      
                 }).FirstOrDefaultAsync();

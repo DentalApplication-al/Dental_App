@@ -21,6 +21,9 @@ namespace DentalApplication.User.ClientController.Add
 
             RuleFor(x => x.birthday)
                 .NotEmpty().WithMessage("Birthday is required.");
+
+            RuleFor(x => x.gender).Must(a => a != null && ((int)a == 1 || (int)a == 2 ))
+                .WithMessage("Gender is required.");
         }
     }
 }

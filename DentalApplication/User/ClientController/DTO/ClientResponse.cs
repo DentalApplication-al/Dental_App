@@ -13,6 +13,16 @@ namespace DentalApplication.User.ClientController.DTO
         public int? past { get; set; }
         public int? upcoming { get; set; }
         public string registered_date { get; set; }
+        public bool? heart_condition { get; set; }
+        public bool? diabetes { get; set; }
+        public bool? hypertension { get; set; }
+        public bool? bleeding_disorders { get; set; }
+        public bool? immunocompromised { get; set; }
+        public string? allergies { get; set; }
+        public string? description { get; set; }
+        public string? other_conditions { get; set; }
+        public string? current_medications { get; set; }
+        public string? special_notes { get; set; }
         public List<FileResponse> documents { get; set; }
 
 

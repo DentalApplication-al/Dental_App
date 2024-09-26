@@ -3,9 +3,8 @@ using DentalDomain.Users.Clients;
 
 namespace DentalDomain.Files
 {
-    public class Documents
+    public class Documents : BaseEntity
     {
-        public Guid Id { get; set; }
         public string RelativePath { get; set; }
         public string AbsolutePath { get; set; }
         public string? Name { get; set; }
@@ -16,6 +15,5 @@ namespace DentalDomain.Files
         public Client Client { get; set; }
         public Guid? AppointmentId { get; set; }
         public Appointment? Appointment { get; set; }
-        public Guid ClinicId { get; set; }
     }
 }

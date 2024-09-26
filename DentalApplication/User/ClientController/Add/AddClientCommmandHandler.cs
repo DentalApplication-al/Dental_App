@@ -24,7 +24,17 @@ namespace DentalApplication.User.ClientController.Add
                 request.email,
                 request.phone,
                 request.clinic_id.Value,
-                request.description
+                request.description,
+                request.gender.Value,
+                request.heart_condition,
+                request.diabetes,
+                request.hypertension,
+                request.bleeding_disorders,
+                request.immunocompromised,
+                request.allergies,
+                request.other_conditions,
+                request.current_medications,
+                request.special_notes
             );
 
             await _clientRepository.AddAsync(client);

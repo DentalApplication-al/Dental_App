@@ -14,6 +14,9 @@ using DentalInfrastructure.Authentication;
 using DentalInfrastructure.Authentication.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using System.Net.Http.Headers;
+using System.Text;
 
 namespace DentalAPI.Controllers
 {
@@ -27,6 +30,42 @@ namespace DentalAPI.Controllers
         {
             _mediator = mediator;
         }
+
+        [HttpGet("token")]
+        public async Task<string> Tokens()
+        {
+
+            var client = new HttpClient();
+            var clientId = "V0Isqm49jfSWCPdJ1z9ASQwiAvN3XFDqqTH6XdyjX7FkZbO6\r\n";
+            var clientSecret = "cp1ZuopYOXAyXRqdki73kpqVN7F0RNb1DDXhpAQVGeSHTUOY37AVhCeRSQPeFI6r";
+            var base64EncodedCredentials = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{clientId}:{clientSecret}"));
+
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", base64EncodedCredentials);
+
+            var requestBody = new FormUrlEncodedContent(new Dictionary<string, string>
+{
+    { "code", "w4tngz6O" },
+    { "redirect_uri", "https://sp.example.com" },
+    { "grant_type", "authorization_code" }
+});
+
+            var response = await client.PostAsync("https://eu3.api.vodafone.com/openIDConnectCIBA/v1/token", requestBody);
+
+            if (response.IsSuccessStatusCode)
+            {
+                var tokenResponse = await response.Content.ReadAsStringAsync();
+                var accessToken = JsonConvert.DeserializeObject<TokenResponse>(tokenResponse).access_token;
+                Console.WriteLine($"Access Token: {accessToken}");
+            }
+            else
+            {
+                Console.WriteLine("Failed to get access token.");
+            }
+
+
+            return "";
+        }
+        
         [HasPermission(Permission.CLIENT_ADD)]
         [HttpPost("add")]
         public async Task<Guid> AddClient(AddClientCommand command)
@@ -90,5 +129,14 @@ namespace DentalAPI.Controllers
             command.clientId = id;
             await _mediator.Send(command, cancellationToken);
         }
+    }
+
+
+
+    public class TokenResponse
+    {
+        public string access_token { get; set; }
+        public string token_type { get; set; }
+        public int expires_in { get; set; }
     }
 }

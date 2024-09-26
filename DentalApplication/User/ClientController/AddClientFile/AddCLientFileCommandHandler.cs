@@ -46,7 +46,8 @@ namespace DentalApplication.User.ClientController.AddClientFile
                     Size = ConvertBytesToReadableSize(item.Length).Item2,
                     Unit = ConvertBytesToReadableSize(item.Length).Item1,
                     AbsolutePath = upload.data,
-                    RelativePath = upload.data
+                    RelativePath = upload.data,
+                    CreatedOn = DateTime.UtcNow,
                 };
                 files.Add(file);
 

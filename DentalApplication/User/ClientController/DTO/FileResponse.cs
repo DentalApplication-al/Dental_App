@@ -7,5 +7,6 @@
         public string? link { get; set; }
         public int? size { get; set; }
         public string? unit { get; set; }
+        public string? uploaded_date { get; set; }
     }
 }
