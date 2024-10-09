@@ -12,6 +12,7 @@ namespace DentalDomain.Users.Clients
         public bool? Hypertension { get; set; }
         public bool? BleedingDisorders { get; set; }
         public bool? Immunocompromised { get; set; }
+        public bool? PregnancyStatus { get; set; }
         public string? OtherConditions { get; set; }
         public string? Allergies { get; set; }
         public string? CurrentMedications { get; set; }
@@ -37,7 +38,8 @@ namespace DentalDomain.Users.Clients
             string? allergies,
             string? other_conditions,
             string? current_medications,
-            string? special_notes)
+            string? special_notes,
+            bool? pregnancy_status)
         {
             return new Client()
             {
@@ -58,7 +60,8 @@ namespace DentalDomain.Users.Clients
                 Allergies = allergies,
                 OtherConditions = other_conditions,
                 CurrentMedications = current_medications,
-                SpecialNotes = special_notes
+                SpecialNotes = special_notes,
+                PregnancyStatus = pregnancy_status
             };
         }
         public static Client Create() => new();
@@ -79,7 +82,8 @@ namespace DentalDomain.Users.Clients
             string? allergies,
             string? other_conditions,
             string? current_medications,
-            string? special_notes)
+            string? special_notes,
+            bool? pregnancy_status)
         {
             FirstName = new_first_name;
             LastName = new_last_name;
@@ -98,6 +102,7 @@ namespace DentalDomain.Users.Clients
             OtherConditions = other_conditions;
             CurrentMedications = current_medications;
             SpecialNotes = special_notes;
+            PregnancyStatus = pregnancy_status;
         }
     }
 }

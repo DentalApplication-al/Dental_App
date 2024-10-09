@@ -1,6 +1,5 @@
 ﻿using DentalApplication.Common.Interfaces.IRepositories;
 using DentalApplication.Errors;
-using DentalApplication.User.ClientController.DTO;
 using MediatR;
 
 namespace DentalApplication.User.ClientController.Update
@@ -35,8 +34,8 @@ namespace DentalApplication.User.ClientController.Update
                 request.allergies,
                 request.other_conditions,
                 request.current_medications,
-                request.special_notes
-
+                request.special_notes,
+                request.pregnancy_status
             );
 
             await _clientRepository.UpdateAsync(client);

@@ -97,6 +97,7 @@ namespace DentalInfrastructure.Repositories
                      hypertension = a.Hypertension,
                      immunocompromised = a.Immunocompromised,
                      other_conditions = a.OtherConditions,
+                     pregnancy_status = a.PregnancyStatus,
                      documents = a.CLientFiles.Where(a => a.AppointmentId == null).Select(f => new FileResponse
                      {
                          id = f.Id,
@@ -105,8 +106,7 @@ namespace DentalInfrastructure.Repositories
                          unit = f.Unit,
                          link = _blobStorage.GetLink(f.AbsolutePath, null),
                          uploaded_date = f.CreatedOn.ToString("dd-mm-yyyy HH:mm")
-                     }).ToList()
-                     
+                     }).ToList()                     
                 }).FirstOrDefaultAsync();
 
 

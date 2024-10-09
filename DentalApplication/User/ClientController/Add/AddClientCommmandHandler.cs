@@ -34,7 +34,8 @@ namespace DentalApplication.User.ClientController.Add
                 request.allergies,
                 request.other_conditions,
                 request.current_medications,
-                request.special_notes
+                request.special_notes,
+                request.pregnancy_status
             );
 
             await _clientRepository.AddAsync(client);

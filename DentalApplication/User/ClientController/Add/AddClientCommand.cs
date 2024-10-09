@@ -20,6 +20,7 @@ namespace DentalContracts.UserContracts.ClientContracts
         public bool? hypertension { get; set; }
         public bool? bleeding_disorders { get; set; }
         public bool? immunocompromised { get; set; }
+        public bool? pregnancy_status { get; set; }
         public string? allergies { get; set; }
         public string? description { get; set; }
         public string? other_conditions { get; set; }

@@ -16,6 +16,7 @@ namespace DentalApplication.User.ClientController.DTO
         public bool? heart_condition { get; set; }
         public bool? diabetes { get; set; }
         public bool? hypertension { get; set; }
+        public bool? pregnancy_status { get; set; }
         public bool? bleeding_disorders { get; set; }
         public bool? immunocompromised { get; set; }
         public string? allergies { get; set; }
