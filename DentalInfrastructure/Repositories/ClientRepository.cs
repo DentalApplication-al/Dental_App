@@ -26,6 +26,8 @@ namespace DentalInfrastructure.Repositories
 
             var clients = await _context.Clients
                 .Where(a => a.ClinicId == clinicId && (a.FirstName.Contains(search ?? "") || a.LastName.Contains(search ?? "")))
+                .Skip((page - 1) * take)
+                .Take(take)
                 .Include(a => a.Appointments)
                 .Select(a => new ListClient
                 {
@@ -79,10 +81,10 @@ namespace DentalInfrastructure.Repositories
                 {
                      first_name = a.FirstName,
                      last_name = a.LastName,
-                     birthday = a.Birthday.Value.ToString("MMM dd, yyyy"),
+                     birthday = a.Birthday.HasValue ? a.Birthday.Value.ToString("dd-MM-yyyy") : null,
                      email = a.Email,
                      phone = a.Phone,
-                     registered_date = a.CreatedOn.ToString("MMM dd, yyyy"),
+                     registered_date = a.CreatedOn.ToString("dd-MM-yyyy"),
                      upcoming = a.Appointments.Count(b => b.StartDate > DateTime.UtcNow),
                      past = a.Appointments.Count(b => b.StartDate < DateTime.UtcNow),
                      special_notes = a.SpecialNotes,

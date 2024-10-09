@@ -16,7 +16,7 @@ namespace DentalApplication.User.ClientController.Update
 
         public async Task<Guid> Handle(UpdateClientCommand request, CancellationToken cancellationToken)
         {
-            var client = await _clientRepository.GetByIdAsync(request.clinic_id.Value, request.id.Value) ??
+            var client = await _clientRepository.GetByIdAsync(request.clinic_id.Value, request.clientId.Value) ??
                 throw new NotFoundException("The client could not be found.");
 
             client.Update(

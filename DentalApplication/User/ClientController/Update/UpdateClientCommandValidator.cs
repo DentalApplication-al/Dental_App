@@ -8,7 +8,7 @@ namespace DentalApplication.User.ClientController.Update
         public UpdateClientCommandValidator()
         {
             Include(new AddClientCommandValidator());
-            RuleFor(x => x.id)
+            RuleFor(x => x.clientId)
             .NotNull().WithMessage("Id is required.");
         }
     }

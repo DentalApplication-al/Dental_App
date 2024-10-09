@@ -30,7 +30,7 @@ localizationOptions.ApplyCurrentCultureToResponseHeaders = true;
 
 builder.Services.AddControllers(options =>
 {
-    options.Filters.Add<InjectClinicIdFilter>();
+    //options.Filters.Add<InjectClinicIdFilter>();
 });
 builder.Services.AddEndpointsApiExplorer();
 

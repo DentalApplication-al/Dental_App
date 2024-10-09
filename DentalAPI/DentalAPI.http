@@ -1,13 +1,28 @@
-@DentalAPI_HostAddress = https://localhost:7184
+@DentalAPI_HostAddress = http://localhost:5126
+@Token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkYmQ1YjM3OS1iMmI5LTRhMGYtYTI0Mi1lNjI2MzYxYTRmMmQiLCJyb2xpIjoiQURNSU4iLCJjbGluaWMiOiJkMzBiODNlOC05YjI5LTQ5OWYtZmViNy0wOGRjYmZhYTljNjMiLCJleHAiOjE3Mjg1ODc4ODEsImlzcyI6IkRlbnRhbEFwcGxpY2F0aW9uIiwiYXVkIjoiRGVudGFsQXBwbGljYXRpb24ifQ.inwYHE5YeTJnQ9pC1P3Pg1jRGc3vaCLM3fAapKurDCk       
 
 GET {{DentalAPI_HostAddress}}/weatherforecast/
 Accept: application/json
 ###
 
-POST {{DentalAPI_HostAddress}}/Staff/login
-Accept: application/json
+POST {{DentalAPI_HostAddress}}/staff/login
+Content-Type: application/json
 {
-    "username": "admin",
-    "password": "password"
+    "email": "amarildo.malka007@gmail.com",
+    "password": "123"
 }
 ###
+
+
+GET {{DentalAPI_HostAddress}}/client/get-all?page=1&take=10
+Authorization: Bearer {{Token}}
+
+
+
+
+
+
+
+
+
+
