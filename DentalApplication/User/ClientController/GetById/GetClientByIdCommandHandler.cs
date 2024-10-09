@@ -16,7 +16,7 @@ namespace DentalApplication.User.ClientController.GetById
 
         public async Task<ClientResponse> Handle(GetClientByIdCommand request, CancellationToken cancellationToken)
         {
-            var client = await _clientRepository.GetClientDetails(request.clinic_id.Value, request.id.Value) ??
+            var client = await _clientRepository.GetClientDetails(request.clinic_id.Value, request.ClientId.Value) ??
                 throw new NotFoundException("The client could not be found");
 
             return client;

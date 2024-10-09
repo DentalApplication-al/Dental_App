@@ -16,6 +16,10 @@ Content-Type: application/json
 
 GET {{DentalAPI_HostAddress}}/client/get-all?page=1&take=10
 Authorization: Bearer {{Token}}
+########
+
+GET {{DentalAPI_HostAddress}}/client/get-by-id/6baf166f-7945-47f3-6487-08dcc6d5ff9b
+Authorization: Bearer {{Token}}
 
 
 

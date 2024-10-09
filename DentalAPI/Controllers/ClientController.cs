@@ -71,8 +71,10 @@ namespace DentalAPI.Controllers
 
         [HasPermission(Permission.CLIENT_GET_BY_ID)]
         [HttpGet("get-by-id/{id}")]
-        public async Task<ClientResponse> GetClientById([FromQuery] GetClientByIdCommand? command)
+        public async Task<ClientResponse> GetClientById([FromRoute] Guid id)
         {
+            var command = Token.GetToken<GetClientByIdCommand>(HttpContext);
+            command.ClientId = id;
             return await _mediator.Send(command);
         }
 
