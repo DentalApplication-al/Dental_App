@@ -20,7 +20,7 @@ namespace DentalInfrastructure
             ConfigurationManager configuration)
         {
             var connectionString = configuration.GetConnectionString("DefaultConnection");
-
+            services.AddSignalR();
             services.AddDbContext<DentalContext>(options =>
                 options.UseSqlServer(connectionString));
             services.AddSingleton<IJwtTokenGenerator, JwtTokenGenerator>();
@@ -32,6 +32,7 @@ namespace DentalInfrastructure
             services.AddScoped<IClinicRepository, ClinicRepository>();
             services.AddScoped<IServiceRepository, ServiceRepository>();
             services.AddScoped<IFilesRepository, FilesRepository>();
+            services.AddScoped<IAppointmentRepository, AppointmentRepository>();
 
             services.AddSingleton<IAuthorizationHandler, PermissionAuthorizationHandler>();
             services.AddSingleton<IBlobStorage, BlobStorage>();

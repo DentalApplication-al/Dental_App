@@ -40,6 +40,39 @@ namespace DentalAPI
             return command;
         }
 
+        public static T GetClinicId<T>(HttpContext context, T command)
+        {
+            string token = GetTokenFromRequest(context);
+            if (token == null)
+            {
+                throw new NotAuthorizedException("You need to login to acces this resource.");
+            }
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var jwtToken = tokenHandler.ReadJwtToken(token);
+
+            var clientId = jwtToken.Claims.FirstOrDefault(c => c.Type == "sub")?.Value;
+            var clinicId = jwtToken.Claims.FirstOrDefault(c => c.Type == "clinic")?.Value;
+
+            var commandType = typeof(T);
+            var loggedInStaffIdProperty = commandType.GetProperty("loged_in_staff_id");
+            var clinicIdProperty = commandType.GetProperty("clinic_id");
+
+            // Populate the command object with the values from the token using reflection
+            if (!string.IsNullOrEmpty(clientId) && loggedInStaffIdProperty != null && loggedInStaffIdProperty.CanWrite)
+            {
+                // Set the loged_in_staff_id property
+                loggedInStaffIdProperty.SetValue(command, Guid.Parse(clientId));
+            }
+
+            if (!string.IsNullOrEmpty(clinicId) && clinicIdProperty != null && clinicIdProperty.CanWrite)
+            {
+                // Set the clinic_id property
+                clinicIdProperty.SetValue(command, Guid.Parse(clinicId));
+            }
+
+            return command;
+        }
+        
 
         private static string GetTokenFromRequest(HttpContext context)
         {

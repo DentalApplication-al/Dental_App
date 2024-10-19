@@ -147,7 +147,7 @@ namespace DentalInfrastructure.Repositories
                 {
                     client = $"{b.Client.FirstName} {b.Client.LastName}",
                     id = b.Id,
-                    doctor = $"{b.Doctor.FirstName} {b.Doctor.LastName}",
+                    //doctors = $"{b.Doctor.FirstName} {b.Doctor.LastName}",
                     treatment = b.Service.Name,
                     date = $"{b.StartDate.Day}-{b.StartDate.Month}-{b.StartDate.Year}",
                     time = $"{b.StartDate:HH:mm} - {b.EndDate:HH:mm}",
@@ -186,7 +186,7 @@ namespace DentalInfrastructure.Repositories
                 {
                     client = $"{b.Client.FirstName} {b.Client.LastName}",
                     id = b.Id,
-                    doctor = $"{b.Doctor.FirstName} {b.Doctor.LastName}",
+                    //doctors = $"{b.Doctor.FirstName} {b.Doctor.LastName}",
                     treatment = b.Service.Name,
                     date = $"{b.StartDate.Day}-{b.StartDate.Month}-{b.StartDate.Year}",
                     time = $"{b.StartDate:HH:mm} - {b.EndDate:HH:mm}",

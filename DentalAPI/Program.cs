@@ -92,18 +92,28 @@ builder.Services
     .AddInfrastructure(builder.Configuration)
     .AddApplication();
 
+builder.Services.AddSignalR();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", policy =>
     {
         policy.AllowAnyOrigin()
               .AllowAnyMethod()
-              .AllowAnyHeader();
+              .AllowAnyHeader()
+                            .SetIsOriginAllowed(_ => true); // Allow any origin
+        
     });
 });
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
 
 builder.Services.AddHttpContextAccessor();
+builder.WebHost.ConfigureKestrel(serverOptions =>
+{
+    serverOptions.ListenLocalhost(5126, listenOptions =>
+    {
+        listenOptions.UseHttps(); // Enable HTTPS
+    });
+});
 
 var app = builder.Build();
 
@@ -125,5 +135,6 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapHub<ChatHub>("/chat");
 
 app.Run();

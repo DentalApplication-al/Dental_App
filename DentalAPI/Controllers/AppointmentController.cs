@@ -1,4 +1,5 @@
-﻿using DentalApplication.AppointmentController;
+﻿using DentalApplication.AppointmentController.Add;
+using DentalApplication.AppointmentController.DTO;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,7 +15,12 @@ namespace DentalAPI.Controllers
             _mediator = mediator;
         }
 
-        //[HttpPost]
-        //public async Task<AppointmentResponse> AddAppointment()
+        [HttpPost]
+        public async Task<Guid> AddAppointment(AddAppointmentRequest request)
+        {
+            var command = new AddAppointmentCommand(request);
+            command = Token.GetClinicId(HttpContext, command);
+            return await _mediator.Send(command);
+        }
     }
 }

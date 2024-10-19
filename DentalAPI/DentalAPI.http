@@ -1,4 +1,4 @@
-@DentalAPI_HostAddress = http://localhost:5126
+@DentalAPI_HostAddress = https://localhost:5126
 @Token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkYmQ1YjM3OS1iMmI5LTRhMGYtYTI0Mi1lNjI2MzYxYTRmMmQiLCJyb2xpIjoiQURNSU4iLCJjbGluaWMiOiJkMzBiODNlOC05YjI5LTQ5OWYtZmViNy0wOGRjYmZhYTljNjMiLCJleHAiOjE3Mjg1ODc4ODEsImlzcyI6IkRlbnRhbEFwcGxpY2F0aW9uIiwiYXVkIjoiRGVudGFsQXBwbGljYXRpb24ifQ.inwYHE5YeTJnQ9pC1P3Pg1jRGc3vaCLM3fAapKurDCk       
 
 GET {{DentalAPI_HostAddress}}/weatherforecast/
@@ -21,6 +21,9 @@ Authorization: Bearer {{Token}}
 GET {{DentalAPI_HostAddress}}/client/get-by-id/6baf166f-7945-47f3-6487-08dcc6d5ff9b
 Authorization: Bearer {{Token}}
 
+
+###########
+POST{{DentalAPI_HostAddress}}/appoi
 
 
 

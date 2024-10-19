@@ -16,7 +16,7 @@ namespace DentalApplication.Common.Interfaces.IRepositories
         Task<bool> Delete (Guid staffId, Guid clinicId);
         Task<Staff> GetById(Guid staffId, Guid clinicId);
         Task<PaginatedResponse<ListAppointment>> GetDoctorAppointments(Guid doctor_id, Guid clinicId, int page, int take, string? search, bool history);
-
+        Task<List<Staff>> GetDoctorsById(List<Guid> ids, Guid clinicId);
 
     }
 }

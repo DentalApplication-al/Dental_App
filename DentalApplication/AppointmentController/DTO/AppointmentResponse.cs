@@ -3,7 +3,7 @@ using DentalApplication.User.ClientController.DTO;
 using DentalApplication.User.StaffController.DTO;
 using DentalDomain.Users.Staffs;
 
-namespace DentalApplication.AppointmentController
+namespace DentalApplication.AppointmentController.DTO
 {
     public class AppointmentResponse
     {

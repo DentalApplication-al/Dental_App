@@ -180,7 +180,7 @@ namespace DentalInfrastructure.Repositories
                 {
                     client = $"{b.Client.FirstName} {b.Client.LastName}",
                     id = b.Id,
-                    doctor = b.Doctor.FirstName,
+                    //doctors = b.Doctor.FirstName,
                     treatment = b.Service.Name,
                     date = $"{b.StartDate.Day}-{b.StartDate.Month}-{b.StartDate.Year}",
                     time = $"{b.StartDate:HH:mm} - {b.EndDate:HH:mm}",
@@ -218,7 +218,7 @@ namespace DentalInfrastructure.Repositories
                 {
                     client = $"{b.Client.FirstName} {b.Client.LastName}",
                     id = b.Id,
-                    doctor = b.Doctor.FirstName,
+                    //doctors = b.Doctor.FirstName,
                     treatment = b.Service.Name,
                     date = $"{b.StartDate.Day}-{b.StartDate.Month}-{b.StartDate.Year}",
                     time = $"{b.StartDate:HH:mm} - {b.EndDate:HH:mm}",
@@ -233,6 +233,15 @@ namespace DentalInfrastructure.Repositories
                 pageSize = take,
             };
             return result;
+        }
+
+        public async Task<List<Staff>> GetDoctorsById(List<Guid> ids, Guid clinicId)
+        {
+            var doctors = await _context.Staffs
+                .Where(a => ids.Contains(a.Id) && a.ClinicId == clinicId)
+                .ToListAsync();
+
+            return doctors;
         }
     }
 }
