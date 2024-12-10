@@ -98,6 +98,7 @@ namespace DentalInfrastructure.Repositories
                      immunocompromised = a.Immunocompromised,
                      other_conditions = a.OtherConditions,
                      pregnancy_status = a.PregnancyStatus,
+                     gender = a.Gender,
                      documents = a.CLientFiles.Where(a => a.AppointmentId == null).Select(f => new FileResponse
                      {
                          id = f.Id,

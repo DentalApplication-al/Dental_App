@@ -1,4 +1,5 @@
 ﻿using DentalDomain.Users.Clients;
+using DentalDomain.Users.Enums;
 using Microsoft.IdentityModel.Tokens;
 
 namespace DentalApplication.User.ClientController.DTO
@@ -24,6 +25,7 @@ namespace DentalApplication.User.ClientController.DTO
         public string? other_conditions { get; set; }
         public string? current_medications { get; set; }
         public string? special_notes { get; set; }
+        public Gender gender { get; set; }
         public List<FileResponse> documents { get; set; }
 
 
