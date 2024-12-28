@@ -1,4 +1,5 @@
 ﻿using DentalApplication.Common.Interfaces.IServices;
+using Serilog;
 using System.Net;
 using System.Net.Mail;
 
@@ -65,8 +66,9 @@ namespace DentalInfrastructure.Services
                 await smtpClient.SendMailAsync(mailMessage);
                 return EmailResponse.Success();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Log.Error("Failed to send email because: " + ex.Message);
                 return EmailResponse.Fail();
             }
         }

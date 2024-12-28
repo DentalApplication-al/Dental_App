@@ -17,6 +17,7 @@ namespace DentalDomain.Users.Staffs
         public StaffStatus Status { get; set; }
         public List<Appointment> Appointments { get; set; }
         public List<Service> StaffServices { get; set; } = new();
+        public Gender Gender { get; set; }
         public static Staff Create(
             string first_name,
             string last_name,
@@ -28,7 +29,8 @@ namespace DentalDomain.Users.Staffs
             string? start_time,
             string? end_time,
             string? profile,
-            string? job_type
+            string? job_type,
+            Gender gender
             )
         {
             return new Staff()
@@ -65,7 +67,9 @@ namespace DentalDomain.Users.Staffs
             string? job_type,
             string? picture,
             string? start_time,
-            string? end_time
+            string? end_time,
+            StaffStatus status,
+            Gender gender
             )
 
         {
@@ -79,6 +83,8 @@ namespace DentalDomain.Users.Staffs
             StartTime = start_time;
             EndTime = end_time;
             ProfilePic = picture ?? ProfilePic;
+            Status = status;
+            Gender = gender;
         }
 
         public void SetOTP()

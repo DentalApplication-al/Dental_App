@@ -1,8 +1,10 @@
 ﻿using DentalApplication.Common.Interfaces.IBlobStorages;
 using DentalApplication.Common.Interfaces.IRepositories;
+using DentalApplication.Common.Interfaces.IServices;
 using DentalApplication.Errors;
 using DentalApplication.Resources;
 using DentalApplication.User.StaffController.DTO;
+using DentalDomain.Users.Enums;
 using MediatR;
 using Microsoft.Extensions.Localization;
 
@@ -14,13 +16,20 @@ namespace DentalApplication.User.StaffController.Update
         private readonly IStringLocalizer<SharedResource> _stringLocalizer;
         private readonly IBlobStorage _blob;
         private readonly IServiceRepository _serviceRepository;
+        private readonly IUserTokenService _userTokenService;
 
-        public UpdateStaffCommandHandler(IStaffRepository staffRepository, IStringLocalizer<SharedResource> stringLocalizer, IBlobStorage blob, IServiceRepository serviceRepository)
+        public UpdateStaffCommandHandler(
+            IStaffRepository staffRepository, 
+            IStringLocalizer<SharedResource> stringLocalizer, 
+            IBlobStorage blob, 
+            IServiceRepository serviceRepository, 
+            IUserTokenService userTokenService)
         {
             _staffRepository = staffRepository;
             _stringLocalizer = stringLocalizer;
             _blob = blob;
             _serviceRepository = serviceRepository;
+            _userTokenService = userTokenService;
         }
 
         public async Task<StaffResponse> Handle(UpdateStaffCommand request, CancellationToken cancellationToken)
@@ -44,6 +53,7 @@ namespace DentalApplication.User.StaffController.Update
                     }
                 }
             }
+
             staff.Update(
                 request.first_name,
                 request.last_name,
@@ -54,8 +64,15 @@ namespace DentalApplication.User.StaffController.Update
                 request.job_type,
                 profile,
                 request.start_time,
-                request.end_time
+                request.end_time,
+                request.status,
+                request.gender
                 );
+
+            if (staff.Status == StaffStatus.PASSIVE)
+            {
+                await _userTokenService.MakeTokenInvalidAsync(staff.Id);
+            }
 
             staff.StaffServices = services;
 

@@ -19,5 +19,6 @@ namespace DentalApplication.User.StaffController.Add
         public string? start_time { get; set; }
         public string? end_time { get; set; }
         public List<Guid>? services { get; set; }
+        public Gender gender { get; set; }
     }
 }

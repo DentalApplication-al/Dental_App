@@ -21,6 +21,8 @@ namespace DentalApplication.User.StaffController.Update
         public IFormFile? picture { get; set; }
         public string? start_time { get; set; }
         public string? end_time { get; set; }
+        public StaffStatus status { get; set; }
+        public Gender gender { get; set; }
         public List<Guid>? services { get; set; }
     }
 }

@@ -52,7 +52,8 @@ namespace DentalApplication.User.StaffController.Add
                 request.start_time,
                 request.end_time,
                 profilePicture,
-                request.job_type
+                request.job_type,
+                request.gender
                 );
 
             if (request.services != null && request.services.Count > 0)
