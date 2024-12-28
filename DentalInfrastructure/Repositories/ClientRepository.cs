@@ -56,6 +56,7 @@ namespace DentalInfrastructure.Repositories
             var client = await _context.Clients
                 .Include(a => a.CLientFiles)
                 .FirstOrDefaultAsync(a => a.Id == clientId && a.ClinicId == clinicId);
+
             return client;
         }
 
@@ -79,6 +80,7 @@ namespace DentalInfrastructure.Repositories
                 .Where(a => a.ClinicId == clinicId && a.Id == clientId)
                 .Select(a => new ClientResponse 
                 {
+                    id = a.Id,
                      first_name = a.FirstName,
                      last_name = a.LastName,
                      birthday = a.Birthday.HasValue ? a.Birthday.Value.ToString("dd-MM-yyyy") : null,
@@ -148,7 +150,7 @@ namespace DentalInfrastructure.Repositories
                 {
                     client = $"{b.Client.FirstName} {b.Client.LastName}",
                     id = b.Id,
-                    //doctors = $"{b.Doctor.FirstName} {b.Doctor.LastName}",
+                    doctors = string.Join(",", b.Doctor.Select(a => a.FirstName).ToList()),
                     treatment = b.Service.Name,
                     date = $"{b.StartDate.Day}-{b.StartDate.Month}-{b.StartDate.Year}",
                     time = $"{b.StartDate:HH:mm} - {b.EndDate:HH:mm}",
@@ -187,7 +189,7 @@ namespace DentalInfrastructure.Repositories
                 {
                     client = $"{b.Client.FirstName} {b.Client.LastName}",
                     id = b.Id,
-                    //doctors = $"{b.Doctor.FirstName} {b.Doctor.LastName}",
+                    doctors = string.Join(",", b.Doctor.Select(a => a.FirstName).ToList()),
                     treatment = b.Service.Name,
                     date = $"{b.StartDate.Day}-{b.StartDate.Month}-{b.StartDate.Year}",
                     time = $"{b.StartDate:HH:mm} - {b.EndDate:HH:mm}",

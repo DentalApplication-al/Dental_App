@@ -1,5 +1,6 @@
 ﻿using DentalApplication.AppointmentController.Add;
 using DentalApplication.AppointmentController.DTO;
+using DentalApplication.AppointmentController.GetAll;
 using DentalApplication.Common;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -20,6 +21,15 @@ namespace DentalAPI.Controllers
         public async Task<Guid> AddAppointment(AddAppointmentRequest request)
         {
             var command = CommandMapper.MapWithLogin<AddAppointmentRequest, AddAppointmentCommand>(request, HttpContext);
+            return await _mediator.Send(command);
+        }
+        [HttpGet]
+        public async Task<PaginatedResponse<ListAppointment>> GetAll([FromQuery] Props? props)
+        {
+            var command = new GetAllAppointmentsCommand(props);
+
+            Token.GetClinicId(HttpContext, command);
+
             return await _mediator.Send(command);
         }
 

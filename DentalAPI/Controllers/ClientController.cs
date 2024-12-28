@@ -7,6 +7,7 @@ using DentalApplication.User.ClientController.Delete;
 using DentalApplication.User.ClientController.DeleteClientFile;
 using DentalApplication.User.ClientController.DTO;
 using DentalApplication.User.ClientController.GetAll;
+using DentalApplication.User.ClientController.GetAllFiles;
 using DentalApplication.User.ClientController.GetById;
 using DentalApplication.User.ClientController.Update;
 using DentalContracts.UserContracts.ClientContracts;
@@ -40,7 +41,7 @@ namespace DentalAPI.Controllers
         }
 
         [HasPermission(Permission.CLIENT_UPLOAD_FILE)]
-        [HttpPost("uploadFile{id}")]
+        [HttpPost("uploadFile/{id}")]
         public async Task UploadClientFile([FromRoute] Guid id, [FromForm] List<IFormFile> files, CancellationToken cancellationToken)
         {
             var command = Token.GetToken<AddClientFileCommand>(HttpContext);
@@ -92,14 +93,23 @@ namespace DentalAPI.Controllers
             await _mediator.Send(command);
         }
 
-        [HasPermission(Permission.CLIENT_UPLOAD_FILE)]
-        [HttpDelete("deleteFile/{id}")]
-        public async Task DeleteClientFile([FromRoute] Guid id, CancellationToken cancellationToken)
+        [HasPermission(Permission.CLIENT_DELETE_FILE)]
+        [HttpPost("deleteFile/{id}")]
+        public async Task DeleteClientFile([FromRoute] Guid id, [FromBody]List<Guid> files, CancellationToken cancellationToken)
         {
             var command = Token.GetToken<DeleteClientFileCommand>(HttpContext);
-            //command.files = files;
+            command.files = files;
             command.clientId = id;
             await _mediator.Send(command, cancellationToken);
+        }
+
+        [HttpGet("getFiles/{id}")]
+        public async Task<List<FileResponse>> GetClientFile([FromRoute] Guid id, [FromQuery] bool images, CancellationToken cancellationToken)
+        {
+            var command = Token.GetToken<GetAllClientFilesCommand>(HttpContext);
+            command.images = images;
+            command.id = id;
+            return await _mediator.Send(command, cancellationToken);
         }
     }
 

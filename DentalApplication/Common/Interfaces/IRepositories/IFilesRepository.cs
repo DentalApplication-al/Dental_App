@@ -1,5 +1,4 @@
 ﻿using DentalDomain.Files;
-using System.Reflection.Metadata;
 
 namespace DentalApplication.Common.Interfaces.IRepositories
 {
@@ -7,5 +6,6 @@ namespace DentalApplication.Common.Interfaces.IRepositories
     {
         Task<bool> AddRange(List<Documents> documents);
         Task<bool> DeleteAsync(List<Documents> filesToDelete);
+        Task<List<Documents>> GetClientFiles(Guid clientId, Guid clinicId, bool images);
     }
 }

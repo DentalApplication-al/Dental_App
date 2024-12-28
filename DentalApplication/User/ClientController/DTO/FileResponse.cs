@@ -1,4 +1,7 @@
-﻿namespace DentalApplication.User.ClientController.DTO
+﻿
+using DentalDomain.Files;
+
+namespace DentalApplication.User.ClientController.DTO
 {
     public class FileResponse
     {
@@ -8,5 +11,6 @@
         public int? size { get; set; }
         public string? unit { get; set; }
         public string? uploaded_date { get; set; }
+
     }
 }

@@ -9,6 +9,7 @@ using DentalContracts.AuthenticationContracts;
 using DentalDomain.Users.Enums;
 using MediatR;
 using Microsoft.Extensions.Localization;
+using Serilog;
 
 namespace DentalApplication.Authencation
 {
@@ -35,6 +36,8 @@ namespace DentalApplication.Authencation
 
         public async Task<AuthenticationResponse> Handle(LoginCommand request, CancellationToken cancellationToken)
         {
+            Log.Information("this is first try for serilog.");
+            Log.Fatal("Fatal");
             var staff = await _staffRepository.GetStaffByEmail(request.email);
 
             if (staff == null || staff.Password != request.password)

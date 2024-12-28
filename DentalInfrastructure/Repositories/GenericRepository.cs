@@ -1,6 +1,7 @@
 ﻿using DentalApplication.Common.Interfaces.IRepositories;
 using DentalInfrastructure.Context;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 
 namespace DentalInfrastructure.Repositories
 {
@@ -44,15 +45,23 @@ namespace DentalInfrastructure.Repositories
             if (entity != null)
             {
                 _dbSet.Remove(entity);
-                await _context.SaveChangesAsync();
-                return true;
+                return await SaveChangesAsync();
             }
             return false;
         }
 
-        public async Task SaveChangesAsync()
+        public async Task<bool> SaveChangesAsync()
         {
-            await _context.SaveChangesAsync();
+            try
+            {
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex.Message);
+                return false;
+            }
         }
         public IQueryable<T> Table()
         {

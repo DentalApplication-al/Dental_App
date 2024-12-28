@@ -16,5 +16,14 @@ namespace DentalDomain.Appointments
         public Client Client { get; set; }
         public Service Service { get; set; }
         public List<Documents> Files { get; set; } = [];
+
+        public bool IsDateValid()
+        {
+            if (StartDate < EndDate)
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }

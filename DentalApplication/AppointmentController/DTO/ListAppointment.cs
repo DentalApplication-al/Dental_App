@@ -8,5 +8,7 @@
         public string? treatment { get; set; }
         public string date { get; set; }
         public string time { get; set; }
+        public string? startTime { get; set; }
+        public string? endTime { get; set; }
     }
 }

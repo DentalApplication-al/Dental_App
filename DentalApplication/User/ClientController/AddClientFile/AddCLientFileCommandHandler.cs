@@ -48,9 +48,11 @@ namespace DentalApplication.User.ClientController.AddClientFile
                     AbsolutePath = upload.data,
                     RelativePath = upload.data,
                     CreatedOn = DateTime.UtcNow,
+                    Extension = Path.GetExtension(item.FileName),
+                    IsImage = Path.GetExtension(item.FileName) != ".pdf"
                 };
-                files.Add(file);
 
+                files.Add(file);
             }
             var isUploadded = await _filesRepository.AddRange(files);
             if (!isUploadded)
@@ -58,7 +60,6 @@ namespace DentalApplication.User.ClientController.AddClientFile
                 await _blobStorage.DeleteBlobAsync(paths);
                 throw new ServerError("Files could not be uploaded.");
             }
-
         }
         public (string, int) ConvertBytesToReadableSize(long bytes)
         {

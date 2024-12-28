@@ -1,5 +1,4 @@
 ﻿using DentalApplication.Swagger;
-using System.Text.Json.Serialization;
 
 namespace DentalApplication.Common
 {

@@ -1,4 +1,6 @@
-﻿namespace DentalApplication.Helper
+﻿using DentalApplication.Errors;
+
+namespace DentalApplication.Helper
 {
     public static class DateUtility
     {
@@ -7,9 +9,13 @@
             return DateTime.Now;
         }
 
-        public static DateTime GetStartAndEndDate(DateOnly date, TimeOnly time)
+        public static DateTime GetStartAndEndDate(DateOnly date, string time)
         {
-            DateTime startDateTime = date.ToDateTime(time);
+            if (!TimeOnly.TryParse(time, out TimeOnly value))
+            {
+                throw new BadRequestException("Time must have an valid format. Use HH:mm");
+            }
+            DateTime startDateTime = date.ToDateTime(value);
             return startDateTime;
         }
     }

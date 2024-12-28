@@ -7,6 +7,7 @@ using DentalInfrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Serilog;
 using System.Globalization;
 using System.Text;
 
@@ -90,7 +91,7 @@ builder.Services.AddMediatR(
 
 builder.Services
     .AddInfrastructure(builder.Configuration)
-    .AddApplication();
+    .AddApplication(builder.Configuration);
 
 builder.Services.AddSignalR();
 builder.Services.AddCors(options =>
@@ -114,6 +115,11 @@ builder.WebHost.ConfigureKestrel(serverOptions =>
         listenOptions.UseHttps(); // Enable HTTPS
     });
 });
+
+builder.Logging.ClearProviders();
+builder.Logging.AddSerilog();
+builder.Host.UseSerilog();
+
 
 var app = builder.Build();
 

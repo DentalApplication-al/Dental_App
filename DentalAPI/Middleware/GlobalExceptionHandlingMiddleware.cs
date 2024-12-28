@@ -2,6 +2,8 @@
 using DentalApplication.Errors;
 using DentalApplication.Resources;
 using Microsoft.Extensions.Localization;
+using Microsoft.IdentityModel.Abstractions;
+using Serilog;
 using System.Diagnostics;
 using System.Text.Json;
 
@@ -27,45 +29,55 @@ namespace DentalAPI.Middleware
             catch (ValidationnException ex)
             {
                 await ValidationExceptionAsync(context, ex);
+                Log.Error(ex.Errors.FirstOrDefault() ?? "");
             }
-
             catch (NotFoundException ex)
             {
                 await NotFoundExceptionAsync(context, ex);
+                Log.Error(ex.Errors.FirstOrDefault() ?? "");
             }
             catch (NotAuthenticatedException ex)
             {
                 await NotAuthenticatedException(context, ex);
+                Log.Error(ex.Errors.FirstOrDefault() ?? "");
             }
             catch (NotAuthorizedException ex)
             {
                 await NotAuthorizedException(context, ex);
+                Log.Error(ex.Errors.FirstOrDefault() ?? "");
             }
             catch (BadRequestException ex)
             {
                 await BadRequestException(context, ex);
+                Log.Error(ex.Errors.FirstOrDefault() ?? "");
             }
             catch (NotDeletedException ex)
             {
                 await NotDeletedException(context, ex);
+                Log.Error(ex.Errors.FirstOrDefault() ?? "");
             }
             catch (EmailNotSentException ex)
             {
                 await EmailNotSentException(context, ex);
+                Log.Error(ex.Errors.FirstOrDefault() ?? "");
             }
             catch (ServerError ex)
             {
                 await HandleServerError(context, ex);
+                Log.Error(ex.Errors.FirstOrDefault() ?? "");
             }
             catch (Exception ex)
             {
                 if (Debugger.IsAttached)
                 {
                     await HandleExceptionAsyncDevelopment(context, ex);
+                    Log.Error(ex.InnerException?.Message ?? "");
                 }
                 else
                 {
                     await HandleExceptionAsync(context, ex, _localizer.Get(Error.SOMETHING_WENT_WRONG));
+                    Log.Error(ex.InnerException?.Message ?? "");
+                    Log.Error($"{ex.Message}");
                 }
             }
         }

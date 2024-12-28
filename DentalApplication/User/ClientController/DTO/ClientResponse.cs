@@ -27,7 +27,7 @@ namespace DentalApplication.User.ClientController.DTO
         public string? special_notes { get; set; }
         public Gender gender { get; set; }
         public List<FileResponse> documents { get; set; }
-
+        public Guid id { get; set; }
 
 
         //private ClientResponse(Client client)

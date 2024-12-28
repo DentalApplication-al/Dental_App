@@ -7,7 +7,7 @@
         Task AddAsync(T entity);
         Task UpdateAsync(T entity);
         Task<bool> DeleteAsync(Guid id);
-        Task SaveChangesAsync();
+        Task<bool> SaveChangesAsync();
         IQueryable<T> Table { get; }
     }
 
