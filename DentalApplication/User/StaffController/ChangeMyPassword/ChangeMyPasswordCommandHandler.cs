@@ -44,9 +44,11 @@ namespace DentalApplication.User.StaffController.ChangeMyPassword
 
                 await _staffRepository.SaveChangesAsync().EnsureSaved();
 
+                var test = await _staffRepository.GetstaffByIdAsync(staff.Id, staff.ClinicId);
+
                 var token = _jwtTokenGenerator.GenerateToken(staff.Id, staff.Role, staff.ClinicId);
                 var authResponse = new AuthenticationResponse { token = token };
-                authResponse.staff = StaffResponse.Map(staff);
+                authResponse.staff = test;
                 authResponse.staff.picture = _blobStorage.GetLink(staff.ProfilePic ?? "");
                 await _userTokenService.MakeTokenInvalidAsync(staff.Id);
                 await _userTokenService.AddTokenAsync(staff.Id, token);

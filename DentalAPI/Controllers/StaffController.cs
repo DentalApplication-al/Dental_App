@@ -88,7 +88,8 @@ namespace DentalAPI.Controllers
             return await _mediator.Send(command, cancellationToken);
         }
 
-        [HasPermission(Permission.GETALLSTAFF)]
+        //[HasPermission(Permission.GETALLSTAFF)]
+        [Authorize]
         [HttpGet("doctorappointments/{id}")]
         public async Task<PaginatedResponse<ListAppointment>> GetDoctorAppointments([FromQuery] GetDoctorAppointmentCommand? command, CancellationToken cancellationToken)
         {
@@ -118,7 +119,7 @@ namespace DentalAPI.Controllers
             await _mediator.Send(command, cancellationToken);
         }
 
-        //[Authorize]
+        [Authorize]
         [HttpPost("change_password")]
         public async Task<AuthenticationResponse> ChangePassword(ChangeMyPasswordRequest request, CancellationToken cancellationToken)
         {

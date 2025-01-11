@@ -50,7 +50,9 @@ namespace DentalApplication.Authencation
             {
                 var token = _jwtTokenGenerator.GenerateToken(staff.Id, staff.Role, staff.ClinicId);
                 var authResponse = new AuthenticationResponse { token = token };
-                authResponse.staff = StaffResponse.Map(staff);
+
+                var stafff = await _staffRepository.GetstaffByIdAsync(staff.Id, staff.ClinicId);
+                authResponse.staff = stafff;
                 authResponse.staff.picture = _blob.GetLink(staff.ProfilePic ?? "");
                 await _userTokenService.AddTokenAsync(staff.Id, token);
                 return authResponse;
