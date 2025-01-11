@@ -29,7 +29,7 @@ namespace DentalAPI
             // Populate the command object with the values from the token
             if (!string.IsNullOrEmpty(clientId))
             {
-                command.loged_in_staff_id = Guid.Parse(clientId);
+                command.logged_in_staff_id = Guid.Parse(clientId);
             }
 
             if (!string.IsNullOrEmpty(clinicId))

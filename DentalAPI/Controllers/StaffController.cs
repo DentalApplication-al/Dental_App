@@ -4,6 +4,7 @@ using DentalApplication.Common.Interfaces.IBlobStorages;
 using DentalApplication.Resources;
 using DentalApplication.ServicesController.GetAllForDoctors;
 using DentalApplication.User.StaffController.Add;
+using DentalApplication.User.StaffController.ChangeMyPassword;
 using DentalApplication.User.StaffController.ChangePasswordOTP;
 using DentalApplication.User.StaffController.ChangeStatus;
 using DentalApplication.User.StaffController.Delete;
@@ -19,6 +20,7 @@ using DentalDomain.Users.Enums;
 using DentalInfrastructure.Authentication;
 using DentalInfrastructure.Authentication.Enums;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 
@@ -115,6 +117,16 @@ namespace DentalAPI.Controllers
         {
             await _mediator.Send(command, cancellationToken);
         }
+
+        //[Authorize]
+        [HttpPost("change_password")]
+        public async Task<AuthenticationResponse> ChangePassword(ChangeMyPasswordRequest request, CancellationToken cancellationToken)
+        {
+            var command = CommandMapper.MapWithLogin<ChangeMyPasswordRequest, ChangeMyPasswordCommand>(request, HttpContext);
+
+            return await _mediator.Send(command, cancellationToken);
+        }
+
 
 
         //[HttpGet("roles")]

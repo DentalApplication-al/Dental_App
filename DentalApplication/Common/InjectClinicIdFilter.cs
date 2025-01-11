@@ -20,7 +20,7 @@ namespace DentalApplication.Common
                     if (argument is CommandBase command)
                     {
                         command.clinic_id = clinicId;
-                        command.loged_in_staff_id = staffid;
+                        command.logged_in_staff_id = staffid;
                     }
                 }
             }

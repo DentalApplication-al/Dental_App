@@ -8,6 +8,6 @@ namespace DentalApplication.Common
         public Guid? clinic_id { get; set; }
 
         [SwaggerIgnore]
-        public Guid? loged_in_staff_id { get; set; }
+        public Guid? logged_in_staff_id { get; set; }
     }
 }

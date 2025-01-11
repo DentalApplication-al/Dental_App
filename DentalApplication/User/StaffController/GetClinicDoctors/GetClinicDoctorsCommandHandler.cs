@@ -15,7 +15,7 @@ namespace DentalApplication.User.StaffController.GetClinicDoctors
 
         public async Task<List<ListStaff>> Handle(GetClinicDoctorsCommand request, CancellationToken cancellationToken)
         {
-            var doctors = await _staffRepository.GetClinicDoctors(request.loged_in_staff_id.Value, request.clinic_id.Value);
+            var doctors = await _staffRepository.GetClinicDoctors(request.logged_in_staff_id.Value, request.clinic_id.Value);
             return doctors;
         }
     }

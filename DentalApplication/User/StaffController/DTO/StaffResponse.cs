@@ -36,6 +36,7 @@ namespace DentalApplication.User.StaffController.DTO
             start_time = staff.StartTime;
             end_time = staff.EndTime;
             status = staff.Status;
+            created_at = staff.CreatedOn.ToString();
             //services = ServiceResponse.Map(staff.StaffServices);
         }
         public static StaffResponse Map(Staff staff)

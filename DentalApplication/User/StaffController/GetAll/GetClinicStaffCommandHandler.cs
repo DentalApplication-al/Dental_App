@@ -18,7 +18,7 @@ namespace DentalApplication.User.StaffController.GetAll
         {
             var staff = await _staffRepository
                 .GetPaginatedClinicStaff(
-                request.loged_in_staff_id.Value, 
+                request.logged_in_staff_id.Value, 
                 request.clinic_id.Value, 
                 request.page, 
                 request.take,
