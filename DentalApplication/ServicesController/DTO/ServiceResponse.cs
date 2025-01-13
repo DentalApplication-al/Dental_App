@@ -38,6 +38,5 @@ namespace DentalApplication.ServicesController.DTO
 
             return services.Select(services => Map(services)).ToList();
         }
-
     }
 }

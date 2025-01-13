@@ -3,6 +3,7 @@ using DentalApplication.Common.Interfaces.IRepositories;
 using DentalApplication.Common.Interfaces.IServices;
 using DentalApplication.Errors;
 using DentalApplication.Resources;
+using DentalApplication.ServicesController.DTO;
 using DentalApplication.User.StaffController.DTO;
 using DentalDomain.Users.Enums;
 using MediatR;
@@ -80,7 +81,18 @@ namespace DentalApplication.User.StaffController.Update
 
             await _staffRepository.SaveChangesAsync();
 
-            return StaffResponse.Map(staff);
+
+            var response = StaffResponse.Map(staff);
+            response.picture = _blob.GetLink(staff.ProfilePic ?? "");
+
+            response.services = services.Select(a => new ListService
+            {
+                id = a.Id,
+                name = a.Name,
+                price = a.Price
+            }).ToList();
+
+            return response;
         }
     }
 }
