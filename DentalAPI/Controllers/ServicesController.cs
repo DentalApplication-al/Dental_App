@@ -41,7 +41,7 @@ namespace DentalAPI.Controllers
             return await _mediator.Send(command, cancellationToken);
         }
 
-        [HasPermission(Permission.GETALLSERVICES)]
+        //[HasPermission(Permission.GETALLSERVICES)]
         [HttpGet("getallfordoctors")]
         public async Task<List<ListService>> GetAllServicesForDoctors([FromQuery] GetAllForDoctorsCommand command, CancellationToken cancellationToken)
         {

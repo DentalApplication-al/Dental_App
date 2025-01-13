@@ -21,6 +21,7 @@ namespace DentalApplication.User.StaffController.DTO
         public string? end_time { get; set; }
         public string created_at { get; set; }
         public StaffStatus status { get; set; }
+        public Gender gender { get; set; }
         public List<ListService> services { get; set; }
         private StaffResponse(Staff staff)
         {
@@ -37,7 +38,7 @@ namespace DentalApplication.User.StaffController.DTO
             end_time = staff.EndTime;
             status = staff.Status;
             created_at = staff.CreatedOn.ToString();
-            //services = ServiceResponse.Map(staff.StaffServices);
+            gender = staff.Gender;
         }
         public static StaffResponse Map(Staff staff)
         {
